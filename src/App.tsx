@@ -1,7 +1,7 @@
-import "./App.css";
+import { AppRouter } from "@/router";
 
 function App() {
-  return <div>React Business Dashboard</div>;
+  return <AppRouter />;
 }
 
 export default App;

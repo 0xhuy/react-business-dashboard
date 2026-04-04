@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px #eee;
+}
+
+.chart {
+  background: white;
+  height: 400px;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px #eee;
+}

@@ -1,3 +1,424 @@
+// ===== Container =====
 .container {
-  @apply w-full h-full flex flex-col items-center justify-center;
+  @apply bg-base 
+         relative flex items-center justify-center overflow-hidden
+         min-h-screen
+         font-sans;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgb(99 102 241 / 0.08), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgb(6 182 212 / 0.06), transparent 40%);
+}
+
+// ===== Main Card =====
+.card {
+  @apply relative flex overflow-hidden rounded-xl
+         w-[1020px] min-h-[620px]
+         bg-white/70
+         border border-white/70
+         backdrop-blur-[40px]
+         opacity-0 translate-y-[40px] scale-[0.98]
+         z-10;
+
+  backdrop-filter: blur(40px) saturate(1.6);
+  box-shadow:
+    0 32px 64px -16px rgba(99, 102, 241, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.6);
+  animation: cardReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+// ============================================================
+//  LEFT PANEL — IMAGE-FORWARD
+// ============================================================
+.imagePanel {
+  @apply relative flex items-center justify-center overflow-hidden
+         w-[500px] flex-shrink-0
+         bg-gradient-to-br from-primary via-primary-light to-indigo-200
+         p-8;
+}
+
+.mainIllustration {
+  @apply relative z-10 rounded-lg
+         w-full max-w-[440px];
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.15),
+    0 4px 12px rgba(0, 0, 0, 0.08);
+  animation: floatMain 6s ease-in-out infinite;
+}
+
+.widgetOverlay {
+  @apply absolute z-20 rounded-md
+         w-[200px]
+         right-[-16px] bottom-[20px]
+         border-[2px] border-white/35;
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: floatWidget 5s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+.logoBadge {
+  @apply absolute z-20
+         top-8 left-14
+         flex items-center;
+}
+
+.formLogo {
+  @apply flex items-center justify-center flex-shrink-0
+         w-11 aspect-square
+         gap-1;
+}
+
+.logoIcon {
+  @apply w-11 aspect-square;
+}
+
+.logoText {
+  @apply text-lg font-semibold
+         text-white
+         tracking-wide;
+}
+
+// ============================================================
+//  RIGHT PANEL — FORM
+// ============================================================
+.formPanel {
+  @apply flex-1 flex items-center justify-center
+         bg-white
+         p-[48px] px-[52px];
+}
+
+.formContent {
+  @apply w-full flex flex-col
+         gap-6
+         max-w-[380px];
+}
+
+.formHeader {
+  @apply flex flex-col items-start gap-2;
+}
+
+.formTitle {
+  @apply text-2xl font-bold tracking-tight
+         text-slate-800;
+}
+
+.subtitle {
+  @apply text-sm leading-6 text-slate-500;
+}
+
+// ===== Form Body =====
+.formBody {
+  @apply flex flex-col gap-4;
+}
+
+.inputGroup {
+  @apply flex flex-col gap-1;
+}
+
+.toggleIcon {
+  @apply w-5 h-5 opacity-40 cursor-pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    @apply opacity-70 scale-105;
+  }
+}
+
+// ===== Form Options =====
+.formOptions {
+  @apply flex items-center justify-between;
+}
+
+.rememberMe {
+  @apply flex items-center gap-2.5 cursor-pointer select-none;
+}
+
+.checkbox {
+  @apply hidden;
+}
+
+.checkboxCustom {
+  @apply relative flex-shrink-0
+         w-[18px] h-[18px]
+         rounded-md
+         bg-slate-50 border border-slate-300;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  &::after {
+    content: "";
+    @apply absolute
+         top-[2px] left-[5px]
+         w-[5px] h-[9px]
+         border-r-2 border-b-2 border-white;
+    transform: rotate(45deg) scale(0);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .checkbox:checked + & {
+    @apply bg-gradient-to-r from-primary to-secondary 
+           border-transparent;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+    &::after {
+      transform: rotate(45deg) scale(1);
+    }
+  }
+
+  .rememberMe:hover & {
+    @apply border-primary-light bg-indigo-50;
+  }
+}
+
+.rememberText {
+  @apply text-sm font-medium text-slate-600;
+}
+
+.forgotLink {
+  @apply text-sm font-semibold text-primary;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    @apply text-primary-dark underline underline-offset-2;
+  }
+}
+
+// ===== Login Button =====
+.loginButton {
+  @apply relative w-full overflow-hidden rounded-xl
+         py-3.5 text-base font-semibold text-white
+         bg-gradient-to-r from-primary to-secondary
+         border-none;
+  box-shadow: 0 8px 24px -4px rgb(99 102 241 / 0.35);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  &::before {
+    content: "";
+    @apply absolute inset-0;
+    background: linear-gradient(
+      105deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.15) 45%,
+      rgba(255, 255, 255, 0.25) 50%,
+      rgba(255, 255, 255, 0.15) 55%,
+      transparent 70%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px -4px rgba(99, 102, 241, 0.45);
+    filter: brightness(1.03);
+    &::before {
+      transform: translateX(100%);
+    }
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 6px 16px -2px rgba(99, 102, 241, 0.3);
+  }
+
+  &:disabled {
+    @apply cursor-not-allowed opacity-70;
+  }
+}
+
+.btnContent {
+  @apply relative z-10 flex items-center justify-center gap-2;
+}
+
+.loading {
+  @apply min-h-[52px];
+}
+
+// ===== Spinner =====
+.spinner {
+  @apply w-[22px] h-[22px] rounded-full;
+  border: 2.5px solid rgba(255, 255, 255, 0.25);
+  border-top-color: white;
+  animation: spin 0.7s linear infinite;
+}
+
+// ===== Divider =====
+.divider {
+  @apply relative flex items-center justify-center;
+
+  &::before,
+  &::after {
+    content: "";
+    @apply flex-1 h-px;
+  }
+
+  &::before {
+    @apply mr-[14px]
+         bg-gradient-to-r from-transparent to-slate-200;
+  }
+
+  &::after {
+    @apply ml-[14px]
+         bg-gradient-to-r from-slate-200 to-transparent;
+  }
+}
+
+.dividerText {
+  @apply text-xs font-medium whitespace-nowrap  tracking-wider text-slate-400;
+}
+
+// ===== Social Row (icon only) =====
+.socialRow {
+  @apply flex items-center justify-center gap-3;
+}
+
+.socialBtn {
+  @apply flex items-center justify-center
+         w-12 h-12 rounded-md
+         text-slate-600
+         bg-slate-50 border border-slate-200;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+
+  &:hover {
+    @apply text-primary bg-indigo-50 border-primary-light;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(99, 102, 241, 0.14);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  svg {
+    @apply flex-shrink-0;
+  }
+}
+
+.iconGoogleLogin {
+  @apply w-5 h-5;
+}
+
+// ============================================================
+//  ANIMATIONS
+// ============================================================
+@keyframes floatMain {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes floatWidget {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
+
+@keyframes cardReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ============================================================
+//  RESPONSIVE
+// ============================================================
+
+@media (max-width: 1024px) {
+  .card {
+    @apply w-[95vw] max-w-[720px] min-h-0 flex-col;
+  }
+
+  .imagePanel {
+    @apply w-full min-h-[280px]
+           pt-[36px] px-[40px] pb-[24px];
+
+    .mainIllustration {
+      @apply max-w-[360px];
+    }
+
+    .widgetOverlay {
+      @apply w-[150px]
+             right-[-8px] bottom-[12px];
+    }
+  }
+
+  .logoBadge {
+    @apply top-6 left-12 z-30 gap-2;
+  }
+
+  .formLogo,
+  .logoIcon {
+    @apply w-10;
+  }
+
+  .logoText {
+    @apply text-base;
+  }
+
+  .formPanel {
+    @apply p-8;
+  }
+
+  .formContent {
+    @apply max-w-full;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    @apply px-4;
+  }
+
+  .logoBadge {
+    @apply top-4 left-8 z-30 gap-2;
+  }
+
+  .formLogo,
+  .logoIcon {
+    @apply w-8;
+  }
+
+  .logoText {
+    @apply text-xs font-semibold tracking-normal leading-none;
+  }
+
+  .card {
+    @apply w-full max-w-[460px] rounded-lg flex-col;
+  }
+
+  .imagePanel {
+    @apply min-h-[220px]
+           pt-[56px] px-[24px] pb-[20px];
+
+    .mainIllustration {
+      @apply max-w-[260px];
+    }
+
+    .widgetOverlay {
+      @apply w-[110px]
+             right-[-4px] bottom-[8px];
+    }
+  }
+
+  .formPanel {
+    @apply pt-[28px] px-[24px] pb-[28px];
+  }
+
+  .formTitle {
+    @apply text-xl leading-tight text-slate-800;
+  }
 }

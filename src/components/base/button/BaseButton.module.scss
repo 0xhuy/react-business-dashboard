@@ -1,0 +1,154 @@
+// ============================================================
+// BASE BUTTON
+// ============================================================
+
+.button {
+  @apply relative inline-flex items-center justify-center gap-2
+         overflow-hidden rounded-xl
+         whitespace-nowrap select-none
+         font-semibold
+         transition-all duration-300
+         outline-none;
+
+  cursor: pointer;
+}
+
+// ===== Full Width =====
+.fullWidth {
+  @apply w-full;
+}
+
+// ===== Sizes =====
+.sm {
+  @apply h-9 px-4 text-sm;
+}
+
+.md {
+  @apply h-11 px-5 text-base;
+}
+
+.lg {
+  @apply h-12 px-6 text-base;
+}
+
+// ===== Variants =====
+.primary {
+  @apply text-white
+         bg-gradient-to-r from-primary to-secondary;
+
+  box-shadow: 0 8px 24px -4px rgb(99 102 241 / 0.35);
+
+  &::before {
+    content: "";
+    @apply absolute inset-0;
+    background: linear-gradient(
+      105deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.15) 45%,
+      rgba(255, 255, 255, 0.25) 50%,
+      rgba(255, 255, 255, 0.15) 55%,
+      transparent 70%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 32px -4px rgba(99, 102, 241, 0.45);
+    filter: brightness(1.03);
+
+    &::before {
+      transform: translateX(100%);
+    }
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 6px 16px -2px rgba(99, 102, 241, 0.3);
+  }
+}
+
+.secondary {
+  @apply text-white bg-slate-700;
+
+  &:hover:not(:disabled) {
+    @apply bg-slate-800;
+  }
+}
+
+.outline {
+  @apply border border-slate-300
+         bg-white text-slate-700;
+
+  &:hover:not(:disabled) {
+    @apply border-primary-light bg-indigo-50 text-primary;
+  }
+}
+
+.ghost {
+  @apply bg-transparent text-slate-600;
+
+  &:hover:not(:disabled) {
+    @apply bg-slate-100 text-slate-800;
+  }
+}
+
+.danger {
+  @apply bg-red-500 text-white;
+
+  &:hover:not(:disabled) {
+    @apply bg-red-600;
+  }
+}
+
+// ===== States =====
+.disabled,
+.button:disabled {
+  @apply cursor-not-allowed opacity-70;
+}
+
+.loading {
+  @apply pointer-events-none;
+}
+
+.iconOnly {
+  @apply aspect-square px-0;
+}
+
+// ===== Content =====
+.label {
+  @apply relative z-10;
+}
+
+.iconLeft,
+.iconRight {
+  @apply relative z-10 flex items-center justify-center
+         h-4 w-4 flex-shrink-0;
+}
+
+// ===== Spinner =====
+.spinner {
+  @apply h-5 w-5 rounded-full;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  animation: spin 0.7s linear infinite;
+}
+
+// ===== Animations =====
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// ===== Responsive =====
+@media (max-width: 640px) {
+  .md {
+    @apply h-10 px-4 text-sm;
+  }
+
+  .lg {
+    @apply h-11 px-5 text-base;
+  }
+}

@@ -1,43 +1,26 @@
+// ============================================================
+// BASE INPUT COMPONENT
+// ============================================================
+
 // ===== Libs =====
 import classNames from "classnames/bind";
 import { useState } from "react";
 
 // ===== Types =====
-import type { ChangeEvent, ReactNode, FocusEvent } from "react";
+import type { ChangeEvent } from "react";
+import type { BaseInputProps } from "./types";
 
 // ===== Others =====
-import { InputTypeEnum, InputTypeStyleEnum } from "@/utils/enum/input.enum";
+import { InputTypeEnum } from "@/utils/enum/input.enum";
 import { ASTERISK_SYMBOL } from "@/utils/constants/common";
 
 // ===== Styles, Images, Icons =====
 import styles from "./BaseInput.module.scss";
 
-// ===== Types =====
-type Props = {
-  height?: number | string;
-  width?: number | string;
-  id?: string;
-  type?: InputTypeEnum;
-  typeStyle?: InputTypeStyleEnum;
-  placeholder?: string;
-  label?: string;
-  isRequired?: boolean;
-  value?: string | number;
-  name?: string;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
-  disabled?: boolean;
-  messageError?: string;
-  prefix?: ReactNode;
-  suffix?: ReactNode;
-  className?: string;
-  renderPasswordToggle?: (isShow: boolean) => ReactNode;
-};
-
 const cx = classNames.bind(styles);
 
 // ===== Component =====
-const BaseInput = (props: Props) => {
+const BaseInput = (props: BaseInputProps) => {
   // ===== Destructuring Props =====
   const {
     id,
@@ -100,6 +83,7 @@ const BaseInput = (props: Props) => {
     onChange?.(event);
   };
 
+  // ===== Render =====
   return (
     <div className={cx("baseInputContainer", typeStyle, className)}>
       {label && (

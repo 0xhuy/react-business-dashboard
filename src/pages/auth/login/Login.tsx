@@ -1,10 +1,14 @@
+// ============================================================
+// LOGIN PAGE
+// ============================================================
+
 // ===== Libs =====
 import classNames from "classnames/bind";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 // ===== Components, Layouts, Pages=====
-import BaseInput from "@/components/base/input/BaseInput";
+import { BaseInput, BaseButton } from "@/components";
 
 // ===== Other =====
 import { getRedirectByRole } from "@/router/redirect";
@@ -28,15 +32,21 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // ===== Handlers =====
-  const handleLogin = async () => {
-    setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 1200));
-    const role = Role.ADMIN; // fake
-    navigate(getRedirectByRole(role));
-  };
+  const handleLogin = async (event?: React.FormEvent<HTMLFormElement>) => {
+    event?.preventDefault();
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") handleLogin();
+    if (isLoading) return;
+
+    try {
+      setIsLoading(true);
+
+      await new Promise((resolve) => setTimeout(resolve, 1200));
+
+      const role = Role.ADMIN; // fake
+      navigate(getRedirectByRole(role));
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -78,7 +88,7 @@ const Login = () => {
               </p>
             </div>
 
-            <div className={cx("formBody")} onKeyDown={handleKeyDown}>
+            <form className={cx("formBody")} onSubmit={handleLogin}>
               <div className={cx("inputGroup")}>
                 <BaseInput
                   label="Email"
@@ -128,15 +138,15 @@ const Login = () => {
                 </a>
               </div>
 
-              <button
-                className={cx("loginButton", { loading: isLoading })}
-                onClick={handleLogin}
-                disabled={isLoading}
+              <BaseButton
+                type="submit"
+                variant="primary"
+                fullWidth
+                loading={isLoading}
+                disabled={!email || !password}
               >
-                <span className={cx("btnContent")}>
-                  {isLoading ? <div className={cx("spinner")} /> : <>Sign In</>}
-                </span>
-              </button>
+                Sign In
+              </BaseButton>
 
               <div className={cx("divider")}>
                 <span className={cx("dividerText")}>Or</span>
@@ -155,7 +165,7 @@ const Login = () => {
                   />
                 </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

@@ -1,0 +1,23 @@
+{
+  "auth": {
+    "app_name": "Dashly",
+    "login": {
+      "title": "Chào mừng trở lại",
+      "subtitle": "Đăng nhập để tiếp tục vào bảng điều khiển",
+      "email": "Email",
+      "password": "Mật khẩu",
+      "email_placeholder": "Nhập email của bạn",
+      "password_placeholder": "Nhập mật khẩu của bạn",
+      "remember_me": "Ghi nhớ đăng nhập",
+      "forgot_password": "Quên mật khẩu?",
+      "submit": "Đăng nhập",
+      "divider": "Hoặc",
+      "google_login": "Đăng nhập với Google",
+      "show_password": "Hiện mật khẩu",
+      "hide_password": "Ẩn mật khẩu",
+      "dashboard_alt": "Bảng điều khiển",
+      "widgets_alt": "Tiện ích",
+      "logo_alt": "Logo Dashly"
+    }
+  }
+}

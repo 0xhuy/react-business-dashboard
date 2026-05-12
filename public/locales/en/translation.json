@@ -1,0 +1,23 @@
+{
+  "auth": {
+    "app_name": "Dashly",
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to continue to your dashboard",
+      "email": "Email",
+      "password": "Password",
+      "email_placeholder": "Enter your email",
+      "password_placeholder": "Enter your password",
+      "remember_me": "Remember me",
+      "forgot_password": "Forgot password?",
+      "submit": "Sign In",
+      "divider": "Or",
+      "google_login": "Sign in with Google",
+      "show_password": "Show password",
+      "hide_password": "Hide password",
+      "dashboard_alt": "Dashboard",
+      "widgets_alt": "Widgets",
+      "logo_alt": "Dashly logo"
+    }
+  }
+}

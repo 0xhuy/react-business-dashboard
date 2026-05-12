@@ -1,0 +1,13 @@
+.authLayout {
+  @apply relative min-h-screen w-full;
+}
+
+.languageSwitcherWrapper {
+  @apply absolute right-6 top-6 z-50;
+}
+
+@media (max-width: 640px) {
+  .languageSwitcherWrapper {
+    @apply right-4 top-4;
+  }
+}

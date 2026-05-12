@@ -43,8 +43,6 @@ const BaseInput = (props: BaseInputProps) => {
     renderPasswordToggle,
   } = props;
 
-  // ===== Hooks =====
-
   // ===== State =====
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
 

@@ -44,6 +44,10 @@
          placeholder:text-sm placeholder:text-gray-400;
 }
 
+.baseInputBase::placeholder {
+  @apply text-slate-300 opacity-100;
+}
+
 .baseInputBase:disabled {
   @apply cursor-not-allowed bg-transparent;
 }

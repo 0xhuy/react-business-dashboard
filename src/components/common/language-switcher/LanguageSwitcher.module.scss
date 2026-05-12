@@ -1,0 +1,25 @@
+.languageSwitcher {
+  @apply relative z-[9999]
+         flex items-center gap-1
+         rounded-full border border-slate-200
+         bg-white p-1
+         pointer-events-auto;
+}
+
+.languageButton {
+  @apply min-w-[42px]
+         rounded-full px-3 py-1.5
+         text-xs font-medium text-slate-500
+         transition-all duration-200
+         cursor-pointer pointer-events-auto;
+}
+
+.languageButton:hover {
+  @apply bg-slate-100 text-slate-700;
+}
+
+.languageButtonActive {
+  @apply bg-primary text-white;
+
+  box-shadow: 0 2px 8px rgb(99 102 241 / 0.16);
+}

@@ -7,7 +7,7 @@ import classNames from "classnames/bind";
 import { useTranslation } from "react-i18next";
 
 // ===== Others =====
-import { Languages } from "@/utils/constants/language.constants";
+import { LANGUAGES } from "@/utils/constants";
 
 // ===== Styles =====
 import styles from "./LanguageSwitcher.module.scss";
@@ -29,17 +29,17 @@ const LanguageSwitcher = () => {
   // ===== Render =====
   return (
     <div className={cx("languageSwitcher")}>
-      {Languages.map((language) => (
+      {LANGUAGES.map((LANGUAGES) => (
         <button
-          key={language}
+          key={LANGUAGES}
           type="button"
           className={cx(
             "languageButton",
-            i18n.language === language && "languageButtonActive",
+            i18n.language === LANGUAGES && "languageButtonActive",
           )}
-          onClick={() => handleChangeLanguage(language)}
+          onClick={() => handleChangeLanguage(LANGUAGES)}
         >
-          {language.toUpperCase()}
+          {LANGUAGES.toUpperCase()}
         </button>
       ))}
     </div>

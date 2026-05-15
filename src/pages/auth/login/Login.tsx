@@ -5,16 +5,24 @@
 // ===== Libs =====
 import classNames from "classnames/bind";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 // ===== Components, Layouts, Pages=====
 import { BaseInput, BaseButton } from "@/components";
 import AuthLayout from "../layout/AuthLayout";
 
 // ===== Other =====
+import { authRouteAbsolute, EMPTY_STRING } from "@/utils/constants";
 import { getRedirectByRole } from "@/router/redirect";
-import { Role, InputTypeEnum } from "@/utils/enum";
+import { InputTypeEnum, Role } from "@/utils/enum";
+import {
+  createLoginSchema,
+  INITIAL_LOGIN_FORM,
+  type LoginFormData,
+} from "./Login.schema";
 
 // ===== Styles, Images, Icons =====
 import { icons, images } from "@/assets";
@@ -26,18 +34,39 @@ const cx = classNames.bind(styles);
 const Login = () => {
   // ===== Hooks =====
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const loginSchema = useMemo(() => createLoginSchema(t), [t]);
 
   // ===== State =====
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // ===== Handlers =====
-  const handleLogin = async (event?: React.FormEvent<HTMLFormElement>) => {
-    event?.preventDefault();
+  // ===== Form =====
+  const {
+    control,
+    handleSubmit,
+    trigger,
+    formState: { errors, isValid, touchedFields },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: INITIAL_LOGIN_FORM,
+    mode: "onChange",
+  });
 
+  // ===== Derived =====
+  const isDisabled = isLoading || !isValid;
+
+  // ===== Effects =====
+  useEffect(() => {
+    const errorFieldNames = Object.keys(errors) as Array<keyof LoginFormData>;
+
+    if (!errorFieldNames.length) return;
+
+    trigger(errorFieldNames);
+  }, [i18n.language, errors, trigger]);
+
+  // ===== Handlers =====
+  const handleLogin = async () => {
     if (isLoading) return;
 
     try {
@@ -50,6 +79,10 @@ const Login = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleRedirectRegister = () => {
+    navigate(authRouteAbsolute.register);
   };
 
   return (
@@ -90,39 +123,64 @@ const Login = () => {
                 <p className={cx("subtitle")}>{t("auth.login.subtitle")}</p>
               </div>
 
-              <form className={cx("formBody")} onSubmit={handleLogin}>
+              <form
+                className={cx("formBody")}
+                onSubmit={handleSubmit(handleLogin)}
+              >
                 <div className={cx("inputGroup")}>
-                  <BaseInput
-                    label={t("auth.login.email")}
-                    type={InputTypeEnum.TEXT}
-                    placeholder={t("auth.login.email_placeholder")}
-                    width="100%"
-                    value={email}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      setEmail(e.target.value)
-                    }
+                  <Controller
+                    name="email"
+                    control={control}
+                    render={({ field }) => (
+                      <BaseInput
+                        label={t("auth.login.email")}
+                        type={InputTypeEnum.TEXT}
+                        placeholder={t("auth.login.email_placeholder")}
+                        width="100%"
+                        value={field.value}
+                        onChange={field.onChange}
+                        onBlur={field.onBlur}
+                        name={field.name}
+                        messageError={
+                          touchedFields.email
+                            ? errors.email?.message || EMPTY_STRING
+                            : EMPTY_STRING
+                        }
+                      />
+                    )}
                   />
                 </div>
 
                 <div className={cx("inputGroup")}>
-                  <BaseInput
-                    label={t("auth.login.password")}
-                    type={InputTypeEnum.PASSWORD}
-                    placeholder={t("auth.login.password_placeholder")}
-                    width="100%"
-                    value={password}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      setPassword(e.target.value)
-                    }
-                    renderPasswordToggle={(isShow) => (
-                      <img
-                        className={cx("toggleIcon")}
-                        src={isShow ? icons.iconEyeOff : icons.iconEyeShow}
-                        alt={
-                          isShow
-                            ? t("auth.login.hide_password")
-                            : t("auth.login.show_password")
+                  <Controller
+                    name="password"
+                    control={control}
+                    render={({ field }) => (
+                      <BaseInput
+                        label={t("auth.login.password")}
+                        type={InputTypeEnum.PASSWORD}
+                        placeholder={t("auth.login.password_placeholder")}
+                        width="100%"
+                        value={field.value}
+                        onChange={field.onChange}
+                        onBlur={field.onBlur}
+                        name={field.name}
+                        messageError={
+                          touchedFields.password
+                            ? errors.password?.message || EMPTY_STRING
+                            : EMPTY_STRING
                         }
+                        renderPasswordToggle={(isShow) => (
+                          <img
+                            className={cx("toggleIcon")}
+                            src={isShow ? icons.iconEyeOff : icons.iconEyeShow}
+                            alt={
+                              isShow
+                                ? t("auth.login.hide_password")
+                                : t("auth.login.show_password")
+                            }
+                          />
+                        )}
                       />
                     )}
                   />
@@ -151,7 +209,7 @@ const Login = () => {
                   variant="primary"
                   fullWidth
                   loading={isLoading}
-                  disabled={!email.trim() || !password.trim()}
+                  disabled={isDisabled}
                 >
                   {t("auth.login.submit")}
                 </BaseButton>
@@ -171,8 +229,22 @@ const Login = () => {
                     <img
                       className={cx("iconGoogleLogin")}
                       src={icons.iconGoogleLogin}
-                      alt=""
+                      alt={EMPTY_STRING}
                     />
+                  </button>
+                </div>
+
+                <div className={cx("registerRow")}>
+                  <span className={cx("registerText")}>
+                    {t("auth.login.no_account")}
+                  </span>
+
+                  <button
+                    type="button"
+                    className={cx("registerLink")}
+                    onClick={handleRedirectRegister}
+                  >
+                    {t("auth.login.register")}
                   </button>
                 </div>
               </form>

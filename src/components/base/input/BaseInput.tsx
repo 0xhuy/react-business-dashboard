@@ -35,6 +35,7 @@ const BaseInput = (props: BaseInputProps) => {
     isRequired,
     onChange,
     onBlur,
+    onFocus,
     className,
     disabled,
     messageError,
@@ -106,6 +107,7 @@ const BaseInput = (props: BaseInputProps) => {
           name={name}
           onChange={handleChangeInput}
           onBlur={onBlur}
+          onFocus={onFocus}
           placeholder={placeholder}
           type={inputType}
           disabled={disabled}

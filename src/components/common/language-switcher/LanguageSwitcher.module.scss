@@ -23,3 +23,25 @@
 
   box-shadow: 0 2px 8px rgb(99 102 241 / 0.16);
 }
+
+// ===== Tablet =====
+@media (max-width: 1024px) {
+  .languageSwitcher {
+    @apply gap-1 p-1;
+  }
+
+  .languageButton {
+    @apply min-w-[40px] px-2.5 py-1.5 text-[11px];
+  }
+}
+
+// ===== Mobile =====
+@media (max-width: 640px) {
+  .languageSwitcher {
+    @apply gap-0.5 rounded-full p-0.5;
+  }
+
+  .languageButton {
+    @apply min-w-[34px] px-2 py-1 text-[10px] leading-4;
+  }
+}

@@ -1,13 +1,28 @@
+// ============================================================
+// AUTH LAYOUT
+// ============================================================
+
 .authLayout {
   @apply relative min-h-screen w-full;
 }
 
 .languageSwitcherWrapper {
-  @apply absolute right-6 top-6 z-50;
+  @apply absolute right-6 top-6 z-[9999]
+         scale-100;
+
+  transform-origin: top right;
 }
 
+// ===== Tablet =====
+@media (max-width: 1024px) {
+  .languageSwitcherWrapper {
+    @apply right-5 top-5 scale-95;
+  }
+}
+
+// ===== Mobile =====
 @media (max-width: 640px) {
   .languageSwitcherWrapper {
-    @apply right-4 top-4;
+    @apply right-4 top-4 scale-90;
   }
 }

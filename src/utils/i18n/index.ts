@@ -10,7 +10,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 
 // ===== Others =====
 import { LanguageEnum } from "../enum/language.enum";
-import { Languages } from "../constants/language.constants";
+import { LANGUAGES } from "../constants";
 
 // ===== Config =====
 i18n
@@ -18,7 +18,8 @@ i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    supportedLngs: Languages,
+    supportedLngs: LANGUAGES,
+    lng: LanguageEnum.EN,
     fallbackLng: LanguageEnum.EN,
 
     backend: {

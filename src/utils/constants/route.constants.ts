@@ -1,4 +1,7 @@
 // ============================================================
-// LANGUAGES
+// AUTH ROUTES
 // ============================================================
-export const LANGUAGES = ["en", "vi"];
+export const authRouteAbsolute = {
+  login: "/login",
+  register: "/register",
+};

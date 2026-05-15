@@ -38,5 +38,7 @@ export type BaseInputProps = {
 
   onBlur?: (event: FocusEvent<HTMLInputElement>) => void;
 
+  onFocus?: (event: FocusEvent<HTMLInputElement>) => void;
+
   renderPasswordToggle?: (isShow: boolean) => ReactNode;
 };

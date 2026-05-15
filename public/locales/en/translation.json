@@ -17,7 +17,34 @@
       "hide_password": "Hide password",
       "dashboard_alt": "Dashboard",
       "widgets_alt": "Widgets",
-      "logo_alt": "Dashly logo"
+      "logo_alt": "Dashly logo",
+      "no_account": "Don't have an account?",
+      "register": "Create account"
+    },
+    "register": {
+      "title": "Create account",
+      "subtitle": "Sign up to get started",
+      "full_name": "Full name",
+      "full_name_placeholder": "Enter your full name",
+      "email": "Email",
+      "email_placeholder": "Enter your email",
+      "password": "Password",
+      "password_placeholder": "Enter your password",
+      "confirm_password": "Confirm password",
+      "confirm_password_placeholder": "Confirm your password",
+      "submit": "Create Account",
+      "has_account": "Already have an account?",
+      "login": "Sign in",
+      "show_password": "Show password",
+      "hide_password": "Hide password"
+    },
+    "validation": {
+      "full_name_required": "Full name is required",
+      "email_required": "Email is required",
+      "invalid_email": "Please enter a valid email address",
+      "password_required": "Password is required",
+      "confirm_password_required": "Please confirm your password",
+      "password_not_match": "Passwords do not match"
     }
   }
 }

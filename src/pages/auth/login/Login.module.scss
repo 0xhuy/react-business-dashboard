@@ -12,7 +12,7 @@
 // ===== Main Card =====
 .card {
   @apply relative flex overflow-hidden rounded-xl
-         w-[1020px] min-h-[620px]
+         w-[1020px] min-h-[640px]
          bg-white/70
          border border-white/70
          backdrop-blur-[40px]
@@ -85,13 +85,13 @@
 .formPanel {
   @apply flex-1 flex items-center justify-center
          bg-white
-         p-[48px] px-[52px];
+         p-[48px] px-[54px];
 }
 
 .formContent {
   @apply w-full flex flex-col
          gap-6
-         max-w-[380px];
+         max-w-[390px];
 }
 
 .formHeader {
@@ -333,18 +333,36 @@
   }
 }
 
+// ===== Register =====
+.registerRow {
+  @apply mt-5 flex items-center justify-center gap-2;
+}
+
+.registerText {
+  @apply text-sm text-slate-500;
+}
+
+.registerLink {
+  @apply text-sm font-semibold text-primary
+         transition-colors duration-200;
+
+  &:hover {
+    @apply text-primary-dark underline underline-offset-2;
+  }
+}
+
 // ============================================================
 //  RESPONSIVE
 // ============================================================
 
 @media (max-width: 1024px) {
   .card {
-    @apply w-[95vw] max-w-[720px] min-h-0 flex-col;
+    @apply w-[94vw] max-w-[720px] min-h-0 flex-col rounded-xl;
   }
 
   .imagePanel {
-    @apply w-full min-h-[280px]
-           pt-[36px] px-[40px] pb-[24px];
+    @apply w-full min-h-[260px]
+           pt-[34px] px-[40px] pb-[22px];
 
     .mainIllustration {
       @apply max-w-[360px];
@@ -370,11 +388,19 @@
   }
 
   .formPanel {
-    @apply p-8;
+    @apply px-8 py-7;
   }
 
   .formContent {
-    @apply max-w-full;
+    @apply max-w-full gap-5;
+  }
+
+  .formBody {
+    @apply gap-3.5;
+  }
+
+  .registerRow {
+    @apply mt-4;
   }
 }
 
@@ -397,11 +423,11 @@
   }
 
   .card {
-    @apply w-full max-w-[460px] rounded-lg flex-col;
+    @apply w-full max-w-[460px] min-h-0 rounded-lg flex-col;
   }
 
   .imagePanel {
-    @apply min-h-[220px]
+    @apply min-h-[200px]
            pt-[56px] px-[24px] pb-[20px];
 
     .mainIllustration {
@@ -418,7 +444,19 @@
     @apply pt-[28px] px-[24px] pb-[28px];
   }
 
+  .formContent {
+    @apply gap-5;
+  }
+
+  .formBody {
+    @apply gap-3.5;
+  }
+
   .formTitle {
     @apply text-xl leading-tight text-slate-800;
+  }
+
+  .registerRow {
+    @apply mt-4 flex-wrap text-center;
   }
 }

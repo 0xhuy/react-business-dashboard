@@ -43,6 +43,18 @@
       "widgets_alt": "Tiện ích",
       "logo_alt": "Logo Dashly"
     },
+    "forgot_password": {
+      "title": "Quên mật khẩu",
+      "subtitle": "Nhập email của bạn để nhận liên kết đặt lại mật khẩu.",
+      "email": "Email",
+      "email_placeholder": "Nhập email của bạn",
+      "submit": "Gửi liên kết đặt lại",
+      "remember_password": "Đã nhớ mật khẩu?",
+      "back_to_login": "Quay lại đăng nhập",
+      "success_message": "Đã gửi liên kết đặt lại mật khẩu",
+      "success_description": "Vui lòng kiểm tra email và làm theo hướng dẫn để đặt lại mật khẩu.",
+      "hero_alt": "Minh họa quên mật khẩu"
+    },
     "validation": {
       "full_name_required": "Vui lòng nhập họ và tên",
       "email_required": "Vui lòng nhập email",

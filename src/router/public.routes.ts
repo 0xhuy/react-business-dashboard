@@ -1,4 +1,4 @@
-import { Login, Register } from "@/pages";
+import { Login, Register, ForgotPassword } from "@/pages";
 
 export const publicRoutes = [
   {
@@ -8,5 +8,9 @@ export const publicRoutes = [
   {
     path: "/register",
     component: Register,
+  },
+  {
+    path: "/forgot-password",
+    component: ForgotPassword,
   },
 ];

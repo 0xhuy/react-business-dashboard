@@ -20,9 +20,9 @@ const BaseButton = ({
   type = "button",
   variant = "primary",
   size = "md",
-  fullWidth = false,
-  loading = false,
-  disabled = false,
+  isFullWidth = false,
+  isLoading = false,
+  isDisabled = false,
   leftIcon,
   rightIcon,
   className,
@@ -30,16 +30,16 @@ const BaseButton = ({
   ...restProps
 }: BaseButtonProps) => {
   // ===== Derived =====
-  const isDisabled = disabled || loading;
+  const shouldDisable = isDisabled || isLoading;
 
   const buttonClassName = cx(
     "button",
     variant,
     size,
     {
-      fullWidth,
-      loading,
-      disabled: isDisabled,
+      fullWidth: isFullWidth,
+      loading: isLoading,
+      disabled: shouldDisable,
       iconOnly: !children && (leftIcon || rightIcon),
     },
     className,
@@ -47,7 +47,7 @@ const BaseButton = ({
 
   // ===== Handlers =====
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    if (isDisabled) {
+    if (shouldDisable) {
       event.preventDefault();
       return;
     }
@@ -60,12 +60,12 @@ const BaseButton = ({
     <button
       type={type}
       className={buttonClassName}
-      disabled={isDisabled}
+      disabled={shouldDisable}
       onClick={handleClick}
-      aria-busy={loading}
+      aria-busy={isLoading}
       {...restProps}
     >
-      {loading ? (
+      {isLoading ? (
         <span className={cx("spinner")} />
       ) : (
         <>

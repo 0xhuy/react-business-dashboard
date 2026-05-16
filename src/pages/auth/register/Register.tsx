@@ -24,7 +24,7 @@ import {
 } from "./Register.schema";
 
 // ===== Styles, Images, Icons =====
-import { icons, images } from "@/assets";
+import { icons } from "@/assets";
 import styles from "./Register.module.scss";
 
 const cx = classNames.bind(styles);
@@ -86,190 +86,158 @@ const Register = () => {
   // ===== Render =====
   return (
     <AuthLayout>
-      <div className={cx("container")}>
-        <div className={cx("card")}>
-          <div className={cx("imagePanel")}>
-            <img
-              src={images.authIllustrationDashboard}
-              alt={t("auth.register.dashboard_alt")}
-              className={cx("mainIllustration")}
-            />
-            <img
-              src={images.authIllustrationWidgets}
-              alt={t("auth.register.widgets_alt")}
-              className={cx("widgetOverlay")}
-            />
-
-            <div className={cx("logoBadge")}>
-              <div className={cx("formLogo")}>
-                <img
-                  className={cx("logoIcon")}
-                  src={icons.iconLogo}
-                  alt={t("auth.register.logo_alt")}
-                />
-                <h2 className={cx("logoText")}>{t("auth.app_name")}</h2>
-              </div>
-            </div>
-          </div>
-
-          <div className={cx("formPanel")}>
-            <div className={cx("formContent")}>
-              <div className={cx("formHeader")}>
-                <h2 className={cx("formTitle")}>{t("auth.register.title")}</h2>
-                <p className={cx("subtitle")}>{t("auth.register.subtitle")}</p>
-              </div>
-
-              <form
-                className={cx("formBody")}
-                onSubmit={handleSubmit(handleRegister)}
-              >
-                <div className={cx("inputGroup")}>
-                  <Controller
-                    name="fullName"
-                    control={control}
-                    render={({ field }) => (
-                      <BaseInput
-                        label={t("auth.register.full_name")}
-                        type={InputTypeEnum.TEXT}
-                        placeholder={t("auth.register.full_name_placeholder")}
-                        width="100%"
-                        value={field.value}
-                        onChange={field.onChange}
-                        onBlur={field.onBlur}
-                        name={field.name}
-                        messageError={
-                          touchedFields.fullName
-                            ? errors.fullName?.message || EMPTY_STRING
-                            : EMPTY_STRING
-                        }
-                      />
-                    )}
-                  />
-                </div>
-
-                <div className={cx("inputGroup")}>
-                  <Controller
-                    name="email"
-                    control={control}
-                    render={({ field }) => (
-                      <BaseInput
-                        label={t("auth.register.email")}
-                        type={InputTypeEnum.TEXT}
-                        placeholder={t("auth.register.email_placeholder")}
-                        width="100%"
-                        value={field.value}
-                        onChange={field.onChange}
-                        onBlur={field.onBlur}
-                        name={field.name}
-                        messageError={
-                          touchedFields.email
-                            ? errors.email?.message || EMPTY_STRING
-                            : EMPTY_STRING
-                        }
-                      />
-                    )}
-                  />
-                </div>
-
-                <div className={cx("inputGroup")}>
-                  <Controller
-                    name="password"
-                    control={control}
-                    render={({ field }) => (
-                      <BaseInput
-                        label={t("auth.register.password")}
-                        type={InputTypeEnum.PASSWORD}
-                        placeholder={t("auth.register.password_placeholder")}
-                        width="100%"
-                        value={field.value}
-                        onChange={field.onChange}
-                        onBlur={field.onBlur}
-                        name={field.name}
-                        messageError={
-                          touchedFields.password
-                            ? errors.password?.message || EMPTY_STRING
-                            : EMPTY_STRING
-                        }
-                        renderPasswordToggle={(isShow) => (
-                          <img
-                            className={cx("toggleIcon")}
-                            src={isShow ? icons.iconEyeOff : icons.iconEyeShow}
-                            alt={
-                              isShow
-                                ? t("auth.register.hide_password")
-                                : t("auth.register.show_password")
-                            }
-                          />
-                        )}
-                      />
-                    )}
-                  />
-                </div>
-
-                <div className={cx("inputGroup")}>
-                  <Controller
-                    name="confirmPassword"
-                    control={control}
-                    render={({ field }) => (
-                      <BaseInput
-                        label={t("auth.register.confirm_password")}
-                        type={InputTypeEnum.PASSWORD}
-                        placeholder={t(
-                          "auth.register.confirm_password_placeholder",
-                        )}
-                        width="100%"
-                        value={field.value}
-                        onChange={field.onChange}
-                        onBlur={field.onBlur}
-                        name={field.name}
-                        messageError={
-                          touchedFields.confirmPassword
-                            ? errors.confirmPassword?.message || EMPTY_STRING
-                            : EMPTY_STRING
-                        }
-                        renderPasswordToggle={(isShow) => (
-                          <img
-                            className={cx("toggleIcon")}
-                            src={isShow ? icons.iconEyeOff : icons.iconEyeShow}
-                            alt={
-                              isShow
-                                ? t("auth.register.hide_password")
-                                : t("auth.register.show_password")
-                            }
-                          />
-                        )}
-                      />
-                    )}
-                  />
-                </div>
-
-                <BaseButton
-                  type="submit"
-                  variant="primary"
-                  fullWidth
-                  loading={isLoading}
-                  disabled={isDisabled}
-                >
-                  {t("auth.register.submit")}
-                </BaseButton>
-
-                <div className={cx("loginRow")}>
-                  <span className={cx("loginText")}>
-                    {t("auth.register.has_account")}
-                  </span>
-
-                  <button
-                    type="button"
-                    className={cx("loginLink")}
-                    onClick={handleRedirectLogin}
-                  >
-                    {t("auth.register.login")}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+      <div className={cx("formContent")}>
+        <div className={cx("formHeader")}>
+          <h2 className={cx("formTitle")}>{t("auth.register.title")}</h2>
+          <p className={cx("subtitle")}>{t("auth.register.subtitle")}</p>
         </div>
+
+        <form
+          className={cx("formBody")}
+          onSubmit={handleSubmit(handleRegister)}
+        >
+          <div className={cx("inputGroup")}>
+            <Controller
+              name="fullName"
+              control={control}
+              render={({ field }) => (
+                <BaseInput
+                  label={t("auth.register.full_name")}
+                  type={InputTypeEnum.TEXT}
+                  placeholder={t("auth.register.full_name_placeholder")}
+                  width="100%"
+                  value={field.value}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  messageError={
+                    touchedFields.fullName
+                      ? errors.fullName?.message || EMPTY_STRING
+                      : EMPTY_STRING
+                  }
+                />
+              )}
+            />
+          </div>
+
+          <div className={cx("inputGroup")}>
+            <Controller
+              name="email"
+              control={control}
+              render={({ field }) => (
+                <BaseInput
+                  label={t("auth.register.email")}
+                  type={InputTypeEnum.TEXT}
+                  placeholder={t("auth.register.email_placeholder")}
+                  width="100%"
+                  value={field.value}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  messageError={
+                    touchedFields.email
+                      ? errors.email?.message || EMPTY_STRING
+                      : EMPTY_STRING
+                  }
+                />
+              )}
+            />
+          </div>
+
+          <div className={cx("inputGroup")}>
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => (
+                <BaseInput
+                  label={t("auth.register.password")}
+                  type={InputTypeEnum.PASSWORD}
+                  placeholder={t("auth.register.password_placeholder")}
+                  width="100%"
+                  value={field.value}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  messageError={
+                    touchedFields.password
+                      ? errors.password?.message || EMPTY_STRING
+                      : EMPTY_STRING
+                  }
+                  renderPasswordToggle={(isShow) => (
+                    <img
+                      className={cx("toggleIcon")}
+                      src={isShow ? icons.iconEyeOff : icons.iconEyeShow}
+                      alt={
+                        isShow
+                          ? t("auth.register.hide_password")
+                          : t("auth.register.show_password")
+                      }
+                    />
+                  )}
+                />
+              )}
+            />
+          </div>
+
+          <div className={cx("inputGroup")}>
+            <Controller
+              name="confirmPassword"
+              control={control}
+              render={({ field }) => (
+                <BaseInput
+                  label={t("auth.register.confirm_password")}
+                  type={InputTypeEnum.PASSWORD}
+                  placeholder={t("auth.register.confirm_password_placeholder")}
+                  width="100%"
+                  value={field.value}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  messageError={
+                    touchedFields.confirmPassword
+                      ? errors.confirmPassword?.message || EMPTY_STRING
+                      : EMPTY_STRING
+                  }
+                  renderPasswordToggle={(isShow) => (
+                    <img
+                      className={cx("toggleIcon")}
+                      src={isShow ? icons.iconEyeOff : icons.iconEyeShow}
+                      alt={
+                        isShow
+                          ? t("auth.register.hide_password")
+                          : t("auth.register.show_password")
+                      }
+                    />
+                  )}
+                />
+              )}
+            />
+          </div>
+
+          <BaseButton
+            type="submit"
+            variant="primary"
+            isFullWidth
+            isDisabled={isDisabled}
+            isLoading={isLoading}
+          >
+            {t("auth.register.submit")}
+          </BaseButton>
+
+          <div className={cx("loginRow")}>
+            <span className={cx("loginText")}>
+              {t("auth.register.has_account")}
+            </span>
+
+            <button
+              type="button"
+              className={cx("loginLink")}
+              onClick={handleRedirectLogin}
+            >
+              {t("auth.register.login")}
+            </button>
+          </div>
+        </form>
       </div>
     </AuthLayout>
   );

@@ -17,13 +17,14 @@ export type ButtonSize = "sm" | "md" | "lg";
 
 export type BaseButtonProps = Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
-  "children"
+  "children" | "disabled"
 > & {
   children: ReactNode;
   variant?: ButtonVariant;
   size?: ButtonSize;
-  fullWidth?: boolean;
-  loading?: boolean;
+  isFullWidth?: boolean;
+  isLoading?: boolean;
+  isDisabled?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
 };

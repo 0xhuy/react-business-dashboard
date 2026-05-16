@@ -38,6 +38,19 @@
       "show_password": "Show password",
       "hide_password": "Hide password"
     },
+    "forgot_password": {
+      "title": "Forgot Password",
+      "subtitle": "Enter your email address and we will send you a password reset link.",
+      "email": "Email",
+      "email_placeholder": "Enter your email",
+      "submit": "Send Reset Link",
+      "remember_password": "Remember your password?",
+      "back_to_login": "Back to Login",
+      "success_message": "Reset link sent successfully",
+      "success_description": "Please check your email inbox and follow the instructions to reset your password.",
+      "hero_alt": "Forgot password illustration"
+    },
+
     "validation": {
       "full_name_required": "Full name is required",
       "email_required": "Email is required",

@@ -32,7 +32,8 @@ export const createRegisterSchema = (t: TFunction) =>
         .email(t("auth.validation.invalid_email")),
       [REGISTER_FIELDS.PASSWORD]: z
         .string()
-        .min(1, t("auth.validation.password_required")),
+        .min(1, t("auth.validation.password_required"))
+        .min(8, t("auth.validation.password_min_length")),
       [REGISTER_FIELDS.CONFIRM_PASSWORD]: z
         .string()
         .min(1, t("auth.validation.confirm_password_required")),

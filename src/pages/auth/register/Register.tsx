@@ -17,6 +17,7 @@ import AuthLayout from "../layout/AuthLayout";
 // ===== Others =====
 import { InputTypeEnum } from "@/utils/enum";
 import { authRouteAbsolute, EMPTY_STRING } from "@/utils/constants";
+import authApi from "@/features/auth/auth.api";
 import {
   createRegisterSchema,
   INITIAL_REGISTER_FORM,
@@ -46,6 +47,7 @@ const Register = () => {
     control,
     handleSubmit,
     trigger,
+    watch,
     formState: { errors, isValid, touchedFields },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
@@ -55,6 +57,7 @@ const Register = () => {
 
   // ===== Derived =====
   const isDisabled = isLoading || !isValid;
+  const passwordValue = watch("password");
 
   // ===== Effects =====
   useEffect(() => {
@@ -67,13 +70,32 @@ const Register = () => {
     trigger(errorFieldNames);
   }, [i18n.language, errors, trigger]);
 
+  useEffect(() => {
+    if (!touchedFields.confirmPassword) return;
+
+    trigger("confirmPassword");
+  }, [passwordValue, touchedFields.confirmPassword, trigger]);
+
   // ===== Handlers =====
-  const handleRegister = async () => {
+  const handleRegister = async (data: RegisterFormData) => {
     if (isLoading) return;
 
     try {
       setIsLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+
+      const { error } = await authApi.register({
+        email: data.email,
+        password: data.password,
+      });
+
+      if (error) {
+        console.error(error.message);
+        return;
+      }
+
+      navigate(authRouteAbsolute.login);
+    } catch (error) {
+      console.error(error);
     } finally {
       setIsLoading(false);
     }

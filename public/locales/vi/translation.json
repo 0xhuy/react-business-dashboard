@@ -55,13 +55,32 @@
       "success_description": "Vui lòng kiểm tra email và làm theo hướng dẫn để đặt lại mật khẩu.",
       "hero_alt": "Minh họa quên mật khẩu"
     },
+    "create_new_password": {
+      "title": "Tạo mật khẩu mới",
+      "subtitle": "Nhập mật khẩu mới của bạn bên dưới.",
+      "new_password": "Mật khẩu mới",
+      "new_password_placeholder": "Nhập mật khẩu mới",
+      "confirm_password": "Xác nhận mật khẩu",
+      "confirm_password_placeholder": "Nhập lại mật khẩu mới",
+      "submit": "Cập nhật mật khẩu",
+      "back_to_login": "Quay lại đăng nhập",
+      "success_message": "Cập nhật mật khẩu thành công",
+      "success_description": "Mật khẩu của bạn đã được cập nhật. Bây giờ bạn có thể đăng nhập bằng mật khẩu mới.",
+      "show_password": "Hiện mật khẩu",
+      "hide_password": "Ẩn mật khẩu"
+    },
     "validation": {
       "full_name_required": "Vui lòng nhập họ và tên",
       "email_required": "Vui lòng nhập email",
       "invalid_email": "Vui lòng nhập email hợp lệ",
       "password_required": "Vui lòng nhập mật khẩu",
       "confirm_password_required": "Vui lòng xác nhận mật khẩu",
+      "password_min_length": "Mật khẩu phải có ít nhất 8 ký tự",
+      "confirm_password_not_match": "Mật khẩu xác nhận không khớp",
       "password_not_match": "Mật khẩu xác nhận không khớp"
     }
+  },
+  "sidebar": {
+    "dashboard": "Tổng quan"
   }
 }

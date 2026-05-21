@@ -1,17 +1,26 @@
+import {
+  adminRouteAbsolute,
+  authRouteAbsolute,
+  staffRouteAbsolute,
+  viewerRouteAbsolute,
+} from "@/utils/constants";
 import { Role } from "@/utils/enum/role.enum";
 
+// ============================================================
+// GET REDIRECT PATH BY ROLE
+// ============================================================
 export const getRedirectByRole = (role: Role) => {
   switch (role) {
     case Role.ADMIN:
-      return "/admin/dashboard";
+      return adminRouteAbsolute.dashboard;
 
     case Role.STAFF:
-      return "/staff/dashboard";
+      return staffRouteAbsolute.dashboard;
 
     case Role.VIEWER:
-      return "/viewer/dashboard";
+      return viewerRouteAbsolute.dashboard;
 
     default:
-      return "/login";
+      return authRouteAbsolute.login;
   }
 };

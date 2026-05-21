@@ -17,6 +17,7 @@ import AuthLayout from "../layout/AuthLayout";
 // ===== Others =====
 import { authRouteAbsolute, EMPTY_STRING } from "@/utils/constants";
 import { InputTypeEnum } from "@/utils/enum";
+import authApi from "@/features/auth/auth.api";
 import {
   createForgotPasswordSchema,
   INITIAL_FORGOT_PASSWORD_FORM,
@@ -24,7 +25,6 @@ import {
 } from "./ForgotPassword.schema";
 
 // ===== Styles, Images, Icons =====
-// import { icons, images } from "@/assets";
 import styles from "./ForgotPassword.module.scss";
 
 const cx = classNames.bind(styles);
@@ -70,15 +70,22 @@ const ForgotPassword = () => {
   }, [i18n.language, errors, trigger]);
 
   // ===== Handlers =====
-  const handleForgotPassword = async () => {
+  const handleForgotPassword = async (data: ForgotPasswordFormData) => {
     if (isLoading) return;
 
     try {
       setIsLoading(true);
 
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      const { error } = await authApi.forgotPassword(data.email);
+
+      if (error) {
+        console.error(error.message);
+        return;
+      }
 
       setIsSubmitted(true);
+    } catch (error) {
+      console.error(error);
     } finally {
       setIsLoading(false);
     }

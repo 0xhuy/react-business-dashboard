@@ -1,34 +1,53 @@
+// ============================================================
+// PRIVATE ROUTES
+// ============================================================
+
 // ===== Pages =====
 import { AdminDashboard, StaffDashboard, ViewerDashboard } from "@/pages";
 
-// ===== Enums =====
+// ===== Others =====
+import {
+  adminRouteAbsolute,
+  staffRouteAbsolute,
+  viewerRouteAbsolute,
+} from "@/utils/constants";
 import { Role } from "@/utils/enum/role.enum";
 
 // ===== Types =====
 import type { IRouteModel } from "./route.model";
 
-export const privateRoutes: IRouteModel[] = [
-  // ===== Admin =====
+// ============================================================
+// ADMIN ROUTES
+// ============================================================
+export const privateAdminRoutes: IRouteModel[] = [
   {
-    path: "/admin/dashboard",
+    path: adminRouteAbsolute.dashboard,
     component: AdminDashboard,
     role: Role.ADMIN,
-    name: "Dashboard",
+    name: "sidebar.dashboard",
   },
+];
 
-  // ===== Staff =====
+// ============================================================
+// STAFF ROUTES
+// ============================================================
+export const privateStaffRoutes: IRouteModel[] = [
   {
-    path: "/staff/dashboard",
+    path: staffRouteAbsolute.dashboard,
     component: StaffDashboard,
     role: Role.STAFF,
-    name: "Dashboard",
+    name: "sidebar.dashboard",
   },
+];
 
-  // ===== Viewer =====
+// ============================================================
+// VIEWER ROUTES
+// ============================================================
+export const privateViewerRoutes: IRouteModel[] = [
   {
-    path: "/viewer/dashboard",
+    path: viewerRouteAbsolute.dashboard,
     component: ViewerDashboard,
     role: Role.VIEWER,
-    name: "Dashboard",
+    name: "sidebar.dashboard",
   },
 ];

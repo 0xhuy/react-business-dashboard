@@ -23,6 +23,7 @@ import {
   INITIAL_LOGIN_FORM,
   type LoginFormData,
 } from "./Login.schema";
+import authApi from "@/features/auth/auth.api";
 
 // ===== Styles, Images, Icons =====
 import { icons } from "@/assets";
@@ -66,16 +67,27 @@ const Login = () => {
   }, [i18n.language, errors, trigger]);
 
   // ===== Handlers =====
-  const handleLogin = async () => {
+  const handleLogin = async (data: LoginFormData) => {
     if (isLoading) return;
 
     try {
       setIsLoading(true);
 
-      await new Promise((resolve) => setTimeout(resolve, 1200));
+      const { data: authData, error } = await authApi.login({
+        email: data.email,
+        password: data.password,
+      });
 
-      const role = Role.ADMIN; // fake
+      if (error) {
+        console.error(error.message);
+        return;
+      }
+
+      const role = authData.user?.user_metadata?.role || Role.VIEWER;
+
       navigate(getRedirectByRole(role));
+    } catch (error) {
+      console.error(error);
     } finally {
       setIsLoading(false);
     }

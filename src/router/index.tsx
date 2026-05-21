@@ -6,7 +6,13 @@ import { DashboardLayout } from "@/layouts/dashboard";
 
 // ===== Routes =====
 import { publicRoutes } from "./public.routes";
-import { privateRoutes } from "./private.routes";
+import {
+  privateAdminRoutes,
+  privateStaffRoutes,
+  privateViewerRoutes,
+} from "./private.routes";
+import { ProtectedRoute } from "./protected";
+import { Role } from "@/utils/enum/role.enum";
 
 // ===== Types =====
 import type { IRouteModel } from "./route.model";
@@ -28,9 +34,25 @@ export const AppRouter = () => {
         {/* ===== Public routes ===== */}
         {renderRoutes(publicRoutes)}
 
-        {/* ===== Dashboard layout ===== */}
-        <Route element={<DashboardLayout />}>
-          {renderRoutes(privateRoutes)}
+        {/* ===== Admin routes ===== */}
+        <Route element={<ProtectedRoute allow={[Role.ADMIN]} />}>
+          <Route element={<DashboardLayout />}>
+            {renderRoutes(privateAdminRoutes)}
+          </Route>
+        </Route>
+
+        {/* ===== Staff routes ===== */}
+        <Route element={<ProtectedRoute allow={[Role.STAFF]} />}>
+          <Route element={<DashboardLayout />}>
+            {renderRoutes(privateStaffRoutes)}
+          </Route>
+        </Route>
+
+        {/* ===== Viewer routes ===== */}
+        <Route element={<ProtectedRoute allow={[Role.VIEWER]} />}>
+          <Route element={<DashboardLayout />}>
+            {renderRoutes(privateViewerRoutes)}
+          </Route>
         </Route>
 
         {/* ===== Not Found ===== */}

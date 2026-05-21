@@ -50,14 +50,32 @@
       "success_description": "Please check your email inbox and follow the instructions to reset your password.",
       "hero_alt": "Forgot password illustration"
     },
-
+    "create_new_password": {
+      "title": "Create New Password",
+      "subtitle": "Enter your new password below.",
+      "new_password": "New Password",
+      "new_password_placeholder": "Enter your new password",
+      "confirm_password": "Confirm Password",
+      "confirm_password_placeholder": "Confirm your new password",
+      "submit": "Update Password",
+      "back_to_login": "Back to Login",
+      "success_message": "Password updated successfully",
+      "success_description": "Your password has been updated. You can now sign in with your new password.",
+      "show_password": "Show password",
+      "hide_password": "Hide password"
+    },
     "validation": {
       "full_name_required": "Full name is required",
       "email_required": "Email is required",
       "invalid_email": "Please enter a valid email address",
       "password_required": "Password is required",
       "confirm_password_required": "Please confirm your password",
+      "password_min_length": "Password must be at least 8 characters",
+      "confirm_password_not_match": "Passwords do not match",
       "password_not_match": "Passwords do not match"
     }
+  },
+  "sidebar": {
+    "dashboard": "Dashboard"
   }
 }

@@ -5,12 +5,14 @@
 // ===== Libs =====
 import React from "react";
 import ReactDOM from "react-dom/client";
-
-// ===== Config =====
-import "@/utils/i18n";
+import { Provider } from "react-redux";
 
 // ===== App =====
 import App from "./App";
+
+// ===== Others =====
+import store from "@/redux/store";
+import "@/utils/i18n";
 
 // ===== Styles =====
 import "./index.css";
@@ -18,6 +20,8 @@ import "./index.css";
 // ===== Render =====
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
 );

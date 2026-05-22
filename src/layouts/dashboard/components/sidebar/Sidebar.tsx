@@ -1,6 +1,7 @@
 // ===== Libs =====
 import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useAppSelector } from "@/redux/hooks";
 
 // ===== Routes =====
 import {
@@ -16,8 +17,6 @@ import { Role } from "@/utils/enum/role.enum";
 import styles from "./Sidebar.module.scss";
 
 // ===== Constants =====
-const role = Role.VIEWER;
-
 const routesByRole = {
   [Role.ADMIN]: privateAdminRoutes,
   [Role.STAFF]: privateStaffRoutes,
@@ -30,6 +29,10 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { t } = useTranslation();
+  const role = useAppSelector((state) => state.auth.role);
+
+  // ===== Derived =====
+  const menuRoutes = role ? routesByRole[role as Role] : [];
 
   // ===== Render =====
   return (
@@ -37,7 +40,7 @@ const Sidebar = () => {
       <div className={styles.logo}>Dashboard</div>
 
       <div className={styles.menu}>
-        {routesByRole[role].map((route) => {
+        {menuRoutes.map((route) => {
           if (!route.name) return null;
 
           const isActive = location.pathname === route.path;

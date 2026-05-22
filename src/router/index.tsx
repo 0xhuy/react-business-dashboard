@@ -12,6 +12,7 @@ import {
   privateViewerRoutes,
 } from "./private.routes";
 import { ProtectedRoute } from "./protected";
+import { PublicRoute } from "./public";
 import { Role } from "@/utils/enum/role.enum";
 
 // ===== Types =====
@@ -32,7 +33,7 @@ export const AppRouter = () => {
         <Route path="/" element={<Navigate to="/login" />} />
 
         {/* ===== Public routes ===== */}
-        {renderRoutes(publicRoutes)}
+        <Route element={<PublicRoute />}>{renderRoutes(publicRoutes)}</Route>
 
         {/* ===== Admin routes ===== */}
         <Route element={<ProtectedRoute allow={[Role.ADMIN]} />}>

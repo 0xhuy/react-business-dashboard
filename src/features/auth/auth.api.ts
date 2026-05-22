@@ -3,7 +3,7 @@
 // ============================================================
 
 // ===== Others =====
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/services/supabase";
 import { DEFAULT_REGISTER_ROLE } from "./auth.constant";
 import type { LoginPayload, RegisterPayload } from "./auth.type";
 import { authRouteAbsolute } from "@/utils/constants";

@@ -7,8 +7,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { Session, User } from "@supabase/supabase-js";
 
 // ===== Others =====
-import { getAuthThunk } from "./authThunk";
-
+import { getAuthThunk, logoutAuthThunk } from "./authThunk";
 // ============================================================
 // AUTH STATE
 // ============================================================
@@ -35,7 +34,14 @@ const initialState: AuthState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    clearAuthState(state) {
+      state.session = null;
+      state.user = null;
+      state.role = null;
+      state.loading = false;
+    },
+  },
   extraReducers(builder) {
     // ===== Get Auth =====
     builder
@@ -51,6 +57,21 @@ const authSlice = createSlice({
         state.role = action.payload?.user?.user_metadata?.role || null;
       })
       .addCase(getAuthThunk.rejected, (state) => {
+        state.loading = false;
+      });
+
+    // ===== Logout =====
+    builder
+      .addCase(logoutAuthThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(logoutAuthThunk.fulfilled, (state) => {
+        state.session = null;
+        state.user = null;
+        state.role = null;
+        state.loading = false;
+      })
+      .addCase(logoutAuthThunk.rejected, (state) => {
         state.loading = false;
       });
   },

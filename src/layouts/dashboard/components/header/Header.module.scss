@@ -1,44 +1,82 @@
-.header {
-  height: 64px;
-  background: white;
-  border-bottom: 1px solid #eee;
-  padding: 0 16px;
+// ============================================================
+// DASHBOARD HEADER
+// ============================================================
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.header {
+  @apply relative flex h-[68px] items-center justify-between overflow-visible border-b border-white/70 bg-white/75 px-6 backdrop-blur-[28px];
+
+  background-image:
+    radial-gradient(circle at 12% 22%, rgb(99 102 241 / 0.08), transparent 34%),
+    radial-gradient(circle at 86% 18%, rgb(6 182 212 / 0.06), transparent 32%);
+  box-shadow: 0 10px 28px -24px rgb(99 102 241 / 0.28);
+}
+
+.left,
+.right {
+  @apply relative z-10;
 }
 
 .left {
-  flex: 1;
-}
-
-.search {
-  width: 300px;
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  @apply flex-1 text-lg font-semibold tracking-tight text-slate-800;
 }
 
 .right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+  @apply flex items-center gap-2;
+}
+
+.search {
+  @apply relative z-10 w-[300px] rounded-2xl border border-white/80 bg-white/70 px-4 py-2.5 text-sm text-slate-600 shadow-[0_10px_30px_rgba(15,23,42,0.06)] outline-none backdrop-blur-xl transition-all duration-200;
+
+  &:focus {
+    @apply border-indigo-200 bg-white shadow-[0_14px_40px_rgba(99,102,241,0.12)];
+  }
+}
+
+.icon,
+.profileButton {
+  @apply transition-colors duration-200;
+
+  &:hover {
+    @apply bg-primary/10;
+  }
 }
 
 .icon {
-  cursor: pointer;
+  @apply flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-base;
+}
+
+.profileWrap {
+  @apply relative;
+}
+
+.profileButton {
+  @apply flex h-9 cursor-pointer items-center gap-2.5 rounded-md px-2 transition-colors duration-200;
+
+  &:hover {
+    @apply bg-slate-100/80;
+  }
 }
 
 .avatar {
-  width: 36px;
-  height: 36px;
-  background: #111827;
-  color: white;
+  @apply flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-primary to-cyan-400 text-[12px] font-semibold text-white;
+}
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.userInfo {
+  @apply flex min-w-0 items-center;
+}
 
-  border-radius: 50%;
+.userName {
+  @apply max-w-[120px] truncate text-sm font-medium text-slate-800;
+}
+
+.arrow {
+  @apply flex min-w-[14px] items-center justify-center text-slate-500 transition-colors duration-200;
+}
+
+.iconDropdownHeader {
+  @apply h-[12px] w-[12px] object-contain opacity-70;
+}
+
+.profileButton:hover .arrow {
+  @apply text-primary;
 }

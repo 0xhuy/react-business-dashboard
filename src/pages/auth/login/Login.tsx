@@ -24,6 +24,8 @@ import {
   type LoginFormData,
 } from "./Login.schema";
 import authApi from "@/features/auth/auth.api";
+import { useAppDispatch } from "@/redux/hooks";
+import { getAuthThunk } from "@/redux/thunks/auth/authThunk";
 
 // ===== Styles, Images, Icons =====
 import { icons } from "@/assets";
@@ -35,6 +37,7 @@ const cx = classNames.bind(styles);
 const Login = () => {
   // ===== Hooks =====
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { t, i18n } = useTranslation();
   const loginSchema = useMemo(() => createLoginSchema(t), [t]);
 
@@ -84,6 +87,8 @@ const Login = () => {
       }
 
       const role = authData.user?.user_metadata?.role || Role.VIEWER;
+
+      await dispatch(getAuthThunk()).unwrap();
 
       navigate(getRedirectByRole(role));
     } catch (error) {

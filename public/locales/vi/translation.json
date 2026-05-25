@@ -78,9 +78,17 @@
       "password_min_length": "Mật khẩu phải có ít nhất 8 ký tự",
       "confirm_password_not_match": "Mật khẩu xác nhận không khớp",
       "password_not_match": "Mật khẩu xác nhận không khớp"
-    }
+    },
+    "logout": "Đăng xuất"
   },
   "sidebar": {
     "dashboard": "Tổng quan"
+  },
+  "header": {
+    "profile": "Hồ sơ",
+    "change_password": "Đổi mật khẩu"
+  },
+  "common": {
+    "dropdown": "Biểu tượng xổ xuống"
   }
 }

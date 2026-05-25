@@ -73,9 +73,17 @@
       "password_min_length": "Password must be at least 8 characters",
       "confirm_password_not_match": "Passwords do not match",
       "password_not_match": "Passwords do not match"
-    }
+    },
+    "logout": "Logout"
   },
   "sidebar": {
     "dashboard": "Dashboard"
+  },
+  "header": {
+    "profile": "Profile",
+    "change_password": "Change password"
+  },
+  "common": {
+    "dropdown": "Dropdown icon"
   }
 }

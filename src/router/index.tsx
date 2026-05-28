@@ -2,9 +2,9 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // ===== Layouts =====
-import { DashboardLayout } from "@/layouts/dashboard";
+import { MainLayout } from "@/layouts";
 
-// ===== Routes =====
+// ===== Others =====
 import { publicRoutes } from "./public.routes";
 import {
   privateAdminRoutes,
@@ -16,7 +16,7 @@ import { PublicRoute } from "./public";
 import { Role } from "@/utils/enum/role.enum";
 
 // ===== Types =====
-import type { IRouteModel } from "./route.model";
+import type { IRouteModel } from "@/utils/interfaces";
 
 const renderRoutes = (routes: IRouteModel[]) =>
   routes.map((route, index) => {
@@ -37,21 +37,21 @@ export const AppRouter = () => {
 
         {/* ===== Admin routes ===== */}
         <Route element={<ProtectedRoute allow={[Role.ADMIN]} />}>
-          <Route element={<DashboardLayout />}>
+          <Route element={<MainLayout />}>
             {renderRoutes(privateAdminRoutes)}
           </Route>
         </Route>
 
         {/* ===== Staff routes ===== */}
         <Route element={<ProtectedRoute allow={[Role.STAFF]} />}>
-          <Route element={<DashboardLayout />}>
+          <Route element={<MainLayout />}>
             {renderRoutes(privateStaffRoutes)}
           </Route>
         </Route>
 
         {/* ===== Viewer routes ===== */}
         <Route element={<ProtectedRoute allow={[Role.VIEWER]} />}>
-          <Route element={<DashboardLayout />}>
+          <Route element={<MainLayout />}>
             {renderRoutes(privateViewerRoutes)}
           </Route>
         </Route>

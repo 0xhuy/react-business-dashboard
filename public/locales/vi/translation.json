@@ -82,7 +82,13 @@
     "logout": "Đăng xuất"
   },
   "sidebar": {
-    "dashboard": "Tổng quan"
+    "dashboard": "Tổng quan",
+    "products": "Sản phẩm",
+    "product_list": "Danh sách sản phẩm",
+    "product_sheet": "Bảng sản phẩm",
+    "orders": "Đơn hàng",
+    "users": "Người dùng",
+    "settings": "Cài đặt"
   },
   "header": {
     "profile": "Hồ sơ",

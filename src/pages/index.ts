@@ -11,4 +11,12 @@ export { default as AdminDashboard } from "./admin/dashboard/AdminDashboard";
 export { default as StaffDashboard } from "./staff/dashboard/StaffDashboard";
 
 // ===== Viewer =====
+
 export { default as ViewerDashboard } from "./viewer/dashboard/ViewerDashboard";
+
+// ===== Shared =====
+export { default as ProductsPage } from "./products/ProductsPage";
+export { default as ProductSheetPage } from "./product-sheet/ProductSheetPage";
+export { default as OrdersPage } from "./orders/OrdersPage";
+export { default as UsersPage } from "./users/UsersPage";
+export { default as SettingsPage } from "./settings/SettingsPage";

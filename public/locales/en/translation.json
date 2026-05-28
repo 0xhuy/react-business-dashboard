@@ -77,7 +77,13 @@
     "logout": "Logout"
   },
   "sidebar": {
-    "dashboard": "Dashboard"
+    "dashboard": "Dashboard",
+    "products": "Products",
+    "product_list": "Product List",
+    "product_sheet": "Product Sheet",
+    "orders": "Orders",
+    "users": "Users",
+    "settings": "Settings"
   },
   "header": {
     "profile": "Profile",

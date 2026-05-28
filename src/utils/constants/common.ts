@@ -3,6 +3,7 @@
 // ============================================================
 export const ASTERISK_SYMBOL = "*";
 export const EMPTY_STRING = "";
+export const ROOT_PATH = "/";
 
 // ============================================================
 // REGEX

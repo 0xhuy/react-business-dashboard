@@ -5,7 +5,7 @@
 // ===== Libs =====
 import classNames from "classnames/bind";
 import { useTranslation } from "react-i18next";
-import type { IHeaderProfile } from "@/utils/interface";
+import type { IHeaderProfile } from "@/utils/interfaces";
 
 // ===== Styles =====
 import styles from "./ProfileDropdown.module.scss";

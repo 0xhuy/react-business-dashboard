@@ -1,0 +1,61 @@
+// ============================================================
+// SIDEBAR STYLES
+// ============================================================
+
+.sidebar {
+  @apply relative m-4 flex h-[calc(100vh-32px)] w-[280px]
+         flex-shrink-0 flex-col overflow-hidden
+         rounded-[32px]
+         border border-white/70
+         p-6 text-white;
+
+  background:
+    radial-gradient(
+      circle at 18% 10%,
+      rgba(255, 255, 255, 0.08),
+      transparent 26%
+    ),
+    radial-gradient(
+      circle at 84% 88%,
+      rgba(255, 255, 255, 0.08),
+      transparent 32%
+    ),
+    linear-gradient(180deg, #6d6afc 0%, #7477ff 38%, #8a8fff 100%);
+
+  box-shadow:
+    0 32px 64px -16px rgba(99, 102, 241, 0.12),
+    0 0 0 1px rgba(255, 255, 255, 0.6);
+
+  backdrop-filter: blur(40px) saturate(1.6);
+}
+
+.sidebar::before {
+  content: "";
+
+  @apply pointer-events-none absolute inset-0;
+
+  background:
+    radial-gradient(
+      circle at 24% 14%,
+      rgba(255, 255, 255, 0.12),
+      transparent 22%
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 42%);
+}
+
+.menu,
+.menuGroup {
+  @apply relative z-10 flex flex-col gap-2;
+}
+
+.formLogo {
+  @apply relative z-10 mb-10 flex items-center gap-4;
+}
+
+.logoIcon {
+  @apply aspect-square w-11;
+}
+
+.logoText {
+  @apply text-3xl font-semibold tracking-wide text-white;
+}

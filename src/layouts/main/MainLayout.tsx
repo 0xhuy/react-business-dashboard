@@ -1,3 +1,7 @@
+// ============================================================
+// MAIN LAYOUT
+// ============================================================
+
 // ===== Libs =====
 import { Outlet } from "react-router-dom";
 
@@ -5,9 +9,9 @@ import { Outlet } from "react-router-dom";
 import { Sidebar, Header } from "./components";
 
 // ===== Styles =====
-import styles from "./DashboardLayout.module.scss";
+import styles from "./MainLayout.module.scss";
 
-const DashboardLayout = () => {
+const MainLayout = () => {
   return (
     <div className={styles.layout}>
       <Sidebar />
@@ -23,4 +27,4 @@ const DashboardLayout = () => {
   );
 };
 
-export default DashboardLayout;
+export default MainLayout;

@@ -12,7 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 // ===== Components, Layouts, Pages=====
 import { BaseInput, BaseButton } from "@/components";
-import AuthLayout from "../layout/AuthLayout";
+import { AuthLayout } from "@/layouts";
 
 // ===== Other =====
 import { authRouteAbsolute, EMPTY_STRING } from "@/utils/constants";

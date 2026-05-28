@@ -2,12 +2,18 @@
 // DASHBOARD HEADER
 // ============================================================
 
-.header {
-  @apply relative flex h-[68px] items-center justify-between overflow-visible border-b border-white/70 bg-white/75 px-6 backdrop-blur-[28px];
+// .header {
+//   @apply relative flex h-[68px] items-center justify-between overflow-visible px-6 bg-transparent;
 
-  background-image:
-    radial-gradient(circle at 12% 22%, rgb(99 102 241 / 0.08), transparent 34%),
-    radial-gradient(circle at 86% 18%, rgb(6 182 212 / 0.06), transparent 32%);
+//   border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+
+//   box-shadow:
+//     inset 0 -1px 0 rgba(255, 255, 255, 0.72),
+//     0 14px 24px -28px rgba(15, 23, 42, 0.22);
+// }
+
+.header {
+  @apply relative flex h-[68px] items-center justify-between overflow-visible border-b border-white/70 px-6 bg-transparent;
   box-shadow: 0 10px 28px -24px rgb(99 102 241 / 0.28);
 }
 

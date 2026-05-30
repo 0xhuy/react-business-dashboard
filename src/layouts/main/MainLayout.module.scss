@@ -1,7 +1,5 @@
 .layout {
-  display: flex;
-  min-height: 100vh;
-  overflow: hidden;
+  @apply flex min-h-screen overflow-hidden;
 
   background-image:
     radial-gradient(circle at 20% 20%, rgb(99 102 241 / 0.08), transparent 40%),
@@ -9,14 +7,9 @@
 }
 
 .main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
+  @apply flex flex-1 min-w-0 flex-col;
 }
 
 .content {
-  flex: 1;
-  padding: 16px;
-  background: transparent;
+  @apply flex-1 pt-4 bg-transparent;
 }

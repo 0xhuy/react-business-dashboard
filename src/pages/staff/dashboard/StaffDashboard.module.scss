@@ -23,13 +23,13 @@
 }
 
 .heroSection {
-  @apply flex items-center justify-between rounded-[28px] border border-slate-100 bg-white px-6 py-6;
+  @apply flex items-center justify-between rounded-[28px] border border-slate-100 bg-white px-6 py-3;
 
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
 }
 
 .title {
-  @apply text-lg font-semibold tracking-tight text-indigo-500;
+  @apply text-base font-semibold tracking-tight text-indigo-500;
 }
 
 .statGrid {

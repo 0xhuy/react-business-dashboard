@@ -81,13 +81,32 @@
     "products": "Products",
     "product_list": "Product List",
     "product_sheet": "Product Sheet",
-    "orders": "Orders",
+    "orders": "Purchase Orders",
     "users": "Users",
     "settings": "Settings"
   },
   "header": {
     "profile": "Profile",
     "change_password": "Change password"
+  },
+  "dashboard": {
+    "overview": "Dashboard Overview",
+    "products": "Products",
+    "total_products": "Total products",
+    "purchase_orders": "Purchase Orders",
+    "total_purchase_orders": "Total purchase orders",
+    "low_stock": "Low Stock",
+    "need_attention": "Need attention",
+    "users": "Users",
+    "active_users": "Active users",
+    "products_chart": "Products Chart",
+    "product_activity_by_week": "Product activity by week",
+    "purchase_orders_chart": "Purchase Orders Chart",
+    "purchase_orders_by_week": "Purchase orders by week",
+    "recent_purchase_orders": "Recent Purchase Orders",
+    "latest_purchase_order_activity": "Latest purchase order activity",
+    "low_stock_products": "Low Stock Products",
+    "products_need_restocking": "Products that need restocking"
   },
   "common": {
     "dropdown": "Dropdown icon"

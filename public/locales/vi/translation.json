@@ -86,13 +86,32 @@
     "products": "Sản phẩm",
     "product_list": "Danh sách sản phẩm",
     "product_sheet": "Bảng sản phẩm",
-    "orders": "Đơn hàng",
+    "orders": "Đơn nhập hàng",
     "users": "Người dùng",
     "settings": "Cài đặt"
   },
   "header": {
     "profile": "Hồ sơ",
     "change_password": "Đổi mật khẩu"
+  },
+  "dashboard": {
+    "overview": "Tổng quan bảng điều khiển",
+    "products": "Sản phẩm",
+    "total_products": "Tổng sản phẩm",
+    "purchase_orders": "Đơn nhập hàng",
+    "total_purchase_orders": "Tổng đơn nhập hàng",
+    "low_stock": "Sắp hết hàng",
+    "need_attention": "Cần chú ý",
+    "users": "Người dùng",
+    "active_users": "Người dùng hoạt động",
+    "products_chart": "Biểu đồ sản phẩm",
+    "product_activity_by_week": "Hoạt động sản phẩm theo tuần",
+    "purchase_orders_chart": "Biểu đồ đơn nhập hàng",
+    "purchase_orders_by_week": "Đơn nhập hàng theo tuần",
+    "recent_purchase_orders": "Đơn nhập hàng gần đây",
+    "latest_purchase_order_activity": "Hoạt động đơn nhập hàng mới nhất",
+    "low_stock_products": "Sản phẩm sắp hết hàng",
+    "products_need_restocking": "Sản phẩm cần nhập thêm"
   },
   "common": {
     "dropdown": "Biểu tượng xổ xuống"

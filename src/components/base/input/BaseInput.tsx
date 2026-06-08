@@ -1,18 +1,16 @@
-// ============================================================
-// BASE INPUT COMPONENT
-// ============================================================
-
 // ===== Libs =====
 import classNames from "classnames/bind";
 import { useState } from "react";
-
-// ===== Types =====
 import type { ChangeEvent } from "react";
-import type { BaseInputProps } from "./types";
 
 // ===== Others =====
 import { InputTypeEnum } from "@/utils/enum/input.enum";
-import { ASTERISK_SYMBOL } from "@/utils/constants/common";
+import {
+  ASTERISK_SYMBOL,
+  DEFAULT_INPUT_HEIGHT,
+  MAX_WIDTH_PERCENT,
+} from "@/utils/constants";
+import type { BaseInputProps } from "./types";
 
 // ===== Styles, Images, Icons =====
 import styles from "./BaseInput.module.scss";
@@ -21,12 +19,13 @@ const cx = classNames.bind(styles);
 
 // ===== Component =====
 const BaseInput = (props: BaseInputProps) => {
-  // ===== Destructuring Props =====
+  // ===== Props =====
   const {
     id,
     type = InputTypeEnum.TEXT,
-    height = 36,
-    width = "100%",
+    height = DEFAULT_INPUT_HEIGHT,
+    width = MAX_WIDTH_PERCENT,
+    borderRadius,
     typeStyle,
     placeholder,
     value,
@@ -96,7 +95,10 @@ const BaseInput = (props: BaseInputProps) => {
         </label>
       )}
 
-      <div className={cx("baseInputContent", typeStyle)} style={{ height }}>
+      <div
+        className={cx("baseInputContent", typeStyle)}
+        style={{ height, borderRadius }}
+      >
         {prefix && (
           <span className={cx("baseInputPrefix", typeStyle)}>{prefix}</span>
         )}

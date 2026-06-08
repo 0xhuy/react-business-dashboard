@@ -113,7 +113,52 @@
     "low_stock_products": "Sản phẩm sắp hết hàng",
     "products_need_restocking": "Sản phẩm cần nhập thêm"
   },
+  "products": {
+    "title": "Sản phẩm",
+    "search_placeholder": "Tìm kiếm sản phẩm...",
+    "status": "Trạng thái",
+    "category": "Danh mục",
+    "add_product": "Thêm sản phẩm",
+    "edit_product": "Chỉnh sửa sản phẩm",
+
+    "sku": "SKU",
+    "name": "Tên sản phẩm",
+    "price": "Giá",
+    "stock": "Tồn kho",
+    "description": "Mô tả",
+
+    "placeholder_sku": "Nhập SKU",
+    "placeholder_name": "Nhập tên sản phẩm",
+    "placeholder_price": "Nhập giá",
+    "placeholder_stock": "Nhập số lượng tồn kho",
+    "placeholder_description": "Nhập mô tả",
+    "placeholder_category": "Chọn danh mục",
+
+    "category_electronics": "Điện tử",
+    "category_furniture": "Nội thất",
+    "category_lifestyle": "Phong cách sống",
+    "category_stationery": "Văn phòng phẩm",
+
+    "validation": {
+      "sku_required": "Vui lòng nhập SKU",
+      "name_required": "Vui lòng nhập tên sản phẩm",
+      "category_required": "Vui lòng chọn danh mục",
+      "price_invalid": "Giá phải lớn hơn hoặc bằng 0",
+      "stock_invalid": "Tồn kho phải lớn hơn hoặc bằng 0",
+      "description_required": "Vui lòng nhập mô tả"
+    }
+  },
   "common": {
-    "dropdown": "Biểu tượng xổ xuống"
+    "dropdown": "Biểu tượng xổ xuống",
+    "btn_filter": "Lọc",
+    "btn_cancel": "Hủy",
+    "btn_save": "Lưu",
+    "btn_apply": "Áp dụng",
+    "btn_edit": "Chỉnh sửa",
+    "btn_delete": "Xóa",
+    "placeholder_select": "Chọn một tùy chọn",
+    "actions": "Thao tác",
+    "empty_data": "Không có dữ liệu",
+    "img_text_alt": "Hình ảnh"
   }
 }

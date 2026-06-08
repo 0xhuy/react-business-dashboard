@@ -1,2 +1,10 @@
 export { default as BaseInput } from "./input/BaseInput";
 export { default as BaseButton } from "./button/BaseButton";
+export { default as BaseFilter } from "./filter/BaseFilter";
+export { default as BaseSelect } from "./select/BaseSelect";
+export { default as BaseCheckbox } from "./checkbox/BaseCheckbox";
+export { default as BaseTable } from "./table/BaseTable";
+export { default as BasePagination } from "./pagination/BasePagination";
+export { default as BaseModal } from "./modal/BaseModal";
+export { default as BaseTextarea } from "./textarea/BaseTextarea";
+export { default as BaseActionMenu } from "./action-menu/BaseActionMenu";

@@ -1,0 +1,7 @@
+.form {
+  @apply flex flex-col gap-5;
+}
+
+.twoColumns {
+  @apply grid grid-cols-2 gap-5;
+}

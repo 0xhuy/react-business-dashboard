@@ -1,7 +1,3 @@
-// ============================================================
-// BASE BUTTON TYPES
-// ============================================================
-
 // ===== Libs =====
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
@@ -25,6 +21,7 @@ export type BaseButtonProps = Omit<
   isFullWidth?: boolean;
   isLoading?: boolean;
   isDisabled?: boolean;
+  isStatic?: boolean;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
 };

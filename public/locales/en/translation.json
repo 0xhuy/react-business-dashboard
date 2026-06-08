@@ -33,6 +33,11 @@
       "confirm_password": "Confirm password",
       "confirm_password_placeholder": "Confirm your password",
       "submit": "Create Account",
+      "divider": "Or",
+      "google_register": "Sign up with Google",
+      "dashboard_alt": "Dashboard",
+      "widgets_alt": "Widgets",
+      "logo_alt": "Dashly logo",
       "has_account": "Already have an account?",
       "login": "Sign in",
       "show_password": "Show password",
@@ -108,7 +113,52 @@
     "low_stock_products": "Low Stock Products",
     "products_need_restocking": "Products that need restocking"
   },
+  "products": {
+    "title": "Products",
+    "search_placeholder": "Search products...",
+    "status": "Status",
+    "category": "Category",
+    "add_product": "Add Product",
+    "edit_product": "Edit Product",
+
+    "sku": "SKU",
+    "name": "Name",
+    "price": "Price",
+    "stock": "Stock",
+    "description": "Description",
+
+    "placeholder_sku": "Enter SKU",
+    "placeholder_name": "Enter product name",
+    "placeholder_price": "Enter price",
+    "placeholder_stock": "Enter stock quantity",
+    "placeholder_description": "Enter description",
+    "placeholder_category": "Select category",
+
+    "category_electronics": "Electronics",
+    "category_furniture": "Furniture",
+    "category_lifestyle": "Lifestyle",
+    "category_stationery": "Stationery",
+
+    "validation": {
+      "sku_required": "SKU is required",
+      "name_required": "Product name is required",
+      "category_required": "Category is required",
+      "price_invalid": "Price must be greater than or equal to 0",
+      "stock_invalid": "Stock must be greater than or equal to 0",
+      "description_required": "Description is required"
+    }
+  },
   "common": {
-    "dropdown": "Dropdown icon"
+    "dropdown": "Dropdown icon",
+    "btn_filter": "Filter",
+    "btn_cancel": "Cancel",
+    "btn_save": "Save",
+    "btn_apply": "Apply",
+    "btn_edit": "Edit",
+    "btn_delete": "Delete",
+    "actions": "Actions",
+    "placeholder_select": "Select an option",
+    "empty_data": "No data available",
+    "img_text_alt": "Image"
   }
 }

@@ -1,7 +1,3 @@
-// ============================================================
-// BASE INPUT TYPES
-// ============================================================
-
 // ===== Libs =====
 import type { ChangeEvent, FocusEvent, ReactNode } from "react";
 
@@ -11,7 +7,6 @@ import type {
   InputTypeStyleEnum,
 } from "@/utils/enum/input.enum";
 
-// ===== Types =====
 export type BaseInputProps = {
   id?: string;
   name?: string;
@@ -26,6 +21,7 @@ export type BaseInputProps = {
 
   width?: number | string;
   height?: number | string;
+  borderRadius?: number | string;
 
   disabled?: boolean;
   messageError?: string;

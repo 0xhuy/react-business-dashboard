@@ -1,9 +1,5 @@
-// ============================================================
-// PROTECTED ROUTE
-// ============================================================
-
 // ===== Libs =====
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 
 // ===== Hooks =====
 import { useAppSelector } from "@/redux/hooks";
@@ -11,15 +7,11 @@ import { useAppSelector } from "@/redux/hooks";
 // ===== Others =====
 import { authRouteAbsolute } from "@/utils/constants";
 import { Role } from "@/utils/enum";
-import { getRedirectByRole } from "./redirect";
-
-// ===== Types =====
-type ProtectedRouteProps = {
-  allow: Role[];
-};
 
 // ===== Component =====
-export const ProtectedRoute = ({ allow }: ProtectedRouteProps) => {
+export const ProtectedRoute = () => {
+  // ===== Hooks =====
+  const location = useLocation();
   // ===== Selectors =====
   const session = useAppSelector((state) => state.auth.session);
   const role = useAppSelector((state) => state.auth.role) as Role | null;
@@ -31,11 +23,13 @@ export const ProtectedRoute = ({ allow }: ProtectedRouteProps) => {
   }
 
   if (!session || !role) {
-    return <Navigate to={authRouteAbsolute.login} replace />;
-  }
-
-  if (!allow.includes(role)) {
-    return <Navigate to={getRedirectByRole(role)} replace />;
+    return (
+      <Navigate
+        to={authRouteAbsolute.login}
+        state={{ from: location }}
+        replace
+      />
+    );
   }
 
   return <Outlet />;

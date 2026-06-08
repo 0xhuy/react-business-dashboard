@@ -1,0 +1,102 @@
+// ===== Libs =====
+import classNames from "classnames/bind";
+import { useTranslation } from "react-i18next";
+import { useMemo } from "react";
+
+// ===== Others =====
+import {
+  DEFAULT_NUMBER_ZERO,
+  MAX_COL_NUMBER,
+  MIN_WIDTH_NUMBER,
+  PIXELS,
+  MAX_WIDTH_PERCENT,
+} from "@/utils/constants";
+import { KeyTableEnum } from "@/utils/enum";
+import type { BaseTableProps } from "./type";
+
+// ===== Styles, images, icons =====
+import styles from "./BaseTable.module.scss";
+
+const cx = classNames.bind(styles);
+
+const BaseTable = <T extends Record<string, unknown>>(
+  props: BaseTableProps<T>,
+) => {
+  // ===== Props =====
+  const { dataSource = [], columns, typeStyle, onClickRow } = props;
+
+  // ===== Hooks =====
+  const { t } = useTranslation();
+
+  // ===== Derived =====
+  const minWidth = useMemo(() => {
+    return columns?.length > MAX_COL_NUMBER
+      ? `${columns?.length * MIN_WIDTH_NUMBER}${PIXELS}`
+      : MAX_WIDTH_PERCENT;
+  }, [columns]);
+
+  // ===== Handlers =====
+  const handleClickRow = (record: T) => {
+    onClickRow?.(record);
+  };
+
+  return (
+    <div
+      id="baseTableComponent"
+      className={cx("baseTableComponent", typeStyle)}
+    >
+      <table style={{ minWidth }} className={cx("tableContainer", typeStyle)}>
+        <thead className={cx("thead", typeStyle)}>
+          <tr>
+            {columns.map((column) => (
+              <th className={cx("colTable", typeStyle)} key={column.key}>
+                {column.title && column.title}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody className={cx("tbody", typeStyle)}>
+          {dataSource.length > DEFAULT_NUMBER_ZERO ? (
+            dataSource.map((record, rowIndex) => (
+              <tr
+                key={rowIndex}
+                className={cx("rowTableBody", { rowClickable: onClickRow })}
+              >
+                {columns.map((column) => (
+                  <td
+                    key={column.key}
+                    style={{ maxWidth: column.width, width: column.width }}
+                    className={cx("colTableBody", typeStyle)}
+                    onClick={() =>
+                      column.key !== KeyTableEnum.ACTION &&
+                      handleClickRow(record)
+                    }
+                  >
+                    <div className={cx("cellContainer")}>
+                      {column.render
+                        ? column.render(
+                            record[column.dataIndex!],
+                            record,
+                            rowIndex,
+                          )
+                        : (record[column.dataIndex!] as React.ReactNode)}
+                    </div>
+                  </td>
+                ))}
+              </tr>
+            ))
+          ) : (
+            <tr className={cx("emptyRow")}>
+              <td colSpan={columns.length} className={cx("noDataAvailable")}>
+                <div className={cx("emptyContent")}>
+                  {t("common.empty_data")}
+                </div>
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+export default BaseTable;

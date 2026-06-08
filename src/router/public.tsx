@@ -1,9 +1,5 @@
-// ============================================================
-// PUBLIC ROUTE
-// ============================================================
-
 // ===== Libs =====
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAppSelector } from "@/redux/hooks";
 
 // ===== Others =====
@@ -12,6 +8,9 @@ import { getRedirectByRole } from "./redirect";
 
 // ===== Component =====
 export const PublicRoute = () => {
+  // ===== Hooks =====
+  const location = useLocation();
+  const redirectPath = location.state?.from?.pathname;
   // ===== Selectors =====
   const session = useAppSelector((state) => state.auth.session);
   const role = useAppSelector((state) => state.auth.role) as Role | null;
@@ -23,7 +22,7 @@ export const PublicRoute = () => {
   }
 
   if (session && role) {
-    return <Navigate to={getRedirectByRole(role)} replace />;
+    return <Navigate to={redirectPath || getRedirectByRole(role)} replace />;
   }
 
   return <Outlet />;

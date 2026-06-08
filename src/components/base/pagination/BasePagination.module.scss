@@ -1,0 +1,56 @@
+.basePaginationContainer {
+  @apply flex w-full items-center justify-center gap-2;
+}
+
+.pageButton {
+  @apply flex h-9 min-w-9 items-center justify-center rounded-xl bg-white px-3 text-sm font-medium text-slate-600 transition-all duration-200;
+
+  border: 1px solid rgba(148, 163, 184, 0.28);
+
+  &:hover:not(:disabled) {
+    @apply text-indigo-600;
+
+    border-color: rgb(129 140 248);
+    box-shadow: 0 1px 2px rgba(99, 102, 241, 0.08);
+  }
+}
+
+.pageButton.disabled,
+.pageButton:disabled {
+  @apply cursor-not-allowed opacity-50;
+}
+
+.threeDotStyle {
+  @apply cursor-default border-transparent bg-transparent text-slate-400 shadow-none;
+}
+
+.active {
+  @apply bg-indigo-500 text-white;
+
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+}
+
+.pageButton.active,
+.pageButton.active:hover,
+.pageButton.active:focus {
+  @apply text-white;
+}
+
+.pageButton.active:hover:not(:disabled) {
+  @apply bg-indigo-600 text-white;
+
+  border-color: rgb(99 102 241);
+}
+
+.leftChevronIcon,
+.rightChevronIcon {
+  @apply flex items-center justify-center;
+}
+
+.leftChevronIcon {
+  transform: rotate(90deg);
+}
+
+.rightChevronIcon {
+  transform: rotate(-90deg);
+}

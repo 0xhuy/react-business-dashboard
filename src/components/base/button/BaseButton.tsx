@@ -1,13 +1,14 @@
-// ============================================================
-// BASE BUTTON COMPONENT
-// ============================================================
-
 // ===== Libs =====
 import classNames from "classnames/bind";
-
-// ===== Types =====
 import type { MouseEvent } from "react";
+
+// ===== Others =====
 import type { BaseButtonProps } from "./types";
+import {
+  DEFAULT_BUTTON_SIZE,
+  DEFAULT_BUTTON_TYPE,
+  DEFAULT_BUTTON_VARIANT,
+} from "@/utils/constants";
 
 // ===== Styles, Images, Icons =====
 import styles from "./BaseButton.module.scss";
@@ -15,20 +16,23 @@ import styles from "./BaseButton.module.scss";
 const cx = classNames.bind(styles);
 
 // ===== Component =====
-const BaseButton = ({
-  children,
-  type = "button",
-  variant = "primary",
-  size = "md",
-  isFullWidth = false,
-  isLoading = false,
-  isDisabled = false,
-  leftIcon,
-  rightIcon,
-  className,
-  onClick,
-  ...restProps
-}: BaseButtonProps) => {
+const BaseButton = (props: BaseButtonProps) => {
+  // ===== Props =====
+  const {
+    children,
+    type = DEFAULT_BUTTON_TYPE,
+    variant = DEFAULT_BUTTON_VARIANT,
+    size = DEFAULT_BUTTON_SIZE,
+    isFullWidth = false,
+    isLoading = false,
+    isDisabled = false,
+    isStatic = false,
+    leftIcon,
+    rightIcon,
+    className,
+    onClick,
+    ...restProps
+  } = props;
   // ===== Derived =====
   const shouldDisable = isDisabled || isLoading;
 
@@ -40,6 +44,7 @@ const BaseButton = ({
       fullWidth: isFullWidth,
       loading: isLoading,
       disabled: shouldDisable,
+      static: isStatic,
       iconOnly: !children && (leftIcon || rightIcon),
     },
     className,
@@ -55,7 +60,6 @@ const BaseButton = ({
     onClick?.(event);
   };
 
-  // ===== Render =====
   return (
     <button
       type={type}
@@ -78,5 +82,4 @@ const BaseButton = ({
   );
 };
 
-// ===== Exports =====
 export default BaseButton;

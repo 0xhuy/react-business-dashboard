@@ -1,5 +1,5 @@
 .wrapper {
-  @apply flex flex-col gap-6 overflow-y-auto px-4 py-2 pb-10 rounded-[32px];
+  @apply flex flex-col gap-6 overflow-y-auto  pb-10;
 
   height: calc(100vh - 110px);
   max-height: calc(100vh - 110px);
@@ -23,9 +23,9 @@
 }
 
 .heroSection {
-  @apply flex items-center justify-between rounded-[28px] border border-slate-100 bg-white px-6 py-6;
+  @apply flex items-center justify-between rounded-[24px] bg-white px-6 py-4;
 
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+  border: 1px solid rgba(148, 163, 184, 0.14);
 }
 
 .title {
@@ -38,9 +38,9 @@
 
 .statCard,
 .panelCard {
-  @apply rounded-[28px] border border-slate-100 bg-white;
+  @apply rounded-[28px] bg-white;
 
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+  border: 1px solid rgba(148, 163, 184, 0.14);
 }
 
 .statCard {
@@ -97,9 +97,9 @@
 }
 
 .tableRow {
-  @apply grid grid-cols-[1fr_auto_auto] items-center gap-4 rounded-[22px] border border-slate-100 bg-white px-4 py-3;
+  @apply grid grid-cols-[1fr_auto_auto] items-center gap-4 rounded-[22px] bg-white px-4 py-3;
 
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.03);
+  border: 1px solid rgba(148, 163, 184, 0.14);
 }
 
 .rowTitle {

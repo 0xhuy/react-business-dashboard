@@ -14,15 +14,24 @@ import {
 import { ProtectedRoute } from "./protected";
 import { PublicRoute } from "./public";
 import { Role } from "@/utils/enum/role.enum";
-
-// ===== Types =====
+import { RoleGuard } from "./role-guard";
 import type { IRouteModel } from "@/utils/interfaces";
 
-const renderRoutes = (routes: IRouteModel[]) =>
+const renderRoutes = (routes: IRouteModel[], allow: Role[]) =>
   routes.map((route, index) => {
     const Page = route.component;
 
-    return <Route key={index} path={route.path} element={<Page />} />;
+    return (
+      <Route
+        key={index}
+        path={route.path}
+        element={
+          <RoleGuard allow={allow}>
+            <Page />
+          </RoleGuard>
+        }
+      />
+    );
   });
 
 export const AppRouter = () => {
@@ -33,26 +42,20 @@ export const AppRouter = () => {
         <Route path="/" element={<Navigate to="/login" />} />
 
         {/* ===== Public routes ===== */}
-        <Route element={<PublicRoute />}>{renderRoutes(publicRoutes)}</Route>
+        <Route element={<PublicRoute />}>
+          {publicRoutes.map((route, index) => {
+            const Page = route.component;
 
-        {/* ===== Admin routes ===== */}
-        <Route element={<ProtectedRoute allow={[Role.ADMIN]} />}>
-          <Route element={<MainLayout />}>
-            {renderRoutes(privateAdminRoutes)}
-          </Route>
+            return <Route key={index} path={route.path} element={<Page />} />;
+          })}
         </Route>
 
-        {/* ===== Staff routes ===== */}
-        <Route element={<ProtectedRoute allow={[Role.STAFF]} />}>
+        {/* ===== Private routes ===== */}
+        <Route element={<ProtectedRoute />}>
           <Route element={<MainLayout />}>
-            {renderRoutes(privateStaffRoutes)}
-          </Route>
-        </Route>
-
-        {/* ===== Viewer routes ===== */}
-        <Route element={<ProtectedRoute allow={[Role.VIEWER]} />}>
-          <Route element={<MainLayout />}>
-            {renderRoutes(privateViewerRoutes)}
+            {renderRoutes(privateAdminRoutes, [Role.ADMIN])}
+            {renderRoutes(privateStaffRoutes, [Role.STAFF])}
+            {renderRoutes(privateViewerRoutes, [Role.VIEWER])}
           </Route>
         </Route>
 

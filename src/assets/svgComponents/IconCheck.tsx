@@ -1,27 +1,30 @@
 // Others
-import { WHITE_OPACITY_50 } from "@/utils/constants/color";
+import { WHITE } from "@/utils/constants/color";
 
 type Props = {
   strokePath?: string;
   width?: number | string;
   height?: number | string;
+  className?: string;
 };
 
-const CommonSidebarIconArrow = (props: Props) => {
-  // ===== Destructuring =====
-  const { strokePath = WHITE_OPACITY_50, width = 24, height = 24 } = props;
+const IconCheck = (props: Props) => {
+  // ===== Props =====
+  const { strokePath = WHITE, width = 16, height = 16, className } = props;
 
   return (
     <svg
       width={width}
       height={height}
-      viewBox="0 0 24 24"
+      viewBox="0 0 14 14"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className={className}
     >
       <path
-        d="M17 9.5L12 14.5L7 9.5"
+        d="M2.5 7.5L5.5 10.5L11.5 4"
         stroke={strokePath}
+        strokeWidth={2.5}
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -29,4 +32,4 @@ const CommonSidebarIconArrow = (props: Props) => {
   );
 };
 
-export default CommonSidebarIconArrow;
+export default IconCheck;

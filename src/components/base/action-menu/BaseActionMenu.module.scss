@@ -1,0 +1,71 @@
+.container {
+  @apply relative inline-flex;
+}
+
+.triggerButton {
+  @apply flex h-9 w-9 items-center justify-center rounded-xl bg-white text-slate-500 outline-none transition-all duration-200;
+
+  border: 1px solid rgba(148, 163, 184, 0.28);
+
+  &:hover {
+    @apply text-indigo-600;
+
+    border-color: rgb(129 140 248);
+    box-shadow: 0 1px 2px rgba(99, 102, 241, 0.08);
+  }
+}
+
+.triggerDots {
+  @apply text-sm font-semibold leading-none;
+}
+
+.panel {
+  @apply z-50 overflow-hidden rounded-2xl bg-white p-2;
+
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.12);
+}
+
+.menuList {
+  @apply flex flex-col;
+}
+
+.menuItem {
+  @apply flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-slate-700 transition-all duration-200;
+
+  &:hover:not(:disabled) {
+    @apply bg-slate-50;
+  }
+
+  &:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+}
+
+.menuItem + .menuItem {
+  @apply mt-1;
+}
+
+.menuIcon {
+  @apply flex h-4 w-4 shrink-0 items-center justify-center;
+}
+
+.menuLabel {
+  @apply flex-1 truncate;
+}
+
+.default {
+  @apply text-slate-700;
+}
+
+.danger {
+  @apply text-rose-600;
+
+  &:hover:not(:disabled) {
+    @apply bg-rose-50 text-rose-700;
+  }
+}
+
+.emptyData {
+  @apply px-3 py-6 text-center text-sm text-slate-400;
+}

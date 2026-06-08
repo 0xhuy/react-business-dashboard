@@ -7,12 +7,12 @@ import { NavLink, useLocation } from "react-router-dom";
 // ===== Types =====
 import type { IRouteModel } from "@/utils/interfaces";
 import { hasActiveChild } from "@/utils/helper";
-import CommonSidebarIconArrow from "@/assets/svgComponents/CommonSidebarIconArrow";
 import { WHITE, WHITE_OPACITY_50 } from "@/utils/constants/color";
 import { ROOT_PATH } from "@/utils/constants/common";
 
-// ===== Styles =====
+// ===== Styles, Images, Icons =====
 import styles from "./MenuItem.module.scss";
+import { IconArrow } from "@/assets";
 
 const cx = classNames.bind(styles);
 
@@ -62,7 +62,7 @@ const MenuItem = ({ menuItem }: Props) => {
             </div>
 
             <span className={cx("dropdownIcon", { open: isOpenDropdown })}>
-              <CommonSidebarIconArrow
+              <IconArrow
                 width={20}
                 height={20}
                 strokePath={isActive ? WHITE : WHITE_OPACITY_50}

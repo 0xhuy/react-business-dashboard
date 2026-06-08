@@ -1,0 +1,113 @@
+.container {
+  @apply flex flex-col;
+}
+
+.label {
+  @apply mb-1.5 block text-xs font-medium leading-5 text-slate-600 md:text-sm;
+}
+
+.viewStar {
+  @apply text-rose-500;
+}
+
+.btnSelect {
+  @apply flex items-center justify-between gap-3 rounded-lg bg-white px-4 text-sm text-slate-900 outline-none transition-all duration-200;
+
+  border: 1px solid rgba(148, 163, 184, 0.28);
+
+  &:focus,
+  &[data-focus] {
+    @apply border-primary shadow-soft;
+  }
+
+  &[data-disabled] {
+    @apply cursor-not-allowed bg-slate-50 text-slate-400;
+  }
+}
+
+.btnPlaceholder {
+  @apply truncate text-sm text-slate-300;
+}
+
+.btnText {
+  @apply truncate text-sm text-slate-900;
+}
+
+.iconArrow {
+  @apply flex items-center justify-center;
+}
+
+.iconActive {
+  transform: rotate(180deg);
+}
+
+.iconArrow,
+.btnSelect img {
+  @apply transition-transform duration-200;
+}
+
+// ============================================================
+// OPTIONS
+// ============================================================
+.optionList {
+  @apply z-50 w-[var(--button-width)] overflow-y-auto rounded-2xl bg-white p-2 [--anchor-max-height:240px];
+
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.12);
+
+  animation: selectReveal 0.18s ease;
+}
+
+.optionList::-webkit-scrollbar {
+  @apply w-1;
+}
+
+.optionList::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-slate-300;
+}
+
+.optionItem {
+  @apply cursor-pointer rounded-lg px-3 py-2 text-sm text-slate-900 transition-all duration-200;
+
+  &:hover {
+    @apply bg-indigo-50 text-indigo-600;
+  }
+}
+
+.optionItem + .optionItem {
+  @apply mt-1;
+}
+
+.optionActive {
+  @apply bg-indigo-500 text-white;
+
+  &:hover {
+    @apply bg-indigo-500 text-white;
+  }
+}
+
+// ============================================================
+// NO DATA
+// ============================================================
+.optionNoData {
+  @apply px-3 py-2 text-sm text-slate-400;
+}
+
+// ============================================================
+// ERROR
+// ============================================================
+.errMessage {
+  @apply mt-1 text-xs text-rose-500;
+}
+
+@keyframes selectReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

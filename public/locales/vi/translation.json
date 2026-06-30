@@ -126,6 +126,7 @@
     "price": "Giá",
     "stock": "Tồn kho",
     "description": "Mô tả",
+    "inventory_value": "Inventory Value",
 
     "placeholder_sku": "Nhập SKU",
     "placeholder_name": "Nhập tên sản phẩm",
@@ -148,6 +149,54 @@
       "description_required": "Vui lòng nhập mô tả"
     }
   },
+  "product_sheet": {
+    "add_row": "Thêm dòng",
+    "import_excel": "Nhập Excel",
+    "insert_row_above": "Chèn dòng phía trên",
+    "insert_link": "Chèn liên kết",
+    "delete_row": "Xóa dòng",
+    "excel_sheet_name": "Sản phẩm",
+
+    "sku": "Mã SKU",
+    "name": "Tên sản phẩm",
+    "category": "Danh mục",
+    "price": "Giá",
+    "stock": "Tồn kho",
+    "description": "Mô tả",
+    "inventory_value": "Giá trị tồn kho",
+
+    "placeholder_sku": "Nhập mã SKU",
+    "placeholder_name": "Nhập tên sản phẩm",
+    "placeholder_category": "Chọn danh mục",
+    "placeholder_price": "Nhập giá",
+    "placeholder_stock": "Nhập số lượng tồn kho",
+    "placeholder_description": "Nhập mô tả",
+    "download_template": "Tải mẫu Excel",
+    "export_excel": "Xuất Excel",
+    "import_replace": "Thay thế dữ liệu hiện tại",
+    "import_append": "Thêm vào dữ liệu hiện có",
+    "view_error_log": "Xem danh sách lỗi",
+    "validation_errors": "Danh sách lỗi",
+    "validation_errors_description": "Vui lòng sửa các lỗi dưới đây trước khi xuất Excel.",
+    "search_previous": "Kết quả trước",
+    "search_next": "Kết quả tiếp theo",
+    "search_no_result": "Không có kết quả",
+    "search_placeholder": "Tìm kiếm sản phẩm...",
+    "columns": {
+      "sku": "SKU",
+      "name": "Tên",
+      "category": "Danh mục",
+      "price": "Giá",
+      "stock": "Tồn kho",
+      "description": "Mô tả",
+      "inventoryValue": "Giá trị tồn kho"
+    },
+    "validation": {
+      "row": "Dòng {{row}} — {{column}}",
+      "duplicate_sku": "SKU bị trùng. Đã tồn tại ở dòng {{row}}."
+    },
+    "error_count": "{{count}} vấn đề"
+  },
   "common": {
     "dropdown": "Biểu tượng xổ xuống",
     "btn_filter": "Lọc",
@@ -159,6 +208,7 @@
     "placeholder_select": "Chọn một tùy chọn",
     "actions": "Thao tác",
     "empty_data": "Không có dữ liệu",
-    "img_text_alt": "Hình ảnh"
+    "img_text_alt": "Hình ảnh",
+    "jump_to_page": "Đi đến trang"
   }
 }

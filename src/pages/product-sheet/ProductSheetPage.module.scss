@@ -1,0 +1,118 @@
+.container {
+  @apply flex h-full w-full flex-col gap-5 overflow-hidden pb-10;
+}
+
+.toolbarCard {
+  @apply rounded-3xl bg-white px-7 py-6;
+
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.toolbarHeader {
+  @apply flex items-center gap-6;
+}
+
+.pageTitle {
+  @apply text-lg font-semibold tracking-tight text-slate-900;
+}
+
+.toolbarActions {
+  @apply flex items-center justify-start gap-3;
+}
+
+.pagination {
+  @apply flex items-center justify-center;
+
+  min-height: 72px;
+}
+
+.paginationText {
+  @apply text-sm font-medium text-slate-500;
+
+  white-space: nowrap;
+}
+
+.actionButton {
+  @apply flex h-10 min-w-28 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 transition-all duration-200;
+
+  &:hover {
+    @apply border-indigo-500 text-indigo-600;
+  }
+}
+
+.addButton {
+  @apply flex h-10 min-h-10 shrink-0 items-center justify-center rounded-xl px-5 text-sm font-medium;
+}
+
+.saveButton {
+  @apply flex h-10 min-h-10 shrink-0 items-center justify-center rounded-xl px-5 text-sm font-medium min-w-24;
+}
+
+.quantityInput {
+  @apply w-24;
+}
+
+.fileInput {
+  @apply hidden;
+}
+
+.body {
+  @apply flex min-h-0 flex-1 flex-col overflow-hidden rounded-3xl bg-white;
+
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.bodyScroll {
+  @apply h-full w-full overflow-auto;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.section {
+  @apply flex h-full min-w-max flex-col;
+}
+
+.sectionFooter {
+  @apply mt-auto flex min-h-[72px] justify-center;
+}
+
+.validationModalDescription {
+  @apply mb-3 text-sm leading-6 text-slate-600;
+}
+
+.validationErrorList {
+  @apply flex max-h-96 flex-col gap-2 overflow-y-auto;
+}
+
+.validationErrorItem {
+  @apply w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-left transition-colors;
+
+  &:hover {
+    @apply border-indigo-300 bg-indigo-50;
+  }
+}
+
+.validationErrorMessage {
+  @apply block break-words text-sm leading-6 text-slate-700;
+}
+
+.headerErrorButton {
+  @apply flex h-10 w-28 shrink-0 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-xl border px-4 text-sm font-semibold transition-colors;
+}
+
+.headerErrorButtonActive {
+  @apply border-red-200 bg-red-50 text-red-600;
+
+  &:hover:not(:disabled) {
+    @apply border-red-300 bg-red-100 text-red-700;
+  }
+}
+
+.headerErrorButtonInactive {
+  @apply cursor-default border-slate-200 bg-slate-50 text-slate-400;
+}

@@ -17,6 +17,7 @@ import {
 import type { ColumnType } from "@/utils/interfaces";
 import { InputTypeEnum } from "@/utils/enum/input.enum";
 import { KeyTableEnum } from "@/utils/enum";
+import { getCurrencyFormatter } from "@/utils/helper";
 
 import ProductFormModal from "./components/ProductFormModal/ProductFormModal";
 import type { ProductFormValues } from "./components/ProductFormModal/types";
@@ -92,10 +93,11 @@ const DEFAULT_PRODUCT_FILTER_VALUES: ProductFilterValues = {
 };
 
 const ProductsPage = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const productCurrencyFormatter = getCurrencyFormatter(i18n.language);
 
   // ===== State =====
-  const [isOpenProductModal, setIsOpenProductModal] = useState(false);
+  const [isOpenProductModal, setIsOpenProductModal] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductRow>();
 
   // ===== Handlers =====
@@ -125,37 +127,43 @@ const ProductsPage = () => {
 
   const PRODUCT_COLUMNS: ColumnType<ProductRow>[] = [
     {
-      title: "SKU",
+      title: t("products.sku"),
       dataIndex: "sku",
       key: "sku",
     },
     {
-      title: "Name",
+      title: t("products.name"),
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Category",
+      title: t("products.category"),
       dataIndex: "category",
       key: "category",
     },
     {
-      title: "Price",
+      title: t("products.price"),
       dataIndex: "price",
       key: "price",
     },
     {
-      title: "Stock",
+      title: t("products.stock"),
       dataIndex: "stock",
       key: "stock",
     },
     {
-      title: "Description",
+      title: t("products.inventory_value"),
+      key: "inventoryValue",
+      render: (_, record) =>
+        productCurrencyFormatter.format(record.price * record.stock),
+    },
+    {
+      title: t("products.description"),
       dataIndex: "description",
       key: "description",
     },
     {
-      title: "Actions",
+      title: t("common.actions"),
       key: KeyTableEnum.ACTION,
       render: (_, record) => (
         <div className={cx("tableActions")}>

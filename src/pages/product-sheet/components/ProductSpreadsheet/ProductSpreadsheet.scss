@@ -1,0 +1,162 @@
+.reactgrid {
+  @apply h-full;
+}
+
+.reactgrid-content {
+  @apply text-sm text-slate-700;
+}
+
+// ============================================================
+// CELLS
+// ============================================================
+.reactgrid-content {
+  @apply text-sm text-slate-700;
+
+  border-radius: 24px 24px 0 0;
+  overflow: hidden;
+}
+
+.reactgrid-content .rg-pane .rg-cell {
+  @apply flex items-center bg-white px-3 text-sm font-medium text-slate-700;
+
+  border-right: 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.reactgrid-content .rg-pane .rg-cell.rg-cell-nonEditable {
+  @apply flex items-center bg-white px-3 text-sm font-medium text-slate-700;
+
+  border-right: 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.reactgrid-content .rg-pane .rg-cell[class*="indexCell"],
+.reactgrid-content .rg-pane .rg-cell[class*="indexCell"].rg-cell-nonEditable {
+  @apply justify-center px-0 text-xs font-medium text-slate-700;
+
+  text-align: center;
+}
+
+.reactgrid-content .rg-pane .rg-cell[class*="indexCell"] > div,
+.reactgrid-content .rg-pane .rg-cell[class*="indexCell"] .rg-number-cell,
+.reactgrid-content .rg-pane .rg-cell[class*="indexCell"] .rg-text-cell {
+  @apply w-full;
+
+  text-align: center;
+}
+
+.reactgrid-content .rg-pane .rg-cell-focus {
+  @apply border-primary;
+
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+// ============================================================
+// HEADER
+// ============================================================
+.reactgrid-content .rg-pane .rg-cell.rg-header-cell,
+.reactgrid-content .rg-pane .rg-cell.rg-header-cell.rg-cell-nonEditable {
+  @apply flex items-center bg-slate-50 px-3 text-xs font-semibold uppercase tracking-[0.04em] text-slate-500;
+  background-color: #f8fafc !important;
+  border-right: 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+.reactgrid-content .rg-pane .rg-row:first-child .rg-cell,
+.reactgrid-content .rg-pane .rg-row:first-child .rg-cell.rg-cell-nonEditable {
+  @apply flex items-center bg-slate-50 px-3 text-xs font-semibold uppercase tracking-[0.04em] text-slate-500;
+  background-color: #f8fafc !important;
+  border-right: 0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+// ============================================================
+// SELECTION
+// ============================================================
+.reactgrid-content .rg-pane .rg-partial-area.rg-partial-area-selected-range {
+  @apply border-primary;
+
+  background: rgba(99, 102, 241, 0.08);
+}
+
+// ============================================================
+// DROPDOWN
+// ============================================================
+.reactgrid-content .rg-pane .rg-cell.rg-dropdown-cell .rg-dropdown-menu {
+  @apply rounded-xl border border-slate-200 bg-white p-2 shadow-lg;
+
+  width: auto;
+  min-width: 100%;
+  max-width: 800px;
+}
+
+.reactgrid-content .rg-pane .rg-cell.rg-dropdown-cell .rg-dropdown-option {
+  @apply rounded-lg px-3 py-2 text-sm text-slate-700 transition-all duration-200;
+}
+
+.reactgrid-content
+  .rg-pane
+  .rg-cell.rg-dropdown-cell
+  .rg-dropdown-option.focused {
+  @apply bg-indigo-50 text-indigo-600;
+}
+
+.reactgrid-content
+  .rg-pane
+  .rg-cell.rg-dropdown-cell
+  .rg-dropdown-option.selected {
+  @apply font-semibold text-indigo-600;
+}
+
+.reactgrid-content
+  .rg-pane
+  .rg-cell.rg-dropdown-cell
+  .rg-dropdown-option.selected::before {
+  content: "";
+  padding: 0;
+}
+
+// ============================================================
+// CONTEXT MENU
+// ============================================================
+.reactgrid-content .rg-context-menu {
+  @apply rounded-xl border border-slate-200 bg-white p-2 shadow-lg;
+}
+
+.reactgrid-content .rg-context-menu-option {
+  @apply rounded-lg px-3 py-2 text-sm text-slate-700 transition-all duration-200;
+}
+
+.reactgrid-content .rg-context-menu-option:hover {
+  @apply bg-indigo-50 text-indigo-600;
+}
+
+// ============================================================
+// REACT SELECT OVERRIDES
+// ============================================================
+.css-qgckm3-indicatorSeparator {
+  background-color: transparent !important;
+}
+
+.reactgrid-content .rg-context-menu[style*="visibility: hidden"] {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+// ============================================================
+// ROW HIGHLIGHT
+// ============================================================
+.reactgrid-content .rg-pane .rg-cell[class*="searchMatchedCell"],
+.reactgrid-content
+  .rg-pane
+  .rg-cell[class*="searchMatchedCell"].rg-cell-nonEditable {
+  background-color: #fef9c3 !important;
+}
+
+.reactgrid-content .rg-pane .rg-cell[class*="errorMatchedCell"],
+.reactgrid-content
+  .rg-pane
+  .rg-cell[class*="errorMatchedCell"].rg-cell-nonEditable {
+  background-color: #fee2e2 !important;
+}

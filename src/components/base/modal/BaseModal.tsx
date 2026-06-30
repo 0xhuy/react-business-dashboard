@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { IconClose } from "@/assets/svgComponents";
 
 // ===== Others =====
-import { EMPTY_STRING } from "@/utils/constants";
+import { DEFAULT_MODAL_WIDTH, EMPTY_STRING } from "@/utils/constants";
 import type { BaseModalProps } from "./types";
 
 // ===== Styles, Images, Icons =====
@@ -20,7 +20,7 @@ const BaseModal = (props: BaseModalProps) => {
     title,
     children,
     footer,
-    width,
+    width = DEFAULT_MODAL_WIDTH,
     isLoading = false,
     isCloseOnOverlay = false,
     isShowCloseButton = true,
@@ -77,9 +77,9 @@ const BaseModal = (props: BaseModalProps) => {
       >
         <div className={cx("header")}>
           {title && (
-            <h2 id="base-modal-title" className={cx("title")}>
+            <p id="base-modal-title" className={cx("title")}>
               {title}
-            </h2>
+            </p>
           )}
 
           {isShowCloseButton && (

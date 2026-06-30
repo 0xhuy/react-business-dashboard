@@ -1,0 +1,27 @@
+.container {
+  @apply ml-auto flex min-w-[420px] items-center gap-3;
+}
+
+.searchInput {
+  @apply w-80;
+}
+
+.searchResultWrap {
+  @apply flex shrink-0 items-center gap-1;
+}
+
+.searchResultText {
+  @apply min-w-20 whitespace-nowrap text-center text-sm font-medium text-slate-500;
+}
+
+.searchNavButton {
+  @apply flex size-8 items-center justify-center rounded-lg border border-slate-200 bg-white text-sm font-semibold text-slate-600 transition-colors;
+
+  &:hover:not(:disabled) {
+    @apply border-indigo-500 text-indigo-600;
+  }
+
+  &:disabled {
+    @apply cursor-not-allowed opacity-40;
+  }
+}

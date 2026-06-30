@@ -1,0 +1,17 @@
+.container {
+  @apply w-full;
+}
+
+.indexCell {
+  @apply justify-center text-sm font-medium text-slate-700;
+
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.readonlyCell {
+  @apply bg-stone-50 text-slate-700 !important;
+}
+
+.tooltip {
+  @apply max-w-[320px] whitespace-normal break-words z-[9999];
+}

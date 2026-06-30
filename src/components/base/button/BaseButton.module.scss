@@ -66,27 +66,38 @@
 }
 
 .secondary {
-  @apply text-white bg-slate-700;
+  @apply border border-slate-200 bg-white text-slate-700;
 
   &:hover:not(:disabled) {
-    @apply bg-slate-800;
+    @apply border-indigo-500 bg-white text-indigo-600;
+  }
+
+  &:active:not(:disabled) {
+    @apply border-indigo-600 bg-slate-50;
   }
 }
 
 .outline {
-  @apply border border-slate-300
-         bg-white text-slate-700;
+  @apply border border-primary bg-transparent text-primary;
 
   &:hover:not(:disabled) {
-    @apply border-primary-light bg-indigo-50 text-primary;
+    @apply bg-primary text-white;
+  }
+
+  &:active:not(:disabled) {
+    filter: brightness(0.95);
   }
 }
 
 .ghost {
-  @apply bg-transparent text-slate-600;
+  @apply bg-transparent text-slate-700;
 
   &:hover:not(:disabled) {
-    @apply bg-slate-100 text-slate-800;
+    @apply bg-slate-100;
+  }
+
+  &:active:not(:disabled) {
+    @apply bg-slate-200;
   }
 }
 
@@ -94,7 +105,11 @@
   @apply bg-red-500 text-white;
 
   &:hover:not(:disabled) {
-    @apply bg-red-600;
+    @apply bg-red-600 text-white;
+  }
+
+  &:active:not(:disabled) {
+    @apply bg-red-700;
   }
 }
 
@@ -155,16 +170,4 @@
   transform: none !important;
   filter: none !important;
   box-shadow: none !important;
-
-  // &::before {
-  //   display: none;
-  // }
-
-  // &:hover,
-  // &:active {
-  //   transform: none !important;
-  //   transition: none !important;
-  //   filter: none !important;
-  //   box-shadow: none !important;
-  // }
 }

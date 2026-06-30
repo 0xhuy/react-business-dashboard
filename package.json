@@ -13,6 +13,7 @@
     "@headlessui/react": "^2.2.10",
     "@hookform/resolvers": "^5.2.2",
     "@reduxjs/toolkit": "^2.12.0",
+    "@silevis/reactgrid": "^4.1.12",
     "@supabase/supabase-js": "^2.105.4",
     "classnames": "^2.5.1",
     "i18next": "^26.0.4",
@@ -24,7 +25,9 @@
     "react-i18next": "^17.0.2",
     "react-redux": "^9.3.0",
     "react-router-dom": "^7.13.2",
+    "react-tooltip": "^6.0.8",
     "vite-plugin-svgr": "^5.2.0",
+    "xlsx": "^0.18.5",
     "zod": "^4.4.3"
   },
   "devDependencies": {

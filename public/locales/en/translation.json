@@ -126,6 +126,7 @@
     "price": "Price",
     "stock": "Stock",
     "description": "Description",
+    "inventory_value": "Inventory Value",
 
     "placeholder_sku": "Enter SKU",
     "placeholder_name": "Enter product name",
@@ -148,6 +149,54 @@
       "description_required": "Description is required"
     }
   },
+  "product_sheet": {
+    "add_row": "Add Row",
+    "import_excel": "Import Excel",
+    "insert_row_above": "Insert Row Above",
+    "insert_link": "Insert Link",
+    "delete_row": "Delete Row",
+    "excel_sheet_name": "Products",
+
+    "sku": "SKU",
+    "name": "Name",
+    "category": "Category",
+    "price": "Price",
+    "stock": "Stock",
+    "description": "Description",
+    "inventory_value": "Inventory Value",
+
+    "placeholder_sku": "Enter SKU",
+    "placeholder_name": "Enter product name",
+    "placeholder_category": "Select category",
+    "placeholder_price": "Enter price",
+    "placeholder_stock": "Enter stock quantity",
+    "placeholder_description": "Enter description",
+    "download_template": "Download Template",
+    "export_excel": "Export Excel",
+    "import_replace": "Replace current data",
+    "import_append": "Append to existing data",
+    "view_error_log": "View Error Log",
+    "validation_errors": "Validation Errors",
+    "validation_errors_description": "Please fix the following validation errors before exporting.",
+    "columns": {
+      "sku": "SKU",
+      "name": "Name",
+      "category": "Category",
+      "price": "Price",
+      "stock": "Stock",
+      "description": "Description",
+      "inventoryValue": "Inventory Value"
+    },
+    "validation": {
+      "row": "Row {{row}} — {{column}}",
+      "duplicate_sku": "Duplicate SKU. Already used at row {{row}}."
+    },
+    "search_previous": "Previous result",
+    "search_next": "Next result",
+    "search_no_result": "No result",
+    "search_placeholder": "Search products...",
+    "error_count": "{{count}} Issues"
+  },
   "common": {
     "dropdown": "Dropdown icon",
     "btn_filter": "Filter",
@@ -159,6 +208,7 @@
     "actions": "Actions",
     "placeholder_select": "Select an option",
     "empty_data": "No data available",
-    "img_text_alt": "Image"
+    "img_text_alt": "Image",
+    "jump_to_page": "Go to page"
   }
 }

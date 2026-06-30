@@ -54,3 +54,34 @@
 .rightChevronIcon {
   transform: rotate(-90deg);
 }
+
+.jumpForm {
+  @apply flex h-9 items-center;
+}
+
+.jumpInput {
+  @apply h-9 min-w-9 rounded-xl bg-transparent px-2 text-center text-sm font-medium text-slate-400 outline-none transition-all duration-200;
+
+  box-sizing: border-box;
+  width: auto;
+  field-sizing: content;
+
+  border: 1px solid transparent;
+
+  &:hover {
+    @apply text-slate-600;
+  }
+
+  &:focus {
+    @apply rounded-xl bg-white text-slate-700;
+
+    border-color: rgb(99 102 241);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+  }
+}
+
+.jumpInput::placeholder {
+  @apply text-slate-300;
+
+  opacity: 1;
+}

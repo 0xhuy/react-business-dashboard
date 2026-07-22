@@ -6,6 +6,7 @@ import {
   ProductsPage,
   ProductSheetPage,
   OrdersPage,
+  OrderDetailPage,
   UsersPage,
   SettingsPage,
 } from "@/pages";
@@ -57,6 +58,13 @@ const privateAdminRouteMenus: IRouteModel[] = [
     name: "sidebar.orders",
     icon: icons.iconOrderInactive,
     iconActive: icons.iconOrderActive,
+    children: [
+      {
+        path: adminRouteAbsolute.orderDetail,
+        component: OrderDetailPage,
+        hidden: true,
+      },
+    ],
   },
   {
     path: adminRouteAbsolute.users,
@@ -101,6 +109,10 @@ export const privateAdminRoutes: IRouteModel[] = [
   {
     path: adminRouteAbsolute.orders,
     component: OrdersPage,
+  },
+  {
+    path: adminRouteAbsolute.orderDetail,
+    component: OrderDetailPage,
   },
   {
     path: adminRouteAbsolute.users,
@@ -148,6 +160,13 @@ const privateStaffRouteMenus: IRouteModel[] = [
     name: "sidebar.orders",
     icon: icons.iconOrderInactive,
     iconActive: icons.iconOrderActive,
+    children: [
+      {
+        path: adminRouteAbsolute.orderDetail,
+        component: OrderDetailPage,
+        hidden: true,
+      },
+    ],
   },
 ];
 
@@ -178,6 +197,10 @@ export const privateStaffRoutes: IRouteModel[] = [
   {
     path: staffRouteAbsolute.orders,
     component: OrdersPage,
+  },
+  {
+    path: staffRouteAbsolute.orderDetail,
+    component: OrderDetailPage,
   },
 ];
 

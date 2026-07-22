@@ -1,4 +1,5 @@
 // ===== Others =====
+import { matchPath } from "react-router-dom";
 import {
   LanguageCurrencyEnum,
   LanguageEnum,
@@ -35,13 +36,21 @@ export const hasActiveChild = (
   route: IRouteModel,
   locationPathname: string,
 ): boolean => {
+  const isCurrentRoute = Boolean(
+    matchPath(
+      {
+        path: route.path,
+        end: route.index ?? !route.children?.length,
+      },
+      locationPathname,
+    ),
+  );
+
   return (
-    route.children?.some(
-      (child) =>
-        child.path === locationPathname ||
-        isNestedRoute(child.path, locationPathname) ||
-        hasActiveChild(child, locationPathname),
-    ) || route.path === locationPathname
+    isCurrentRoute ||
+    Boolean(
+      route.children?.some((child) => hasActiveChild(child, locationPathname)),
+    )
   );
 };
 

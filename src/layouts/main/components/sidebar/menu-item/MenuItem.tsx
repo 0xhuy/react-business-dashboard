@@ -30,7 +30,8 @@ const MenuItem = ({ menuItem }: Props) => {
   const location = useLocation();
 
   // ===== Derived =====
-  const isSubmenu = Boolean(children?.length);
+  const visibleChildren = children?.filter((child) => !child.hidden);
+  const isSubmenu = Boolean(visibleChildren?.length);
   const isActive = hasActiveChild(menuItem, location.pathname);
   const currentIcon = isActive ? iconActive || icon : icon;
 
@@ -61,7 +62,11 @@ const MenuItem = ({ menuItem }: Props) => {
               <span className={cx("menuText")}>{t(name)}</span>
             </div>
 
-            <span className={cx("dropdownIcon", { open: isOpenDropdown })}>
+            <span
+              className={cx("dropdownIcon", {
+                open: isOpenDropdown,
+              })}
+            >
               <IconArrow
                 width={20}
                 height={20}
@@ -72,7 +77,7 @@ const MenuItem = ({ menuItem }: Props) => {
 
           {isOpenDropdown && (
             <div className={cx("submenuContainer")}>
-              {children?.map((submenuItem) => {
+              {visibleChildren?.map((submenuItem) => {
                 if (!submenuItem.name) return null;
 
                 return (
@@ -100,7 +105,9 @@ const MenuItem = ({ menuItem }: Props) => {
         <NavLink
           to={path}
           end={index || path === ROOT_PATH}
-          className={cx("menuItem", { active: isActive })}
+          className={cx("menuItem", {
+            active: isActive,
+          })}
         >
           <div className={cx("labelGroup")}>
             {currentIcon && (

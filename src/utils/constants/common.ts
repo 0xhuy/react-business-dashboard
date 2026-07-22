@@ -9,6 +9,7 @@ export const MAX_HEIGHT_PERCENT = "100%";
 export const DOLLAR_SYMBOL = "$";
 export const MAX_ROW_QUANTITY = 200;
 export const PLUS_SYMBOL = "+";
+export const DEFAULT_CURRENCY = "USD";
 
 // ============================================================
 // NUMBERS

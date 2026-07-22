@@ -35,9 +35,11 @@ const BaseFilter = <T extends object>(props: BaseFilterProps<T>) => {
     children,
     widthBtn = DEFAULT_FILTER_WIDTH_BTN,
     heightBtn = MAX_HEIGHT_PERCENT,
+    widthPanel,
     valueFilter,
     defaultValue,
     onApply,
+    isApplyDisabled,
   } = props;
 
   const initialFilterValue = valueFilter || defaultValue;
@@ -57,8 +59,12 @@ const BaseFilter = <T extends object>(props: BaseFilterProps<T>) => {
 
   // ===== Memos =====
   const isDisableApply = useMemo(() => {
-    return JSON.stringify(tempValueFilter) === JSON.stringify(rootValueFilter);
-  }, [tempValueFilter, rootValueFilter]);
+    const isUnchanged =
+      JSON.stringify(tempValueFilter) === JSON.stringify(rootValueFilter);
+    const isInvalid = isApplyDisabled?.(tempValueFilter, tempIsChecked);
+
+    return isUnchanged || !!isInvalid;
+  }, [isApplyDisabled, rootValueFilter, tempIsChecked, tempValueFilter]);
 
   // ===== Handlers =====
   const handleApply = (close: () => void) => {
@@ -124,6 +130,7 @@ const BaseFilter = <T extends object>(props: BaseFilterProps<T>) => {
               transition
               anchor={{ to: "bottom end", gap: "12px" }}
               className={cx("filterPanel")}
+              style={{ width: widthPanel }}
             >
               <h3 className={cx("panelTitle")}>{t("common.btn_filter")}</h3>
 
@@ -136,7 +143,7 @@ const BaseFilter = <T extends object>(props: BaseFilterProps<T>) => {
                 })}
               </div>
 
-              <div className={cx("panelActions")}>
+              <div className={cx("panelActions")}> 
                 <BaseButton
                   variant="outline"
                   isStatic

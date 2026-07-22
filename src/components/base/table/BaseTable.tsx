@@ -1,20 +1,24 @@
 // ===== Libs =====
 import classNames from "classnames/bind";
-import { useTranslation } from "react-i18next";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Tooltip } from "react-tooltip";
 
 // ===== Others =====
 import {
   DEFAULT_NUMBER_ZERO,
   MAX_COL_NUMBER,
+  MAX_WIDTH_PERCENT,
   MIN_WIDTH_NUMBER,
   PIXELS,
-  MAX_WIDTH_PERCENT,
 } from "@/utils/constants";
 import { KeyTableEnum } from "@/utils/enum";
 import type { BaseTableProps } from "./type";
 
-// ===== Styles, images, icons =====
+// ===== Components =====
+import OverflowTooltip from "./component/OverflowTooltip";
+
+// ===== Styles =====
 import styles from "./BaseTable.module.scss";
 
 const cx = classNames.bind(styles);
@@ -29,9 +33,9 @@ const BaseTable = <T extends Record<string, unknown>>(
   const { t } = useTranslation();
 
   // ===== Derived =====
-  const minWidth = useMemo(() => {
-    return columns?.length > MAX_COL_NUMBER
-      ? `${columns?.length * MIN_WIDTH_NUMBER}${PIXELS}`
+  const tableWidth = useMemo(() => {
+    return columns.length > MAX_COL_NUMBER
+      ? `${columns.length * MIN_WIDTH_NUMBER}${PIXELS}`
       : MAX_WIDTH_PERCENT;
   }, [columns]);
 
@@ -41,62 +45,94 @@ const BaseTable = <T extends Record<string, unknown>>(
   };
 
   return (
-    <div
-      id="baseTableComponent"
-      className={cx("baseTableComponent", typeStyle)}
-    >
-      <table style={{ minWidth }} className={cx("tableContainer", typeStyle)}>
-        <thead className={cx("thead", typeStyle)}>
-          <tr>
-            {columns.map((column) => (
-              <th className={cx("colTable", typeStyle)} key={column.key}>
-                {column.title && column.title}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody className={cx("tbody", typeStyle)}>
-          {dataSource.length > DEFAULT_NUMBER_ZERO ? (
-            dataSource.map((record, rowIndex) => (
-              <tr
-                key={rowIndex}
-                className={cx("rowTableBody", { rowClickable: onClickRow })}
-              >
-                {columns.map((column) => (
-                  <td
-                    key={column.key}
-                    style={{ maxWidth: column.width, width: column.width }}
-                    className={cx("colTableBody", typeStyle)}
-                    onClick={() =>
-                      column.key !== KeyTableEnum.ACTION &&
-                      handleClickRow(record)
-                    }
-                  >
-                    <div className={cx("cellContainer")}>
-                      {column.render
-                        ? column.render(
-                            record[column.dataIndex!],
-                            record,
-                            rowIndex,
-                          )
-                        : (record[column.dataIndex!] as React.ReactNode)}
-                    </div>
-                  </td>
-                ))}
-              </tr>
-            ))
-          ) : (
-            <tr className={cx("emptyRow")}>
-              <td colSpan={columns.length} className={cx("noDataAvailable")}>
-                <div className={cx("emptyContent")}>
-                  {t("common.empty_data")}
-                </div>
-              </td>
+    <>
+      <div
+        id="baseTableComponent"
+        className={cx("baseTableComponent", typeStyle)}
+      >
+        <table
+          style={{
+            width: tableWidth,
+            tableLayout: "fixed",
+          }}
+          className={cx("tableContainer", typeStyle)}
+        >
+          <thead className={cx("thead", typeStyle)}>
+            <tr>
+              {columns.map((column) => (
+                <th
+                  key={column.key}
+                  style={{
+                    width: column.width,
+                    maxWidth: column.width,
+                  }}
+                  className={cx("colTable", typeStyle)}
+                >
+                  {column.title}
+                </th>
+              ))}
             </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+
+          <tbody className={cx("tbody", typeStyle)}>
+            {dataSource.length > DEFAULT_NUMBER_ZERO ? (
+              dataSource.map((record, rowIndex) => (
+                <tr
+                  key={rowIndex}
+                  className={cx("rowTableBody", {
+                    rowClickable: onClickRow,
+                  })}
+                >
+                  {columns.map((column) => {
+                    const cellContent = column.render
+                      ? column.render(
+                          record[column.dataIndex!],
+                          record,
+                          rowIndex,
+                        )
+                      : (record[column.dataIndex!] as React.ReactNode);
+
+                    return (
+                      <td
+                        key={column.key}
+                        style={{
+                          maxWidth: column.width,
+                          width: column.width,
+                        }}
+                        className={cx("colTableBody", typeStyle)}
+                        onClick={() =>
+                          column.key !== KeyTableEnum.ACTION &&
+                          handleClickRow(record)
+                        }
+                      >
+                        <div className={cx("cellContainer")}>
+                          {column.tooltip ? (
+                            <OverflowTooltip>{cellContent}</OverflowTooltip>
+                          ) : (
+                            cellContent
+                          )}
+                        </div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))
+            ) : (
+              <tr className={cx("emptyRow")}>
+                <td colSpan={columns.length} className={cx("noDataAvailable")}>
+                  <div className={cx("emptyContent")}>
+                    {t("common.empty_data")}
+                  </div>
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      <Tooltip id="base-table-tooltip" place="top" className={cx("tooltip")} />
+    </>
   );
 };
+
 export default BaseTable;

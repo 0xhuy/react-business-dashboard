@@ -84,8 +84,8 @@
   "sidebar": {
     "dashboard": "Dashboard",
     "products": "Products",
-    "product_list": "Product List",
-    "product_sheet": "Product Sheet",
+    "product_list": "Table View",
+    "product_sheet": "Spreadsheet View",
     "orders": "Purchase Orders",
     "users": "Users",
     "settings": "Settings"
@@ -197,6 +197,45 @@
     "search_placeholder": "Search products...",
     "error_count": "{{count}} Issues"
   },
+  "orders": {
+    "title": "Purchase Orders",
+    "search_placeholder": "Search purchase order...",
+    "add_order": "Add PO",
+    "edit_order": "Edit Purchase Order",
+    "add_purchase_order": "Add Purchase Order",
+    "order_information": "Order Information",
+    "select_order_date": "Select order date",
+    "select_status": "Select status",
+    "placeholder_note": "Enter purchase order note",
+    "product_list": "Product List",
+    "product_list_description": "Products included in this purchase order.",
+    "add_product": "+ Add Product",
+    "product": "Product",
+    "quantity": "Quantity",
+    "unit_price": "Unit Price",
+    "total": "Total",
+    "select_product": "Select product",
+    "quantity_placeholder": "Qty",
+    "unit_price_placeholder": "Unit price",
+
+    "po_number": "PO Number",
+    "order_date": "Order Date",
+    "status": "Status",
+    "note": "Note",
+
+    "total_items": "Total Items",
+    "total_quantity": "Total Quantity",
+    "total_amount": "Total Amount",
+
+    "from_date": "From",
+    "to_date": "To",
+
+    "invalid_date_range": "End date must be on or after start date.",
+
+    "status_pending": "Pending",
+    "status_received": "Received",
+    "status_cancelled": "Cancelled"
+  },
   "common": {
     "dropdown": "Dropdown icon",
     "btn_filter": "Filter",
@@ -205,6 +244,9 @@
     "btn_apply": "Apply",
     "btn_edit": "Edit",
     "btn_delete": "Delete",
+    "btn_view": "View",
+    "confirm_delete": "Delete",
+    "delete_description": "Are you sure you want to delete <0>{{value}}</0>? This action cannot be undone.",
     "actions": "Actions",
     "placeholder_select": "Select an option",
     "empty_data": "No data available",

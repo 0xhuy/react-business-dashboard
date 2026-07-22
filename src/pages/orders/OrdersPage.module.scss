@@ -1,0 +1,110 @@
+.wrapper {
+  @apply flex h-full flex-col gap-5 pb-10 overflow-hidden;
+}
+
+.toolbarCard {
+  @apply rounded-3xl bg-white px-7 py-6;
+
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.toolbarHeader {
+  @apply flex items-center justify-between gap-4;
+}
+
+.pageTitle {
+  @apply text-lg font-semibold tracking-tight text-slate-900;
+}
+
+.toolbarActions {
+  @apply flex flex-1 items-center justify-end gap-3;
+}
+
+.searchInput {
+  @apply flex-1;
+
+  min-width: 320px;
+  max-width: 560px;
+}
+
+.selectFilter {
+  @apply h-10 min-w-[140px] rounded-xl border border-slate-200 px-4 text-sm outline-none transition-all;
+
+  &:focus {
+    @apply border-indigo-500;
+  }
+}
+
+.addButton {
+  @apply h-10 text-sm font-medium;
+}
+
+.filterContainer {
+  @apply flex w-full min-w-0 flex-col gap-4 overflow-hidden;
+}
+
+.filterGroup {
+  @apply grid min-h-10 w-full min-w-0 items-start gap-4;
+
+  grid-template-columns: 140px minmax(0, 1fr);
+}
+
+.contentFilterWrap {
+  @apply flex h-10 min-w-0 items-center;
+}
+
+.dateRangeFilterWrap {
+  @apply flex min-w-0 flex-col gap-3;
+}
+
+.dateField {
+  @apply grid min-w-0 items-center gap-3;
+
+  grid-template-columns: 48px minmax(0, 1fr);
+
+  span {
+    @apply text-sm font-medium text-slate-500;
+  }
+
+  > div {
+    @apply min-w-0;
+  }
+}
+
+.table {
+  @apply flex-1 overflow-hidden z-0;
+}
+
+.tableActions {
+  @apply flex items-center justify-center;
+}
+
+.status {
+  @apply inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-medium;
+}
+
+.statusPending {
+  @apply bg-amber-100 text-amber-700;
+}
+
+.statusReceived {
+  @apply bg-emerald-100 text-emerald-700;
+}
+
+.statusCancelled {
+  @apply bg-rose-100 text-rose-700;
+}
+
+.noteCell {
+  @apply block w-full min-w-0 overflow-hidden text-ellipsis whitespace-nowrap;
+}
+
+@media (max-width: 1024px) {
+  .toolbarActions {
+    @apply flex-wrap;
+  }
+
+  .searchInput {
+    min-width: 100%;
+  }
+}

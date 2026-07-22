@@ -19,4 +19,9 @@ export type BaseFilterProps<T> = {
   defaultValue: T;
   children: (actions: BaseFilterChildrenActions<T>) => ReactNode;
   onApply?: (appliedFilter: T) => void;
+  widthPanel?: number | string;
+  isApplyDisabled?: (
+    valueFilter: T,
+    isChecked: { [K in keyof T]?: boolean },
+  ) => boolean;
 };

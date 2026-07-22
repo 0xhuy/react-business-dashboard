@@ -7,7 +7,7 @@ export type BaseSelectProps = {
   label?: string;
   placeholder?: string;
   errorMessage?: string;
-  options: IBaseOption[];
+  options: readonly IBaseOption[];
   name?: string;
   value?: string;
   disabled?: boolean;

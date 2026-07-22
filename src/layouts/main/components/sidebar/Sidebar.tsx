@@ -54,7 +54,7 @@ const Sidebar = () => {
           alt={t("auth.login.logo_alt")}
         />
 
-        <h2 className={cx("logoText")}>{t("auth.app_name")}</h2>
+        <p className={cx("logoText")}>{t("auth.app_name")}</p>
       </div>
 
       <nav className={cx("menu")}>

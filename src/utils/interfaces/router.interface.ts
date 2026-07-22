@@ -6,4 +6,5 @@ export interface IRouteModel {
   name?: string;
   icon?: string;
   iconActive?: string;
+  hidden?: boolean;
 }

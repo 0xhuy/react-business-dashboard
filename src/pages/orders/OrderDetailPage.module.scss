@@ -1,0 +1,202 @@
+.wrapper {
+  @apply flex h-full flex-col gap-5 overflow-hidden pb-10;
+}
+
+.status {
+  @apply inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-medium;
+}
+
+.statusPending {
+  @apply bg-amber-100 text-amber-700;
+}
+
+.statusReceived {
+  @apply bg-emerald-100 text-emerald-700;
+}
+
+.statusCancelled {
+  @apply bg-rose-100 text-rose-700;
+}
+
+.detailHeaderCard {
+  @apply rounded-3xl bg-white px-7 py-6;
+
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.detailHeaderTop {
+  @apply flex items-start justify-between gap-5;
+}
+
+.backButton {
+  @apply flex flex-row justify-center items-center gap-1 text-sm font-medium text-slate-500 transition-colors;
+
+  &:hover {
+    @apply text-indigo-600;
+  }
+}
+
+.leftChevronIcon,
+.rightChevronIcon {
+  @apply flex items-center justify-center;
+}
+
+.leftChevronIcon {
+  transform: rotate(90deg);
+}
+
+.deleteButton {
+  @apply border-rose-200 text-rose-600;
+
+  &:hover {
+    @apply border-rose-500 bg-rose-50 text-rose-700;
+  }
+}
+
+.detailTitleWrap {
+  @apply flex items-center gap-3;
+}
+
+.detailTitle {
+  @apply text-3xl font-bold tracking-tight text-slate-950;
+}
+
+.detailActions {
+  @apply flex items-center gap-3;
+}
+
+.detailSummaryGrid {
+  @apply mt-6 grid grid-cols-4 gap-4;
+}
+
+.detailSummaryItem {
+  @apply rounded-2xl bg-slate-50 p-4;
+
+  span {
+    @apply text-xs font-semibold uppercase tracking-[0.04em] text-slate-500;
+  }
+
+  p {
+    @apply mt-2 text-lg font-bold text-slate-900;
+  }
+}
+
+.detailContentGrid {
+  @apply grid flex-1 grid-cols-[minmax(0,1fr)_320px] gap-10 overflow-hidden;
+}
+
+.detailMain {
+  @apply flex min-h-0 min-w-0;
+
+  .detailCard {
+    @apply flex min-h-0 flex-1 flex-col;
+  }
+}
+
+.detailSidebar {
+  @apply flex flex-col gap-5 overflow-y-scroll pr-2;
+
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: rgb(148 163 184) transparent;
+
+  /* Chrome / Edge / Safari */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-slate-400;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-500;
+  }
+}
+
+.detailCard {
+  @apply rounded-3xl bg-white p-6;
+
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.detailCardTitle {
+  @apply text-base font-semibold text-slate-900;
+}
+
+.detailInfoList {
+  @apply mt-4 flex flex-col gap-4;
+
+  span {
+    @apply text-xs font-semibold uppercase tracking-[0.04em] text-slate-500;
+  }
+
+  p {
+    @apply mt-1 text-sm font-semibold text-slate-800;
+  }
+}
+
+.detailSectionHeader {
+  @apply mb-4 flex items-center justify-between;
+
+  p {
+    @apply text-lg font-semibold text-slate-900;
+  }
+
+  span {
+    @apply mt-1 block text-sm text-slate-500;
+  }
+}
+
+.detailTable {
+  @apply flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-slate-200;
+}
+
+.detailTableHeader,
+.detailTableRow {
+  @apply grid grid-cols-[minmax(180px,1fr)_120px_110px_130px_130px] gap-4 px-4;
+}
+
+.detailTableHeader {
+  @apply bg-slate-50 py-3 text-xs font-semibold uppercase tracking-[0.04em] text-slate-500;
+}
+
+.detailTableBody {
+  @apply flex flex-col overflow-y-auto min-h-0 flex-1;
+}
+
+.detailTableRow {
+  @apply border-t border-slate-100 py-3 text-sm text-slate-700;
+}
+
+.detailNoteText {
+  @apply mt-3 text-sm leading-6 text-slate-700;
+}
+
+.actionButton {
+  @apply h-10;
+}
+
+@media (max-width: 1280px) {
+  .detailContentGrid {
+    @apply grid-cols-1 overflow-auto;
+  }
+
+  .detailSidebar {
+    @apply overflow-visible;
+  }
+}
+
+@media (max-width: 768px) {
+  .detailHeaderTop {
+    @apply flex-col;
+  }
+
+  .detailSummaryGrid {
+    @apply grid-cols-2;
+  }
+}

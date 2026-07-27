@@ -62,31 +62,31 @@ const AdminDashboard = () => {
 
   const statisticCards = [
     {
-      title: t("dashboard_products"),
+      title: t("dashboard.products"),
       value: "1,248",
-      description: t("dashboard_total_products"),
+      description: t("dashboard.total_products"),
     },
     {
-      title: t("dashboard_purchase_orders"),
+      title: t("dashboard.purchase_orders"),
       value: "326",
-      description: t("dashboard_total_purchase_orders"),
+      description: t("dashboard.total_purchase_orders"),
     },
     {
-      title: t("dashboard_low_stock"),
+      title: t("dashboard.low_stock"),
       value: "24",
-      description: t("dashboard_need_attention"),
+      description: t("dashboard.need_attention"),
     },
     {
-      title: t("dashboard_users"),
+      title: t("dashboard.users"),
       value: "58",
-      description: t("dashboard_active_users"),
+      description: t("dashboard.active_users"),
     },
   ];
 
   return (
     <div className={cx("wrapper")}>
       <section className={cx("heroSection")}>
-        <p className={cx("title")}>Dashboard Overview</p>
+        <p className={cx("title")}>{t("dashboard.overview")}</p>
       </section>
 
       <section className={cx("statGrid")}>
@@ -106,10 +106,10 @@ const AdminDashboard = () => {
           <div className={cx("panelHeader")}>
             <div>
               <h3 className={cx("panelTitle")}>
-                {t("dashboard_products_chart")}
+                {t("dashboard.products_chart")}
               </h3>
               <p className={cx("panelDescription")}>
-                {t("dashboard_product_activity_by_week")}
+                {t("dashboard.product_activity_by_week")}
               </p>
             </div>
           </div>
@@ -131,10 +131,10 @@ const AdminDashboard = () => {
           <div className={cx("panelHeader")}>
             <div>
               <h3 className={cx("panelTitle")}>
-                {t("dashboard_purchase_orders_chart")}
+                {t("dashboard.purchase_orders_chart")}
               </h3>
               <p className={cx("panelDescription")}>
-                {t("dashboard_purchase_orders_by_week")}
+                {t("dashboard.purchase_orders_by_week")}
               </p>
             </div>
           </div>
@@ -158,10 +158,10 @@ const AdminDashboard = () => {
           <div className={cx("panelHeader")}>
             <div>
               <h3 className={cx("panelTitle")}>
-                {t("dashboard_recent_purchase_orders")}
+                {t("dashboard.recent_purchase_orders")}
               </h3>
               <p className={cx("panelDescription")}>
-                {t("dashboard_latest_purchase_order_activity")}
+                {t("dashboard.latest_purchase_order_activity")}
               </p>
             </div>
           </div>
@@ -191,10 +191,10 @@ const AdminDashboard = () => {
           <div className={cx("panelHeader")}>
             <div>
               <h3 className={cx("panelTitle")}>
-                {t("dashboard_low_stock_products")}
+                {t("dashboard.low_stock_products")}
               </h3>
               <p className={cx("panelDescription")}>
-                {t("dashboard_products_need_restocking")}
+                {t("dashboard.products_need_restocking")}
               </p>
             </div>
           </div>
@@ -208,11 +208,13 @@ const AdminDashboard = () => {
                     <p className={cx("rowSubtitle")}>{product.sku}</p>
                   </div>
 
-                  <span className={cx("stockBadge")}>{product.stock} left</span>
+                  <span className={cx("stockBadge")}>
+                    {t("dashboard.stock_left", { count: product.stock })}
+                  </span>
 
                   <div className={cx("rowMeta")}>
                     <p>{product.status}</p>
-                    <span>Stock alert</span>
+                    <span>{t("dashboard.stock_alert")}</span>
                   </div>
                 </div>
               );

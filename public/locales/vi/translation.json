@@ -111,7 +111,9 @@
     "recent_purchase_orders": "Đơn nhập hàng gần đây",
     "latest_purchase_order_activity": "Hoạt động đơn nhập hàng mới nhất",
     "low_stock_products": "Sản phẩm sắp hết hàng",
-    "products_need_restocking": "Sản phẩm cần nhập thêm"
+    "products_need_restocking": "Sản phẩm cần nhập thêm",
+    "stock_left": "Còn {{count}}",
+    "stock_alert": "Cảnh báo tồn kho"
   },
   "products": {
     "title": "Sản phẩm",
@@ -139,6 +141,11 @@
     "category_furniture": "Nội thất",
     "category_lifestyle": "Phong cách sống",
     "category_stationery": "Văn phòng phẩm",
+    "category_all": "Tất cả danh mục",
+    "status_all": "Tất cả trạng thái",
+    "status_instock": "Còn hàng",
+    "status_lowstock": "Sắp hết hàng",
+    "status_outofstock": "Hết hàng",
 
     "validation": {
       "sku_required": "Vui lòng nhập SKU",
@@ -181,6 +188,7 @@
     "search_previous": "Kết quả trước",
     "search_next": "Kết quả tiếp theo",
     "search_no_result": "Không có kết quả",
+    "search_result_count": "{{count}} kết quả",
     "search_placeholder": "Tìm kiếm sản phẩm...",
     "columns": {
       "sku": "SKU",
@@ -188,6 +196,7 @@
       "category": "Danh mục",
       "price": "Giá",
       "stock": "Tồn kho",
+      "status": "Trạng thái",
       "description": "Mô tả",
       "inventoryValue": "Giá trị tồn kho"
     },
@@ -235,7 +244,48 @@
     "status_all": "Tất cả trạng thái",
     "status_pending": "Đang chờ",
     "status_received": "Đã nhận",
-    "status_cancelled": "Đã hủy"
+    "status_cancelled": "Đã hủy",
+    "not_found": "Không tìm thấy đơn nhập hàng",
+    "total_items_value": "{{count}} mặt hàng",
+    "total_quantity_value": "{{count}} sản phẩm",
+    "total_amount_value": "{{value}}"
+  },
+  "users": {
+    "title": "Người dùng",
+    "search_placeholder": "Tìm kiếm người dùng...",
+    "add_user": "Thêm người dùng",
+    "edit_user": "Chỉnh sửa người dùng",
+    "user_information": "Thông tin người dùng",
+    "account_information": "Thông tin tài khoản",
+    "account_information_description": "Thông tin cơ bản và quyền của tài khoản.",
+    "security": "Bảo mật",
+    "full_name": "Họ và tên",
+    "full_name_placeholder": "Nhập họ và tên",
+    "email": "Email",
+    "email_placeholder": "Nhập địa chỉ email",
+    "role": "Vai trò",
+    "select_role": "Chọn vai trò",
+    "role_all": "Tất cả vai trò",
+    "role_admin": "Quản trị viên",
+    "role_manager": "Quản lý",
+    "role_staff": "Nhân viên",
+    "status": "Trạng thái",
+    "select_status": "Chọn trạng thái",
+    "status_all": "Tất cả trạng thái",
+    "status_active": "Đang hoạt động",
+    "status_inactive": "Ngừng hoạt động",
+    "password": "Mật khẩu",
+    "password_placeholder": "Nhập mật khẩu",
+    "confirm_password": "Xác nhận mật khẩu",
+    "confirm_password_placeholder": "Nhập lại mật khẩu",
+    "created_at": "Ngày tạo",
+    "user_id": "Mã người dùng",
+    "activate": "Kích hoạt",
+    "deactivate": "Vô hiệu hóa",
+    "not_found": "Không tìm thấy người dùng"
+  },
+  "settings": {
+    "title": "Cài đặt"
   },
   "common": {
     "dropdown": "Biểu tượng xổ xuống",
@@ -245,12 +295,19 @@
     "btn_apply": "Áp dụng",
     "btn_edit": "Chỉnh sửa",
     "btn_delete": "Xóa",
+    "btn_view": "Xem",
+    "btn_confirm": "Xác nhận",
     "confirm_delete": "Xóa",
     "delete_description": "Bạn có chắc chắn muốn xóa <0>{{value}}</0>? Hành động này không thể hoàn tác.",
     "placeholder_select": "Chọn một tùy chọn",
     "actions": "Thao tác",
     "empty_data": "Không có dữ liệu",
     "img_text_alt": "Hình ảnh",
-    "jump_to_page": "Đi đến trang"
+    "jump_to_page": "Đi đến trang",
+    "close_modal": "Đóng cửa sổ",
+    "required": "Trường này là bắt buộc",
+    "invalid_email": "Vui lòng nhập địa chỉ email hợp lệ",
+    "min_length": "Phải có ít nhất {{value}} ký tự",
+    "password_not_match": "Mật khẩu xác nhận không khớp"
   }
 }

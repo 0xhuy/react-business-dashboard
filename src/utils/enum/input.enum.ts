@@ -6,6 +6,7 @@ export enum InputTypeEnum {
   TIME = "time",
   FILE = "file",
   CHECK_BOX = "checkbox",
+  EMAIL = "email",
 }
 
 export enum InputTypeStyleEnum {

@@ -9,6 +9,7 @@ export type ProductSheetRow = {
   category: string;
   price: number;
   stock: number;
+  status: "InStock" | "LowStock" | "OutOfStock" | "";
   inventoryValue: number;
   description: string;
 };

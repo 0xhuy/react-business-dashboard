@@ -20,6 +20,7 @@ export const adminRoute = {
   orders: "/orders",
   orderDetail: "/orders/:id",
   users: "/users",
+  userDetail: "/users/:id",
   settings: "/settings",
 };
 
@@ -52,6 +53,7 @@ export const adminRouteAbsolute = {
   orders: `${adminRoute.base}${adminRoute.orders}`,
   orderDetail: `${adminRoute.base}${adminRoute.orderDetail}`,
   users: `${adminRoute.base}${adminRoute.users}`,
+  userDetail: `${adminRoute.base}${adminRoute.userDetail}`,
   settings: `${adminRoute.base}${adminRoute.settings}`,
 };
 

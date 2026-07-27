@@ -63,14 +63,6 @@ const ProductSheetPage = () => {
   const [currentPage, setCurrentPage] = useState<number>(DEFAULT_NUMBER_ZERO);
 
   // ===== Derived =====
-  const totalPages = Math.max(
-    1,
-    Math.ceil(productSheetData.length / PRODUCT_SHEET_PAGE_SIZE),
-  );
-  const safeCurrentPage = Math.min(currentPage, totalPages - 1);
-  const startRowIndex = safeCurrentPage * PRODUCT_SHEET_PAGE_SIZE;
-  const paginationCurrentPage = safeCurrentPage + 1;
-
   const validationIssueCount =
     validationErrors.length > PRODUCT_SHEET_MAX_VALIDATION_ISSUE_COUNT
       ? `${PRODUCT_SHEET_MAX_VALIDATION_ISSUE_COUNT}${PLUS_SYMBOL}`
@@ -84,28 +76,38 @@ const ProductSheetPage = () => {
       category: t("product_sheet.columns.category"),
       price: t("product_sheet.columns.price"),
       stock: t("product_sheet.columns.stock"),
+      status: t("product_sheet.columns.status"),
       inventoryValue: t("product_sheet.columns.inventoryValue"),
       description: t("product_sheet.columns.description"),
     }),
     [t],
   );
-  const visibleProductSheetData = useMemo(() => {
-    return productSheetData.slice(
-      startRowIndex,
-      startRowIndex + PRODUCT_SHEET_PAGE_SIZE,
-    );
-  }, [productSheetData, startRowIndex]);
-
   const searchResultIndexes = useMemo(() => {
     return searchProductSheetRows(productSheetData, searchKeyword);
   }, [productSheetData, searchKeyword]);
+
+  const totalPages = Math.max(
+    1,
+    Math.ceil(productSheetData.length / PRODUCT_SHEET_PAGE_SIZE),
+  );
+  const safeCurrentPage = Math.min(currentPage, totalPages - 1);
+  const startRowIndex = safeCurrentPage * PRODUCT_SHEET_PAGE_SIZE;
+  const paginationCurrentPage = safeCurrentPage + 1;
+
+  const visibleProductSheetData = useMemo(
+    () =>
+      productSheetData.slice(
+        startRowIndex,
+        startRowIndex + PRODUCT_SHEET_PAGE_SIZE,
+      ),
+    [productSheetData, startRowIndex],
+  );
 
   const [highlightedRowIndex, setHighlightedRowIndex] = useState<number | null>(
     null,
   );
   const [highlightedRowVariant, setHighlightedRowVariant] =
     useState<ProductSheetHighlightedRowVariant>("search");
-
   // ===== Handlers =====
   const showValidationErrors = useCallback(
     (errors: ProductSheetImportValidationError[]): void => {
@@ -158,14 +160,14 @@ const ProductSheetPage = () => {
 
   const syncSearchHighlightAfterDataChange = useCallback(
     (rows: ProductSheetRow[]): void => {
+      if (highlightedRowVariant !== "search" || !searchKeyword.trim()) {
+        return;
+      }
+
       const nextSearchResultIndexes = searchProductSheetRows(
         rows,
         searchKeyword,
       );
-
-      if (highlightedRowVariant !== "search" || !searchKeyword.trim()) {
-        return;
-      }
 
       if (nextSearchResultIndexes.length === DEFAULT_NUMBER_ZERO) {
         setCurrentSearchResultIndex(DEFAULT_NUMBER_ZERO);
@@ -211,7 +213,11 @@ const ProductSheetPage = () => {
         return nextData;
       });
     },
-    [startRowIndex, syncSearchHighlightAfterDataChange, syncValidationErrors],
+    [
+      syncSearchHighlightAfterDataChange,
+      syncValidationErrors,
+      startRowIndex,
+    ],
   );
 
   const handleAddRows = useCallback((): void => {
@@ -226,11 +232,16 @@ const ProductSheetPage = () => {
         Math.max(0, Math.ceil(nextData.length / PRODUCT_SHEET_PAGE_SIZE) - 1),
       );
       syncValidationErrors(nextData);
+      syncSearchHighlightAfterDataChange(nextData);
       setIsDirty(true);
 
       return nextData;
     });
-  }, [rowsToAdd, syncValidationErrors]);
+  }, [
+    rowsToAdd,
+    syncSearchHighlightAfterDataChange,
+    syncValidationErrors,
+  ]);
 
   const handleRowsToAddChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -286,6 +297,7 @@ const ProductSheetPage = () => {
       currentSearchResultIndex === DEFAULT_NUMBER_ZERO
         ? searchResultIndexes.length - 1
         : currentSearchResultIndex - 1;
+
     const matchedRowIndex = searchResultIndexes[nextSearchResultIndex];
 
     setCurrentSearchResultIndex(nextSearchResultIndex);
@@ -301,6 +313,7 @@ const ProductSheetPage = () => {
       currentSearchResultIndex >= searchResultIndexes.length - 1
         ? DEFAULT_NUMBER_ZERO
         : currentSearchResultIndex + 1;
+
     const matchedRowIndex = searchResultIndexes[nextSearchResultIndex];
 
     setCurrentSearchResultIndex(nextSearchResultIndex);
@@ -325,12 +338,17 @@ const ProductSheetPage = () => {
             Math.ceil(nextData.length / PRODUCT_SHEET_PAGE_SIZE) - 1,
           ),
         );
+        syncSearchHighlightAfterDataChange(nextData);
         setIsDirty(true);
 
         return nextData;
       });
     },
-    [clearValidationErrors, showValidationErrors],
+    [
+      clearValidationErrors,
+      showValidationErrors,
+      syncSearchHighlightAfterDataChange,
+    ],
   );
 
   const handleExportExcel = useCallback(async (): Promise<void> => {
@@ -401,12 +419,16 @@ const ProductSheetPage = () => {
           ),
         );
         syncValidationErrors(nextData);
+        syncSearchHighlightAfterDataChange(nextData);
         setIsDirty(true);
 
         return nextData;
       });
     },
-    [syncValidationErrors],
+    [
+      syncSearchHighlightAfterDataChange,
+      syncValidationErrors,
+    ],
   );
 
   const handleInsertRows = useCallback(
@@ -418,12 +440,16 @@ const ProductSheetPage = () => {
 
         nextData.splice(rowIndex, DEFAULT_NUMBER_ZERO, ...newRows);
         syncValidationErrors(nextData);
+        syncSearchHighlightAfterDataChange(nextData);
         setIsDirty(true);
 
         return nextData;
       });
     },
-    [syncValidationErrors],
+    [
+      syncSearchHighlightAfterDataChange,
+      syncValidationErrors,
+    ],
   );
 
   const handleFocusValidationError = useCallback(
@@ -505,20 +531,21 @@ const ProductSheetPage = () => {
               highlightedRowIndex={highlightedRowIndex}
               highlightedRowVariant={highlightedRowVariant}
             />
-            <div className={cx("sectionFooter")}>
-              {productSheetData.length > PRODUCT_SHEET_PAGE_SIZE && (
-                <div className={cx("pagination")}>
-                  <BasePagination
-                    currentPage={paginationCurrentPage}
-                    totalItems={productSheetData.length}
-                    totalPages={totalPages}
-                    onChange={handlePageChange}
-                  />
-                </div>
-              )}
-            </div>
           </div>
         </div>
+
+        {productSheetData.length > DEFAULT_NUMBER_ZERO && (
+          <div className={cx("sectionFooter")}>
+            <div className={cx("pagination")}>
+              <BasePagination
+                currentPage={paginationCurrentPage}
+                totalItems={productSheetData.length}
+                totalPages={totalPages}
+                onChange={handlePageChange}
+              />
+            </div>
+          </div>
+        )}
       </div>
       <div className={cx("toolbarActions")}>
         <BaseButton

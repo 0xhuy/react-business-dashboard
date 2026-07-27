@@ -111,7 +111,9 @@
     "recent_purchase_orders": "Recent Purchase Orders",
     "latest_purchase_order_activity": "Latest purchase order activity",
     "low_stock_products": "Low Stock Products",
-    "products_need_restocking": "Products that need restocking"
+    "products_need_restocking": "Products that need restocking",
+    "stock_left": "{{count}} left",
+    "stock_alert": "Stock alert"
   },
   "products": {
     "title": "Products",
@@ -139,6 +141,11 @@
     "category_furniture": "Furniture",
     "category_lifestyle": "Lifestyle",
     "category_stationery": "Stationery",
+    "category_all": "All categories",
+    "status_all": "All statuses",
+    "status_instock": "In stock",
+    "status_lowstock": "Low stock",
+    "status_outofstock": "Out of stock",
 
     "validation": {
       "sku_required": "SKU is required",
@@ -184,6 +191,7 @@
       "category": "Category",
       "price": "Price",
       "stock": "Stock",
+      "status": "Status",
       "description": "Description",
       "inventoryValue": "Inventory Value"
     },
@@ -194,6 +202,7 @@
     "search_previous": "Previous result",
     "search_next": "Next result",
     "search_no_result": "No result",
+    "search_result_count": "{{count}} results",
     "search_placeholder": "Search products...",
     "error_count": "{{count}} Issues"
   },
@@ -234,7 +243,50 @@
 
     "status_pending": "Pending",
     "status_received": "Received",
-    "status_cancelled": "Cancelled"
+    "status_cancelled": "Cancelled",
+    "status_all": "All statuses",
+    "summary": "Summary",
+    "not_found": "Purchase order not found",
+    "total_items_value": "{{count}} items",
+    "total_quantity_value": "{{count}} units",
+    "total_amount_value": "{{value}}"
+  },
+  "users": {
+    "title": "Users",
+    "search_placeholder": "Search users...",
+    "add_user": "Add User",
+    "edit_user": "Edit User",
+    "user_information": "User Information",
+    "account_information": "Account Information",
+    "account_information_description": "Basic account details and permissions.",
+    "security": "Security",
+    "full_name": "Full Name",
+    "full_name_placeholder": "Enter full name",
+    "email": "Email",
+    "email_placeholder": "Enter email address",
+    "role": "Role",
+    "select_role": "Select role",
+    "role_all": "All roles",
+    "role_admin": "Admin",
+    "role_manager": "Manager",
+    "role_staff": "Staff",
+    "status": "Status",
+    "select_status": "Select status",
+    "status_all": "All statuses",
+    "status_active": "Active",
+    "status_inactive": "Inactive",
+    "password": "Password",
+    "password_placeholder": "Enter password",
+    "confirm_password": "Confirm Password",
+    "confirm_password_placeholder": "Confirm password",
+    "created_at": "Created At",
+    "user_id": "User ID",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "not_found": "User not found"
+  },
+  "settings": {
+    "title": "Settings"
   },
   "common": {
     "dropdown": "Dropdown icon",
@@ -245,12 +297,18 @@
     "btn_edit": "Edit",
     "btn_delete": "Delete",
     "btn_view": "View",
+    "btn_confirm": "Confirm",
     "confirm_delete": "Delete",
     "delete_description": "Are you sure you want to delete <0>{{value}}</0>? This action cannot be undone.",
     "actions": "Actions",
     "placeholder_select": "Select an option",
     "empty_data": "No data available",
     "img_text_alt": "Image",
-    "jump_to_page": "Go to page"
+    "jump_to_page": "Go to page",
+    "close_modal": "Close modal",
+    "required": "This field is required",
+    "invalid_email": "Please enter a valid email address",
+    "min_length": "Must be at least {{value}} characters",
+    "password_not_match": "Passwords do not match"
   }
 }

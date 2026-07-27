@@ -110,11 +110,13 @@ const ViewerDashboard = () => {
                   <p className={cx("rowSubtitle")}>{product.sku}</p>
                 </div>
 
-                <span className={cx("stockBadge")}>{product.stock} left</span>
+                <span className={cx("stockBadge")}>
+                  {t("dashboard.stock_left", { count: product.stock })}
+                </span>
 
                 <div className={cx("rowMeta")}>
                   <p>{product.status}</p>
-                  <span>Stock alert</span>
+                  <span>{t("dashboard.stock_alert")}</span>
                 </div>
               </div>
             ))}

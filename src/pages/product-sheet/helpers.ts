@@ -4,6 +4,7 @@
 
 // ===== Libs =====
 import { read, utils, writeFile, type WorkSheet } from "xlsx";
+import i18n from "i18next";
 
 // ===== Components =====
 import type { ProductSheetRow } from "@/pages/product-sheet/components/ProductSpreadsheet/types";
@@ -39,6 +40,15 @@ export const getProductInventoryValue = (
   return price * stock;
 };
 
+export const getProductSheetStatus = (
+  stock: number,
+): ProductSheetRow["status"] => {
+  if (stock === DEFAULT_NUMBER_ZERO) return "OutOfStock";
+  if (stock <= 20) return "LowStock";
+
+  return "InStock";
+};
+
 /**
  * Creates empty product sheet rows.
  *
@@ -52,6 +62,7 @@ export const createProductSheetRows = (quantity: number): ProductSheetRow[] => {
     category: EMPTY_STRING,
     price: DEFAULT_NUMBER_ZERO,
     stock: DEFAULT_NUMBER_ZERO,
+    status: EMPTY_STRING,
     inventoryValue: DEFAULT_NUMBER_ZERO,
     description: EMPTY_STRING,
   }));
@@ -127,6 +138,7 @@ export const parseProductSheetWorksheet = (
       category: normalizeExcelText(normalizedRow.CATEGORY),
       price,
       stock,
+      status: getProductSheetStatus(stock),
       inventoryValue,
       description: normalizeExcelText(normalizedRow.DESCRIPTION),
     };
@@ -155,8 +167,22 @@ export const searchProductSheetRows = (
   }
 
   return rows.reduce<number[]>((matchedRowIndexes, row, rowIndex) => {
-    const isMatched = PRODUCT_SHEET_SEARCH_FIELDS.some((field) =>
-      normalizeSearchText(row[field]).includes(normalizedKeyword),
+    const categoryTranslation = row.category.trim()
+      ? i18n.t(`products.category_${row.category.toLowerCase()}`, {
+          defaultValue: EMPTY_STRING,
+        })
+      : EMPTY_STRING;
+    const statusTranslation = row.status
+      ? i18n.t(`products.status_${row.status.toLowerCase()}`, {
+          defaultValue: EMPTY_STRING,
+        })
+      : EMPTY_STRING;
+    const isMatched = [
+      ...PRODUCT_SHEET_SEARCH_FIELDS.map((field) => row[field]),
+      categoryTranslation,
+      statusTranslation,
+    ].some((value) =>
+      normalizeSearchText(value).includes(normalizedKeyword),
     );
 
     if (isMatched) {
@@ -174,7 +200,10 @@ const createProductSheetWorksheetData = (
   return rows.map((item) =>
     PRODUCT_SHEET_EXCEL_COLUMN_KEYS.reduce<Record<string, string | number>>(
       (acc, key) => {
-        acc[options.columnLabels[key]] = item[key];
+        acc[options.columnLabels[key]] =
+          key === "status" && item.status
+            ? i18n.t(`products.status_${item.status.toLowerCase()}`)
+            : item[key];
         return acc;
       },
       {},

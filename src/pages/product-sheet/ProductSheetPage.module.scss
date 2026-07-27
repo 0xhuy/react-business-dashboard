@@ -23,7 +23,7 @@
 .pagination {
   @apply flex items-center justify-center;
 
-  min-height: 72px;
+  min-height: 64px;
 }
 
 .paginationText {
@@ -63,22 +63,36 @@
 }
 
 .bodyScroll {
-  @apply h-full w-full overflow-auto;
+  @apply min-h-0 w-full flex-1 overflow-y-auto overflow-x-scroll;
 
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  scrollbar-width: auto;
+  scrollbar-color: rgb(148 163 184) rgb(241 245 249);
+  scrollbar-gutter: stable;
 
   &::-webkit-scrollbar {
-    display: none;
+    width: 10px;
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    @apply bg-slate-100;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-slate-400;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-500;
   }
 }
 
 .section {
-  @apply flex h-full min-w-max flex-col;
+  @apply min-h-full min-w-max;
 }
 
 .sectionFooter {
-  @apply mt-auto flex min-h-[72px] justify-center;
+  @apply z-10 flex min-h-16 shrink-0 justify-center border-t border-slate-200 bg-white;
 }
 
 .validationModalDescription {

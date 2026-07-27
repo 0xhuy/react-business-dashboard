@@ -55,7 +55,7 @@ const MenuItem = ({ menuItem }: Props) => {
                 <img
                   className={cx("menuIcon")}
                   src={currentIcon}
-                  alt={t("common_img_text_alt")}
+                  alt={t("common.img_text_alt")}
                 />
               )}
 
@@ -114,7 +114,7 @@ const MenuItem = ({ menuItem }: Props) => {
               <img
                 className={cx("menuIcon")}
                 src={currentIcon}
-                alt={t("common_img_text_alt")}
+                alt={t("common.img_text_alt")}
               />
             )}
 

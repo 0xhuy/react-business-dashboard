@@ -6,15 +6,11 @@
   @apply inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-medium;
 }
 
-.statusPending {
-  @apply bg-amber-100 text-amber-700;
-}
-
-.statusReceived {
+.statusActive {
   @apply bg-emerald-100 text-emerald-700;
 }
 
-.statusCancelled {
+.statusInactive {
   @apply bg-rose-100 text-rose-700;
 }
 
@@ -54,11 +50,11 @@
 }
 
 .detailTitleWrap {
-  @apply flex items-center gap-3;
+  @apply flex min-w-0 flex-wrap items-center gap-3;
 }
 
 .detailTitle {
-  @apply text-3xl font-bold tracking-tight text-slate-950;
+  @apply min-w-0 break-words text-3xl font-bold tracking-tight text-slate-950;
 }
 
 .detailActions {
@@ -66,35 +62,37 @@
 }
 
 .detailSummaryGrid {
-  @apply mt-4 grid grid-cols-4 gap-4;
+  @apply mt-4 grid min-w-0 grid-cols-4 gap-4;
 }
 
 .detailSummaryItem {
-  @apply rounded-2xl bg-slate-50 p-4;
+  @apply min-w-0 overflow-hidden rounded-2xl bg-slate-50 p-4;
 
   span {
     @apply text-xs font-semibold uppercase tracking-[0.04em] text-slate-500;
   }
 
   p {
-    @apply mt-2 text-lg font-semibold text-slate-900;
+    @apply mt-2 break-words text-lg font-semibold text-slate-900;
+
+    overflow-wrap: anywhere;
   }
 }
 
 .detailContentGrid {
-  @apply grid min-w-0 flex-1 grid-cols-[minmax(0,1fr)_minmax(280px,320px)] gap-10 overflow-hidden;
+  @apply grid flex-1 grid-cols-[minmax(0,1fr)_320px] gap-10 overflow-hidden;
 }
 
 .detailMain {
-  @apply flex min-h-0 min-w-0 overflow-hidden;
+  @apply flex min-h-0 min-w-0;
 
   .detailCard {
-    @apply flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden;
+    @apply flex min-h-0 flex-1 flex-col;
   }
 }
 
 .detailSidebar {
-  @apply flex min-w-0 flex-col gap-5 overflow-y-auto pr-2;
+  @apply flex flex-col gap-5 overflow-y-auto pr-2;
 
   /* Firefox */
   scrollbar-width: thin;
@@ -119,7 +117,7 @@
 }
 
 .detailCard {
-  @apply min-w-0 rounded-3xl bg-white p-6;
+  @apply rounded-3xl bg-white p-6;
 
   border: 1px solid rgba(148, 163, 184, 0.18);
 }
@@ -136,7 +134,32 @@
   }
 
   p {
-    @apply mt-1 text-sm font-normal text-slate-500;
+    @apply mt-1 break-words text-sm font-normal text-slate-500;
+
+    overflow-wrap: anywhere;
+  }
+}
+
+.accountInformationScroll {
+  @apply min-h-0 flex-1 overflow-y-auto pr-2;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgb(148 163 184) transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-slate-400;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-500;
   }
 }
 
@@ -166,7 +189,7 @@
 }
 
 .detailTableBody {
-  @apply flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto;
+  @apply flex flex-col overflow-y-auto min-h-0 flex-1;
 }
 
 .detailTableRow {

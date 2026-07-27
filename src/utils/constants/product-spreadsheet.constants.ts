@@ -17,6 +17,7 @@ export const PRODUCT_SHEET_COLUMN_WIDTH = {
   CATEGORY: 180,
   PRICE: 140,
   STOCK: 120,
+  STATUS: 150,
   INVENTORY_VALUE: 180,
   DESCRIPTION: 350,
 } as const;
@@ -27,6 +28,7 @@ export const PRODUCT_SHEET_EXCEL_COLUMN_KEYS = [
   "category",
   "price",
   "stock",
+  "status",
   "inventoryValue",
   "description",
 ] as const;
@@ -37,6 +39,7 @@ export const PRODUCT_SHEET_TEMPLATE_COLUMN_WIDTHS = [
   PRODUCT_SHEET_COLUMN_WIDTH.CATEGORY,
   PRODUCT_SHEET_COLUMN_WIDTH.PRICE,
   PRODUCT_SHEET_COLUMN_WIDTH.STOCK,
+  PRODUCT_SHEET_COLUMN_WIDTH.STATUS,
   PRODUCT_SHEET_COLUMN_WIDTH.INVENTORY_VALUE,
   PRODUCT_SHEET_COLUMN_WIDTH.DESCRIPTION,
 ].map((width) => Math.ceil(width / 10));
@@ -82,6 +85,14 @@ export const PRODUCT_SHEET_COLUMNS: ProductSheetColumn[] = [
     translationKey: "products.stock",
     width: PRODUCT_SHEET_COLUMN_WIDTH.STOCK,
     cellType: "number",
+  },
+  {
+    columnId: "status",
+    dataIndex: "status",
+    translationKey: "products.status",
+    width: PRODUCT_SHEET_COLUMN_WIDTH.STATUS,
+    cellType: "text",
+    isReadOnly: true,
   },
   {
     columnId: "inventoryValue",

@@ -34,7 +34,6 @@ import {
 import {
   DEFAULT_PURCHASE_ORDER_FILTER_VALUES,
   PURCHASE_ORDER_DATA_SOURCE,
-  PURCHASE_ORDER_STATUS_OPTIONS,
 } from "@/utils/constants/orders.constants";
 
 // ===== Styles =====
@@ -147,9 +146,16 @@ const OrdersPage = () => {
     const normalizedSearchValue = searchValue.trim().toLowerCase();
 
     return purchaseOrders.filter((order) => {
-      const searchableText = [order.poNumber, order.note]
+      const searchableText = [
+        order.poNumber,
+        order.note,
+        ...order.items.flatMap((item) => [
+          item.productSku,
+          item.productName,
+        ]),
+      ]
         .join(" ")
-        .toLowerCase();
+        .toLocaleLowerCase();
 
       const isMatchedSearch = normalizedSearchValue
         ? searchableText.includes(normalizedSearchValue)
@@ -160,11 +166,13 @@ const OrdersPage = () => {
         filterValues.status === "all" ||
         order.status === filterValues.status;
 
-      const isMatchedFromDate = filterValues.fromDate
+      const isMatchedFromDate =
+        filterValues.orderDate && filterValues.fromDate
         ? new Date(order.orderDate) >= new Date(filterValues.fromDate)
         : true;
 
-      const isMatchedToDate = filterValues.toDate
+      const isMatchedToDate =
+        filterValues.orderDate && filterValues.toDate
         ? new Date(order.orderDate) <= new Date(filterValues.toDate)
         : true;
 
@@ -176,6 +184,28 @@ const OrdersPage = () => {
       );
     });
   }, [filterValues, purchaseOrders, searchValue]);
+
+  const purchaseOrderStatusOptions = useMemo(
+    () => [
+      {
+        label: t("orders.status_all"),
+        value: "all",
+      },
+      {
+        label: t("orders.status_pending"),
+        value: "Pending",
+      },
+      {
+        label: t("orders.status_received"),
+        value: "Received",
+      },
+      {
+        label: t("orders.status_cancelled"),
+        value: "Cancelled",
+      },
+    ],
+    [t],
+  );
 
   const purchaseOrderColumns = useMemo((): ColumnType<PurchaseOrderRow>[] => {
     return [
@@ -310,7 +340,7 @@ const OrdersPage = () => {
                       <div className={cx("contentFilterWrap")}>
                         <BaseSelect
                           name="status"
-                          options={PURCHASE_ORDER_STATUS_OPTIONS}
+                          options={purchaseOrderStatusOptions}
                           height={40}
                           value={valueFilter.status}
                           placeholder={t("orders.status")}
@@ -332,6 +362,15 @@ const OrdersPage = () => {
                       value={!!isChecked?.orderDate}
                       onChange={(checked: boolean) => {
                         onCheckboxChange("orderDate", checked);
+                        onChange({
+                          name: "orderDate",
+                          value: checked,
+                        });
+
+                        if (!checked) {
+                          onChange({ name: "fromDate", value: "" });
+                          onChange({ name: "toDate", value: "" });
+                        }
                       }}
                     />
 

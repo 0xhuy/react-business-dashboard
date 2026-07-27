@@ -1,6 +1,7 @@
 // ===== Libs =====
 import classNames from "classnames/bind";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { IconClose } from "@/assets/svgComponents";
 
 // ===== Others =====
@@ -14,6 +15,7 @@ const cx = classNames.bind(styles);
 
 // ===== Component =====
 const BaseModal = (props: BaseModalProps) => {
+  const { t } = useTranslation();
   // ===== Props =====
   const {
     isOpen,
@@ -88,7 +90,7 @@ const BaseModal = (props: BaseModalProps) => {
               className={cx("closeButton")}
               onClick={onClose}
               disabled={isLoading}
-              aria-label="Close modal"
+              aria-label={t("common.close_modal")}
             >
               <IconClose width={18} height={18} strokePath="currentColor" />
             </button>

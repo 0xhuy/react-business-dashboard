@@ -8,6 +8,7 @@ import {
   OrdersPage,
   OrderDetailPage,
   UsersPage,
+  UsersDetailPage,
   SettingsPage,
 } from "@/pages";
 
@@ -72,6 +73,13 @@ const privateAdminRouteMenus: IRouteModel[] = [
     name: "sidebar.users",
     icon: icons.iconUsersInactive,
     iconActive: icons.iconUsersActive,
+    children: [
+      {
+        path: adminRouteAbsolute.userDetail,
+        component: UsersDetailPage,
+        hidden: true,
+      },
+    ],
   },
   {
     path: adminRouteAbsolute.settings,
@@ -117,6 +125,10 @@ export const privateAdminRoutes: IRouteModel[] = [
   {
     path: adminRouteAbsolute.users,
     component: UsersPage,
+  },
+  {
+    path: adminRouteAbsolute.userDetail,
+    component: UsersDetailPage,
   },
   {
     path: adminRouteAbsolute.settings,

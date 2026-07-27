@@ -9,7 +9,10 @@ import i18n from "i18next";
 // ===== Others =====
 import { DEFAULT_NUMBER_ZERO, EMPTY_STRING } from "@/utils/constants";
 import { getCurrencyFormatter } from "@/utils/helper";
-import { getProductInventoryValue } from "@/pages/product-sheet/helpers";
+import {
+  getProductInventoryValue,
+  getProductSheetStatus,
+} from "@/pages/product-sheet/helpers";
 import type {
   BuildProductSheetRowsParams,
   ProductSheetColumn,
@@ -68,6 +71,22 @@ export const createProductSheetDataCell = (
   column: ProductSheetColumn,
 ): DefaultCellTypes => {
   const value = column.dataIndex ? row[column.dataIndex] : EMPTY_STRING;
+
+  if (column.columnId === "status") {
+    if (!row.sku.trim() && !row.name.trim()) {
+      return {
+        type: "text",
+        text: EMPTY_STRING,
+      };
+    }
+
+    const status = getProductSheetStatus(Number(row.stock));
+
+    return {
+      type: "text",
+      text: i18n.t(`products.status_${status.toLowerCase()}`),
+    };
+  }
 
   if (column.columnId === "inventoryValue") {
     return {
@@ -191,6 +210,10 @@ export const applyProductSheetChanges = (
       nextRow.price,
       nextRow.stock,
     );
+    nextRow.status =
+      nextRow.sku.trim() || nextRow.name.trim()
+        ? getProductSheetStatus(nextRow.stock)
+        : EMPTY_STRING;
     updatedData[rowId] = nextRow;
   });
 

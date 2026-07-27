@@ -140,8 +140,8 @@ const BasePagination = (props: BasePaginationProps) => {
               pattern={PAGINATION_JUMP_INPUT_PATTERN}
               value={activeJumpIndex === index ? jumpPage : EMPTY_STRING}
               placeholder={SYMBOL_THREE_DOTS}
-              title={t("pagination.jump_to_page")}
-              aria-label={t("pagination.jump_to_page")}
+              title={t("common.jump_to_page")}
+              aria-label={t("common.jump_to_page")}
               onFocus={() => setActiveJumpIndex(index)}
               onChange={handleJumpPageChange}
               onBlur={() => {

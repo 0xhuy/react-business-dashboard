@@ -20,4 +20,5 @@ export { default as ProductSheetPage } from "./product-sheet/ProductSheetPage";
 export { default as OrdersPage } from "./orders/OrdersPage";
 export { default as OrderDetailPage } from "./orders/OrderDetailPage";
 export { default as UsersPage } from "./users/UsersPage";
+export { default as UsersDetailPage } from "./users/UsersDetailPage";
 export { default as SettingsPage } from "./settings/SettingsPage";

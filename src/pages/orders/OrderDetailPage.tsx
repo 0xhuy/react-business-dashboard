@@ -127,7 +127,7 @@ const OrderDetailPage = () => {
               <IconArrow width={40} height={40} strokePath="currentColor" />
               {t("orders.title")}
             </button>
-            <h1 className={cx("detailTitle")}>{t("orders.not_found")}</h1>
+            <p className={cx("detailTitle")}>{t("orders.not_found")}</p>
           </div>
         </section>
       </div>
@@ -151,7 +151,7 @@ const OrderDetailPage = () => {
             </button>
 
             <div className={cx("detailTitleWrap")}>
-              <h1 className={cx("detailTitle")}>{purchaseOrder.poNumber}</h1>
+              <p className={cx("detailTitle")}>{purchaseOrder.poNumber}</p>
               <span
                 className={cx("status", {
                   statusPending: purchaseOrder.status === "Pending",

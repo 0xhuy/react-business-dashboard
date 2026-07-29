@@ -59,11 +59,11 @@
 }
 
 .optionList::-webkit-scrollbar {
-  @apply w-1;
+  width: 6px;
 }
 
 .optionList::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-slate-300;
+  @apply rounded-full bg-slate-400;
 }
 
 .optionItem {

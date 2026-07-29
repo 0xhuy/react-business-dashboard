@@ -1,3 +1,5 @@
+import { Role } from "@/utils/enum";
+
 // ============================================================
 // AUTH ROUTES
 // ============================================================
@@ -32,6 +34,7 @@ export const staffRoute = {
   productSheet: "/products/sheet",
   orders: "/orders",
   orderDetail: "/orders/:id",
+  settings: "/settings",
 };
 
 export const viewerRoute = {
@@ -40,6 +43,7 @@ export const viewerRoute = {
   products: "/products",
   productList: "/products/list",
   productSheet: "/products/sheet",
+  settings: "/settings",
 };
 
 // ============================================================
@@ -64,6 +68,7 @@ export const staffRouteAbsolute = {
   productSheet: `${staffRoute.base}${staffRoute.productSheet}`,
   orders: `${staffRoute.base}${staffRoute.orders}`,
   orderDetail: `${staffRoute.base}${staffRoute.orderDetail}`,
+  settings: `${staffRoute.base}${staffRoute.settings}`,
 };
 
 export const viewerRouteAbsolute = {
@@ -71,4 +76,11 @@ export const viewerRouteAbsolute = {
   products: `${viewerRoute.base}${viewerRoute.products}`,
   productList: `${viewerRoute.base}${viewerRoute.productList}`,
   productSheet: `${viewerRoute.base}${viewerRoute.productSheet}`,
+  settings: `${viewerRoute.base}${viewerRoute.settings}`,
+};
+
+export const SETTINGS_ROUTE_BY_ROLE: Record<Role, string> = {
+  [Role.ADMIN]: adminRouteAbsolute.settings,
+  [Role.STAFF]: staffRouteAbsolute.settings,
+  [Role.VIEWER]: viewerRouteAbsolute.settings,
 };

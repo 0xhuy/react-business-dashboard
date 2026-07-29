@@ -65,17 +65,17 @@
 .bodyScroll {
   @apply min-h-0 w-full flex-1 overflow-y-auto overflow-x-scroll;
 
-  scrollbar-width: auto;
-  scrollbar-color: rgb(148 163 184) rgb(241 245 249);
+  scrollbar-width: thin;
+  scrollbar-color: rgb(148 163 184) transparent;
   scrollbar-gutter: stable;
 
   &::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 6px;
+    height: 6px;
   }
 
   &::-webkit-scrollbar-track {
-    @apply bg-slate-100;
+    @apply bg-transparent;
   }
 
   &::-webkit-scrollbar-thumb {

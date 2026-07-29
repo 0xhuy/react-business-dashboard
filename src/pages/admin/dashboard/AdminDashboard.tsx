@@ -5,6 +5,7 @@
 // ===== Styles =====
 import classNames from "classnames/bind";
 import styles from "./AdminDashboard.module.scss";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const cx = classNames.bind(styles);
@@ -59,6 +60,7 @@ const lowStockProducts = [
 
 const AdminDashboard = () => {
   const { t } = useTranslation();
+  const [isContentScrolled, setIsContentScrolled] = useState(false);
 
   const statisticCards = [
     {
@@ -84,7 +86,12 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <div className={cx("wrapper")}>
+    <div
+      className={cx("wrapper", { wrapperScrolled: isContentScrolled })}
+      onScroll={(event) => {
+        setIsContentScrolled(event.currentTarget.scrollTop > 0);
+      }}
+    >
       <section className={cx("heroSection")}>
         <p className={cx("title")}>{t("dashboard.overview")}</p>
       </section>

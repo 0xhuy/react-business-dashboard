@@ -214,6 +214,10 @@ export const privateStaffRoutes: IRouteModel[] = [
     path: staffRouteAbsolute.orderDetail,
     component: OrderDetailPage,
   },
+  {
+    path: staffRouteAbsolute.settings,
+    component: SettingsPage,
+  },
 ];
 
 // ============================================================
@@ -271,5 +275,9 @@ export const privateViewerRoutes: IRouteModel[] = [
   {
     path: viewerRouteAbsolute.productSheet,
     component: ProductSheetPage,
+  },
+  {
+    path: viewerRouteAbsolute.settings,
+    component: SettingsPage,
   },
 ];

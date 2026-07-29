@@ -1,8 +1,6 @@
 .wrapper {
-  @apply flex flex-col gap-6 overflow-y-auto px-4 py-2 pb-10 rounded-[32px];
+  @apply flex h-full min-h-0 flex-col gap-5 overflow-y-auto pb-10;
 
-  height: calc(100vh - 110px);
-  max-height: calc(100vh - 110px);
   scrollbar-width: none;
   mask-image: linear-gradient(
     to bottom,
@@ -23,13 +21,13 @@
 }
 
 .heroSection {
-  @apply flex items-center justify-between rounded-[28px] border border-slate-100 bg-white px-6 py-3;
+  @apply flex items-center justify-between rounded-3xl border border-slate-100 bg-white px-7 py-6;
 
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
 }
 
 .title {
-  @apply text-base font-semibold tracking-tight text-indigo-500;
+  @apply text-lg font-semibold tracking-tight text-slate-900;
 }
 
 .statGrid {

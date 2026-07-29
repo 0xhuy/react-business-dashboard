@@ -100,7 +100,7 @@ const UsersDetailPage = () => {
               {t("users.title")}
             </button>
 
-            <h1 className={cx("detailTitle")}>{t("users.not_found")}</h1>
+            <p className={cx("detailTitle")}>{t("users.not_found")}</p>
           </div>
         </section>
       </div>
@@ -125,7 +125,7 @@ const UsersDetailPage = () => {
             </button>
 
             <div className={cx("detailTitleWrap")}>
-              <h1 className={cx("detailTitle")}>{user.fullName}</h1>
+              <p className={cx("detailTitle")}>{user.fullName}</p>
 
               <span
                 className={cx("status", {

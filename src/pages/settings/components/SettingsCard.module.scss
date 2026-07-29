@@ -1,0 +1,139 @@
+.card {
+  @apply rounded-3xl bg-white p-7;
+
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  scroll-margin-top: 16px;
+}
+
+.cardHeader {
+  @apply flex w-full items-center gap-4 border-0 bg-transparent text-left;
+
+  h2 {
+    @apply text-lg font-semibold text-slate-900;
+  }
+
+  p {
+    @apply mt-1 text-sm text-slate-500;
+  }
+}
+
+.cardHeading {
+  @apply min-w-0 flex-1;
+}
+
+.cardArrow {
+  @apply flex shrink-0 -rotate-90 items-center justify-center text-slate-400 transition-transform duration-200;
+}
+
+.cardArrowOpen {
+  @apply rotate-0 text-indigo-500;
+}
+
+.cardIcon {
+  @apply flex size-11 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-sm font-semibold text-indigo-600;
+}
+
+.cardContent {
+  @apply mt-7;
+}
+
+.formGrid {
+  @apply grid gap-5;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.readonlyInput {
+  > div {
+    @apply bg-slate-50;
+  }
+
+  input:disabled {
+    @apply text-slate-400;
+  }
+}
+
+.selectField {
+  max-width: 360px;
+}
+
+.securityForm {
+  @apply flex flex-col gap-5;
+
+  width: min(100%, 560px);
+}
+
+.toggleIcon {
+  @apply size-5 cursor-pointer opacity-40 transition-all duration-200;
+
+  &:hover {
+    @apply scale-105 opacity-70;
+  }
+}
+
+.settingsActionButton {
+  @apply h-10 text-sm font-medium;
+}
+
+.passwordAction {
+  @apply flex min-h-10 items-center justify-between gap-5;
+}
+
+.passwordError,
+.passwordSuccess {
+  @apply text-sm font-medium;
+}
+
+.passwordError {
+  @apply text-rose-600;
+}
+
+.passwordSuccess {
+  @apply text-emerald-600;
+}
+
+.settingList {
+  @apply divide-y divide-slate-100;
+}
+
+.settingRow {
+  @apply flex items-center justify-between gap-8 py-5;
+
+  &:first-child {
+    @apply pt-0;
+  }
+
+  &:last-child {
+    @apply pb-0;
+  }
+
+  h3 {
+    @apply text-sm font-medium text-slate-800;
+  }
+
+  p {
+    @apply mt-1 text-sm text-slate-500;
+  }
+}
+
+.switch {
+  @apply relative h-7 w-12 shrink-0 rounded-full bg-slate-200 transition-colors;
+
+  span {
+    @apply absolute left-1 top-1 size-5 rounded-full bg-white shadow-sm transition-transform;
+  }
+}
+
+.switchActive {
+  @apply bg-indigo-500;
+
+  span {
+    transform: translateX(20px);
+  }
+}
+
+@media (max-width: 640px) {
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+}

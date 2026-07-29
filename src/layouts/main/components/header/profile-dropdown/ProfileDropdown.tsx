@@ -14,10 +14,17 @@ const cx = classNames.bind(styles);
 
 interface Props {
   profile: IHeaderProfile;
+  onOpenProfile: () => void;
+  onOpenChangePassword: () => void;
   onLogout: () => void;
 }
 
-const ProfileDropdown = ({ profile, onLogout }: Props) => {
+const ProfileDropdown = ({
+  profile,
+  onOpenProfile,
+  onOpenChangePassword,
+  onLogout,
+}: Props) => {
   // ===== Hooks =====
   const { t } = useTranslation();
   const { name, avatarLabel } = profile;
@@ -29,19 +36,45 @@ const ProfileDropdown = ({ profile, onLogout }: Props) => {
 
         {name && (
           <div className={cx("userInfo")}>
-            <span className={cx("userName")}>{name}</span>
+            <span
+              className={cx("userName")}
+              tabIndex={0}
+              data-tooltip-id="header-profile-tooltip"
+              onMouseEnter={(event) => {
+                const element = event.currentTarget;
+                if (element.scrollWidth > element.clientWidth) {
+                  element.setAttribute("data-tooltip-content", name);
+                }
+              }}
+              onFocus={(event) => {
+                const element = event.currentTarget;
+                if (element.scrollWidth > element.clientWidth) {
+                  element.setAttribute("data-tooltip-content", name);
+                }
+              }}
+            >
+              {name}
+            </span>
           </div>
         )}
       </div>
 
       <div className={cx("divider")} />
 
-      <button type="button" className={cx("menuItem")}>
+      <button
+        type="button"
+        className={cx("menuItem")}
+        onClick={onOpenProfile}
+      >
         <span className={cx("menuIcon")}>👤</span>
         <span>{t("header.profile")}</span>
       </button>
 
-      <button type="button" className={cx("menuItem")}>
+      <button
+        type="button"
+        className={cx("menuItem")}
+        onClick={onOpenChangePassword}
+      >
         <span className={cx("menuIcon")}>🔒</span>
         <span>{t("header.change_password")}</span>
       </button>

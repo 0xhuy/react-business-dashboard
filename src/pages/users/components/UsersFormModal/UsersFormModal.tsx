@@ -21,6 +21,7 @@ import type { UserFormModalProps, UserFormValues } from "./types";
 
 // ===== Styles =====
 import styles from "./UsersFormModal.module.scss";
+import { icons } from "@/assets";
 
 const cx = classNames.bind(styles);
 
@@ -190,6 +191,17 @@ const UsersFormModal = (props: UserFormModalProps) => {
                   placeholder={t("users.password_placeholder")}
                   messageError={errors.password?.message}
                   isRequired={!initialValues}
+                  renderPasswordToggle={(isShow) => (
+                    <img
+                      className={cx("toggleIcon")}
+                      src={isShow ? icons.iconEyeOff : icons.iconEyeShow}
+                      alt={
+                        isShow
+                          ? t("auth.login.hide_password")
+                          : t("auth.login.show_password")
+                      }
+                    />
+                  )}
                 />
               )}
             />
@@ -206,6 +218,17 @@ const UsersFormModal = (props: UserFormModalProps) => {
                   placeholder={t("users.confirm_password_placeholder")}
                   messageError={errors.confirmPassword?.message}
                   isRequired={!initialValues}
+                  renderPasswordToggle={(isShow) => (
+                    <img
+                      className={cx("toggleIcon")}
+                      src={isShow ? icons.iconEyeOff : icons.iconEyeShow}
+                      alt={
+                        isShow
+                          ? t("auth.login.hide_password")
+                          : t("auth.login.show_password")
+                      }
+                    />
+                  )}
                 />
               )}
             />

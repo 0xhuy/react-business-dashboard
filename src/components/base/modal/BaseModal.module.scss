@@ -38,11 +38,11 @@
   @apply flex-1 overflow-y-auto px-7 py-6;
 
   &::-webkit-scrollbar {
-    @apply w-2;
+    width: 6px;
   }
 
   &::-webkit-scrollbar-thumb {
-    @apply rounded-full bg-slate-300;
+    @apply rounded-full bg-slate-400;
   }
 
   &::-webkit-scrollbar-track {

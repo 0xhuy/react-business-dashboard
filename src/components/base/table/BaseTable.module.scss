@@ -58,15 +58,16 @@
   @apply overflow-auto;
 
   &::-webkit-scrollbar {
-    @apply h-2 w-2;
+    width: 6px;
+    height: 6px;
   }
 
   &::-webkit-scrollbar-thumb {
-    @apply cursor-pointer rounded-full bg-slate-300;
+    @apply cursor-pointer rounded-full bg-slate-400;
   }
 
   &::-webkit-scrollbar-track {
-    @apply rounded-full bg-slate-100;
+    @apply rounded-full bg-transparent;
   }
 }
 

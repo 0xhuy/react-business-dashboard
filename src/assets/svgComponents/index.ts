@@ -2,3 +2,7 @@ export { default as IconArrow } from "./IconArrow";
 export { default as IconCheck } from "./IconCheck";
 export { default as IconFilter } from "./IconFilter";
 export { default as IconClose } from "./IconClose";
+export { default as IconNotification } from "./IconNotification";
+export { default as IconProfile } from "./IconProfile";
+export { default as IconLock } from "./IconLock";
+export { default as IconLogout } from "./IconLogout";

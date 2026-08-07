@@ -96,6 +96,8 @@
   },
   "dashboard": {
     "overview": "Dashboard Overview",
+    "overview_description": "Monitor key business metrics and recent activity in one place.",
+    "business_summary": "Business summary",
     "products": "Products",
     "total_products": "Total products",
     "purchase_orders": "Purchase Orders",
@@ -320,6 +322,24 @@
     "orderUpdates_description": "Get notified when a purchase order changes status.",
     "lowStockAlerts_title": "Low stock alerts",
     "lowStockAlerts_description": "Get notified when product stock reaches a low level."
+  },
+  "notification": {
+    "title": "Notifications",
+    "recent": "Recent notifications",
+    "unread_count": "{{count}} unread",
+    "mark_all_as_read": "Mark all as read",
+    "type_order": "Purchase order",
+    "type_stock": "Inventory",
+    "type_system": "System",
+    "order_updated_title": "Purchase order updated",
+    "order_updated_description": "PO-0001 has moved to the processing stage.",
+    "low_stock_title": "Low stock warning",
+    "low_stock_description": "PRD-003 has only 18 items remaining in stock.",
+    "settings_saved_title": "Settings saved",
+    "settings_saved_description": "Your dashboard preferences were updated successfully.",
+    "minutes_ago": "{{count}} minutes ago",
+    "hours_ago": "{{count}} hours ago",
+    "days_ago": "{{count}} day ago"
   },
   "common": {
     "dropdown": "Dropdown icon",

@@ -5,6 +5,11 @@
 // ===== Libs =====
 import classNames from "classnames/bind";
 import { useTranslation } from "react-i18next";
+
+// ===== Components, Images, Icons =====
+import { IconLock, IconLogout, IconProfile } from "@/assets";
+
+// ===== Others =====
 import type { IHeaderProfile } from "@/utils/interfaces";
 
 // ===== Styles =====
@@ -66,7 +71,9 @@ const ProfileDropdown = ({
         className={cx("menuItem")}
         onClick={onOpenProfile}
       >
-        <span className={cx("menuIcon")}>👤</span>
+        <span className={cx("menuIcon")}>
+          <IconProfile />
+        </span>
         <span>{t("header.profile")}</span>
       </button>
 
@@ -75,14 +82,18 @@ const ProfileDropdown = ({
         className={cx("menuItem")}
         onClick={onOpenChangePassword}
       >
-        <span className={cx("menuIcon")}>🔒</span>
+        <span className={cx("menuIcon")}>
+          <IconLock />
+        </span>
         <span>{t("header.change_password")}</span>
       </button>
 
       <div className={cx("divider")} />
 
       <button type="button" className={cx("logoutItem")} onClick={onLogout}>
-        <span className={cx("menuIcon")}>⏻</span>
+        <span className={cx("menuIcon")}>
+          <IconLogout />
+        </span>
         <span>{t("auth.logout")}</span>
       </button>
     </div>

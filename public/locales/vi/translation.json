@@ -96,6 +96,8 @@
   },
   "dashboard": {
     "overview": "Tổng quan bảng điều khiển",
+    "overview_description": "Theo dõi các chỉ số kinh doanh và hoạt động gần đây tại một nơi.",
+    "business_summary": "Tóm tắt kinh doanh",
     "products": "Sản phẩm",
     "total_products": "Tổng sản phẩm",
     "purchase_orders": "Đơn nhập hàng",
@@ -319,6 +321,24 @@
     "orderUpdates_description": "Nhận thông báo khi đơn mua hàng thay đổi trạng thái.",
     "lowStockAlerts_title": "Cảnh báo sắp hết hàng",
     "lowStockAlerts_description": "Nhận thông báo khi tồn kho sản phẩm xuống mức thấp."
+  },
+  "notification": {
+    "title": "Thông báo",
+    "recent": "Thông báo gần đây",
+    "unread_count": "{{count}} chưa đọc",
+    "mark_all_as_read": "Đánh dấu tất cả đã đọc",
+    "type_order": "Đơn mua hàng",
+    "type_stock": "Kho hàng",
+    "type_system": "Hệ thống",
+    "order_updated_title": "Đơn mua hàng đã cập nhật",
+    "order_updated_description": "PO-0001 đã chuyển sang trạng thái đang xử lý.",
+    "low_stock_title": "Cảnh báo sắp hết hàng",
+    "low_stock_description": "PRD-003 chỉ còn 18 sản phẩm trong kho.",
+    "settings_saved_title": "Đã lưu cài đặt",
+    "settings_saved_description": "Tùy chọn trang quản trị của bạn đã được cập nhật.",
+    "minutes_ago": "{{count}} phút trước",
+    "hours_ago": "{{count}} giờ trước",
+    "days_ago": "{{count}} ngày trước"
   },
   "common": {
     "dropdown": "Biểu tượng xổ xuống",

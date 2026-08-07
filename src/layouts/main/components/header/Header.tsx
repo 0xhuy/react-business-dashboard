@@ -9,10 +9,17 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Tooltip } from "react-tooltip";
 
+// ===== Components, Images, Icons =====
+import { icons, IconNotification } from "@/assets";
+import NotificationPopover from "./notification-popover";
+import ProfileDropdown from "./profile-dropdown/ProfileDropdown";
+
 // ===== Others =====
 import {
   authRouteAbsolute,
+  DEFAULT_UNREAD_NOTIFICATION_COUNT,
   EMPTY_STRING,
+  NOTIFICATION_BADGE_MAX_COUNT,
   SETTINGS_ROUTE_BY_ROLE,
   SETTINGS_SECTION,
 } from "@/utils/constants";
@@ -20,11 +27,9 @@ import { logoutAuthThunk } from "@/redux/thunks/auth/authThunk";
 import { useAppDispatch, useAuth } from "@/redux/hooks";
 import { Role } from "@/utils/enum";
 import type { SettingsSection } from "@/pages/settings/types";
-import ProfileDropdown from "./profile-dropdown/ProfileDropdown";
 
-// ===== Styles, Images, Icons =====
+// ===== Styles =====
 import styles from "./Header.module.scss";
-import { icons } from "@/assets";
 
 const cx = classNames.bind(styles);
 
@@ -37,6 +42,11 @@ const Header = () => {
 
   // ===== States =====
   const [isOpenProfileMenu, setIsOpenProfileMenu] = useState(false);
+  const [isOpenNotification, setIsOpenNotification] = useState(false);
+  const [unreadNotificationCount, setUnreadNotificationCount] = useState(
+    DEFAULT_UNREAD_NOTIFICATION_COUNT,
+  );
+  const notificationRef = useRef<HTMLDivElement>(null);
   const profileMenuRef = useRef<HTMLDivElement>(null);
 
   // ===== Effects =====
@@ -44,13 +54,19 @@ const Header = () => {
     const handlePointerDown = (event: MouseEvent) => {
       if (
         profileMenuRef.current &&
-        !profileMenuRef.current.contains(event.target as Node)
+        !profileMenuRef.current.contains(event.target as Node) &&
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target as Node)
       ) {
         setIsOpenProfileMenu(false);
+        setIsOpenNotification(false);
       }
     };
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setIsOpenProfileMenu(false);
+      if (event.key === "Escape") {
+        setIsOpenProfileMenu(false);
+        setIsOpenNotification(false);
+      }
     };
 
     document.addEventListener("mousedown", handlePointerDown);
@@ -64,7 +80,13 @@ const Header = () => {
 
   // ===== Handlers =====
   const handleToggleProfileMenu = () => {
+    setIsOpenNotification(false);
     setIsOpenProfileMenu((prev) => !prev);
+  };
+
+  const handleToggleNotification = () => {
+    setIsOpenProfileMenu(false);
+    setIsOpenNotification((isOpen) => !isOpen);
   };
 
   const handleLogout = async () => {
@@ -99,15 +121,39 @@ const Header = () => {
     avatarLabel,
   };
 
+  const notificationBadgeText =
+    unreadNotificationCount > NOTIFICATION_BADGE_MAX_COUNT
+      ? `${NOTIFICATION_BADGE_MAX_COUNT}+`
+      : String(unreadNotificationCount);
+
   // ===== Render =====
   return (
     <header className={cx("header")}>
       <div className={cx("left")}></div>
 
       <div className={cx("right")}>
-        <button type="button" className={cx("iconButton")}>
-          🔔
-        </button>
+        <div className={cx("notificationWrap")} ref={notificationRef}>
+          <button
+            type="button"
+            className={cx("iconButton")}
+            aria-label={t("settings.notifications_title")}
+            aria-expanded={isOpenNotification}
+            title={t("settings.notifications_title")}
+            onClick={handleToggleNotification}
+          >
+            <IconNotification />
+            {unreadNotificationCount > 0 && (
+              <span className={cx("notificationBadge")} aria-hidden="true">
+                {notificationBadgeText}
+              </span>
+            )}
+          </button>
+
+          <NotificationPopover
+            isOpen={isOpenNotification}
+            onUnreadCountChange={setUnreadNotificationCount}
+          />
+        </div>
 
         <div className={cx("profileWrap")} ref={profileMenuRef}>
           <button

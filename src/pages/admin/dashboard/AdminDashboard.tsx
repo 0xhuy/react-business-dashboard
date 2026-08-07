@@ -93,7 +93,15 @@ const AdminDashboard = () => {
       }}
     >
       <section className={cx("heroSection")}>
-        <p className={cx("title")}>{t("dashboard.overview")}</p>
+        <div>
+          <p className={cx("title")}>{t("dashboard.overview")}</p>
+          <p className={cx("heroDescription")}>
+            {t("dashboard.overview_description")}
+          </p>
+        </div>
+        <span className={cx("heroBadge")}>
+          {t("dashboard.business_summary")}
+        </span>
       </section>
 
       <section className={cx("statGrid")}>

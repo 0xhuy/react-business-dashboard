@@ -47,6 +47,14 @@
   @apply text-lg font-semibold tracking-tight text-slate-900;
 }
 
+.heroDescription {
+  @apply mt-1.5 text-sm font-normal text-slate-500;
+}
+
+.heroBadge {
+  @apply shrink-0 rounded-full bg-indigo-50/60 px-4 py-2 text-xs font-semibold text-indigo-600;
+}
+
 .statGrid {
   @apply grid grid-cols-4 gap-4;
 }
@@ -162,6 +170,14 @@
 }
 
 @media (max-width: 768px) {
+  .heroSection {
+    @apply items-start gap-4;
+  }
+
+  .heroBadge {
+    @apply hidden;
+  }
+
   .statGrid {
     @apply grid-cols-1;
   }

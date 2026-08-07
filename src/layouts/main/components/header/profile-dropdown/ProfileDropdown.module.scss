@@ -44,7 +44,16 @@
   @apply text-slate-600;
 
   &:hover {
-    @apply bg-slate-50 text-slate-800;
+    @apply bg-indigo-50/40 text-slate-800;
+  }
+
+  &:focus-visible {
+    @apply bg-indigo-50/40 text-slate-800 outline-none ring-2 ring-primary/15;
+  }
+
+  &:hover .menuIcon,
+  &:focus-visible .menuIcon {
+    @apply bg-indigo-50/40;
   }
 }
 

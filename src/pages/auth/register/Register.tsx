@@ -84,6 +84,7 @@ const Register = () => {
       setIsLoading(true);
 
       const { error } = await authApi.register({
+        fullName: data.fullName,
         email: data.email,
         password: data.password,
       });

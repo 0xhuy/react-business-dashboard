@@ -15,13 +15,14 @@ const authApi = {
   },
 
   register(payload: RegisterPayload) {
-    const { email, password } = payload;
+    const { fullName, email, password } = payload;
 
     return supabase.auth.signUp({
       email,
       password,
       options: {
         data: {
+          full_name: fullName.trim(),
           role: DEFAULT_REGISTER_ROLE,
         },
       },

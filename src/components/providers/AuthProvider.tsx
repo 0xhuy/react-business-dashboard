@@ -10,6 +10,8 @@ import { useAppDispatch } from "@/redux/hooks";
 
 // ===== Thunks =====
 import { getAuthThunk } from "@/redux/thunks/auth/authThunk";
+import { authActions } from "@/redux/thunks/auth/authSlice";
+import { supabase } from "@/services/supabase";
 
 // ===== Types =====
 type Props = {
@@ -24,6 +26,14 @@ export const AuthProvider = ({ children }: Props) => {
   // ===== Effects =====
   useEffect(() => {
     dispatch(getAuthThunk());
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      dispatch(authActions.syncAuthSession(session));
+    });
+
+    return () => subscription.unsubscribe();
   }, [dispatch]);
 
   return <>{children}</>;

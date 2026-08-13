@@ -7,6 +7,7 @@ import { useAppSelector } from "@/redux/hooks";
 // ===== Others =====
 import { authRouteAbsolute } from "@/utils/constants";
 import { Role } from "@/utils/enum";
+import { BaseLoading } from "@/components";
 
 // ===== Component =====
 export const ProtectedRoute = () => {
@@ -19,7 +20,7 @@ export const ProtectedRoute = () => {
 
   // ===== Render =====
   if (loading) {
-    return null;
+    return <BaseLoading variant="page" size="lg" />;
   }
 
   if (!session || !role) {

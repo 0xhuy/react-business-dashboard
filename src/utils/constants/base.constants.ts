@@ -13,6 +13,13 @@ export const MIN_WIDTH_NUMBER = 150;
 // ============================================================
 export const DEFAULT_FILTER_WIDTH_BTN = 100;
 export const DEFAULT_FILTER_HEIGHT_BTN = 45;
+export const DEFAULT_FILTER_PANEL_WIDTH = 500;
+export const DEFAULT_FILTER_SELECT_HEIGHT = 40;
+
+// ============================================================
+// BASE ICON
+// ============================================================
+export const DEFAULT_ICON_SIZE = 16;
 
 // ============================================================
 // BASE CHECKBOX
@@ -40,3 +47,8 @@ export const DEFAULT_BUTTON_SIZE = "md";
 // BASE ACTION MENU
 // ============================================================
 export const DEFAULT_ACTION_MENU_WIDTH = 168;
+
+// ============================================================
+// BASE TOAST
+// ============================================================
+export const DEFAULT_TOAST_DURATION = 3500;

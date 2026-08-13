@@ -9,7 +9,13 @@ import {
   type SelectionMode,
 } from "@silevis/reactgrid";
 import classNames from "classnames/bind";
-import { memo, useCallback, useMemo, type ReactNode } from "react";
+import {
+  memo,
+  useCallback,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 import { Tooltip } from "react-tooltip";
 import { useTranslation } from "react-i18next";
 
@@ -18,6 +24,7 @@ import {
   DEFAULT_INDEX_COLUMN_WIDTH,
   DEFAULT_NUMBER_ZERO,
   PRODUCT_SHEET_COLUMNS,
+  PRODUCT_SHEET_HEADER_ROW_OFFSET,
 } from "@/utils/constants";
 import { applyProductSheetChanges, buildProductSheetRows } from "./helpers";
 import type { ProductSpreadsheetProps } from "./types";
@@ -45,6 +52,11 @@ const ProductSpreadsheet = (props: ProductSpreadsheetProps) => {
   // ===== Hooks =====
   const { t } = useTranslation();
 
+  // ===== States =====
+  const [openDropdownRowIndex, setOpenDropdownRowIndex] = useState<
+    number | null
+  >(null);
+
   // ===== Memos =====
   const columns = useMemo(
     () => [
@@ -66,13 +78,56 @@ const ProductSpreadsheet = (props: ProductSpreadsheetProps) => {
       rowOffset,
       highlightedRowIndex,
       highlightedRowVariant,
+      openDropdownRowIndex,
     });
-  }, [dataSource, highlightedRowIndex, highlightedRowVariant, rowOffset, t]);
+  }, [
+    dataSource,
+    highlightedRowIndex,
+    highlightedRowVariant,
+    openDropdownRowIndex,
+    rowOffset,
+    t,
+  ]);
 
   // ===== Handlers =====
   const handleCellsChanged = useCallback(
     (changes: CellChange[]) => {
-      const updatedData = applyProductSheetChanges(changes, dataSource);
+      const dataChanges = changes.filter((change) => {
+        if (change.newCell.type !== "dropdown") return true;
+        if (typeof change.rowId !== "number") return false;
+
+        const currentRow = dataSource[change.rowId];
+
+        if (!currentRow) return false;
+
+        const currentValue = currentRow[
+          change.columnId as keyof typeof currentRow
+        ];
+        const selectedValue = change.newCell.selectedValue;
+        const isDropdownOpen = change.newCell.isOpen;
+        const dropdownRowIndex = change.rowId;
+
+        if (
+          selectedValue === undefined ||
+          selectedValue === String(currentValue ?? "")
+        ) {
+          setOpenDropdownRowIndex((currentOpenRowIndex) => {
+            if (!isDropdownOpen) return null;
+
+            return currentOpenRowIndex === dropdownRowIndex
+              ? null
+              : dropdownRowIndex;
+          });
+          return false;
+        }
+
+        setOpenDropdownRowIndex(null);
+        return selectedValue !== String(currentValue ?? "");
+      });
+
+      if (dataChanges.length === 0) return;
+
+      const updatedData = applyProductSheetChanges(dataChanges, dataSource);
       onChange(updatedData);
     },
     [dataSource, onChange],
@@ -147,13 +202,37 @@ const ProductSpreadsheet = (props: ProductSpreadsheetProps) => {
       const target = event.target as HTMLElement;
       const headerCell = target.closest(".rg-header-cell");
 
-      if (!headerCell) return;
+      if (headerCell) {
+        event.preventDefault();
+        event.stopPropagation();
+        event.nativeEvent.stopImmediatePropagation();
+        return;
+      }
+
+      if (event.type !== "pointerdown") return;
+
+      const dropdownCell = target.closest<HTMLElement>(".rg-dropdown-cell");
+      const isDropdownOption = Boolean(
+        target.closest(".rg-dropdown-option, .rg-dropdown-menu"),
+      );
+      const dropdownRowIndex = Number(
+        dropdownCell?.dataset.cellRowidx ?? Number.NaN,
+      ) - PRODUCT_SHEET_HEADER_ROW_OFFSET;
+
+      if (
+        !dropdownCell ||
+        isDropdownOption ||
+        dropdownRowIndex !== openDropdownRowIndex
+      ) {
+        return;
+      }
 
       event.preventDefault();
       event.stopPropagation();
       event.nativeEvent.stopImmediatePropagation();
+      setOpenDropdownRowIndex(null);
     },
-    [],
+    [openDropdownRowIndex],
   );
 
   const renderTooltipContent = useCallback(

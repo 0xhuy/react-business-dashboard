@@ -1,4 +1,10 @@
 {
+  "not_found": {
+    "code": "404",
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist or may have been moved.",
+    "back_home": "Back to home"
+  },
   "auth": {
     "app_name": "Dashly",
     "login": {
@@ -149,11 +155,23 @@
     "status_lowstock": "Low stock",
     "status_outofstock": "Out of stock",
 
+    "api": {
+      "load_error": "Unable to load products. Check the database configuration and try again.",
+      "save_error": "Unable to save the product. Please try again.",
+      "delete_error": "Unable to delete the product. Please try again.",
+      "create_success": "Product created successfully.",
+      "update_success": "Product updated successfully.",
+      "delete_success": "Product deleted successfully."
+    },
+
     "validation": {
       "sku_required": "SKU is required",
       "name_required": "Product name is required",
       "category_required": "Category is required",
+      "category_invalid": "Select a valid category",
+      "price_required": "Price is required",
       "price_invalid": "Price must be greater than or equal to 0",
+      "stock_required": "Stock is required",
       "stock_invalid": "Stock must be greater than or equal to 0",
       "description_required": "Description is required"
     }
@@ -164,7 +182,17 @@
     "insert_row_above": "Insert Row Above",
     "insert_link": "Insert Link",
     "delete_row": "Delete Row",
+    "unsaved_changes_title": "Unsaved changes",
+    "unsaved_changes_description": "You have unsaved spreadsheet changes. If you leave now, those changes will be lost.",
+    "stay_on_page": "Stay",
+    "leave_page": "Leave page",
     "excel_sheet_name": "Products",
+    "api": {
+      "load_error": "Unable to load the product spreadsheet. Please try again.",
+      "import_error": "Unable to import the Excel file. Check the file format and try again.",
+      "save_error": "Unable to save spreadsheet changes. Please try again.",
+      "save_success": "Spreadsheet changes saved successfully."
+    },
 
     "sku": "SKU",
     "name": "Name",
@@ -362,6 +390,7 @@
     "required": "This field is required",
     "invalid_email": "Please enter a valid email address",
     "min_length": "Must be at least {{value}} characters",
-    "password_not_match": "Passwords do not match"
+    "password_not_match": "Passwords do not match",
+    "close_notification": "Close notification"
   }
 }

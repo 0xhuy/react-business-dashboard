@@ -1,4 +1,10 @@
 {
+  "not_found": {
+    "code": "404",
+    "title": "Không tìm thấy trang",
+    "description": "Trang bạn đang tìm kiếm không tồn tại hoặc có thể đã được di chuyển.",
+    "back_home": "Về trang chính"
+  },
   "auth": {
     "app_name": "Dashly",
     "login": {
@@ -149,11 +155,23 @@
     "status_lowstock": "Sắp hết hàng",
     "status_outofstock": "Hết hàng",
 
+    "api": {
+      "load_error": "Không thể tải sản phẩm. Vui lòng kiểm tra cấu hình cơ sở dữ liệu và thử lại.",
+      "save_error": "Không thể lưu sản phẩm. Vui lòng thử lại.",
+      "delete_error": "Không thể xóa sản phẩm. Vui lòng thử lại.",
+      "create_success": "Thêm sản phẩm thành công.",
+      "update_success": "Cập nhật sản phẩm thành công.",
+      "delete_success": "Xóa sản phẩm thành công."
+    },
+
     "validation": {
       "sku_required": "Vui lòng nhập SKU",
       "name_required": "Vui lòng nhập tên sản phẩm",
       "category_required": "Vui lòng chọn danh mục",
+      "category_invalid": "Vui lòng chọn danh mục hợp lệ",
+      "price_required": "Vui lòng nhập giá",
       "price_invalid": "Giá phải lớn hơn hoặc bằng 0",
+      "stock_required": "Vui lòng nhập tồn kho",
       "stock_invalid": "Tồn kho phải lớn hơn hoặc bằng 0",
       "description_required": "Vui lòng nhập mô tả"
     }
@@ -164,7 +182,17 @@
     "insert_row_above": "Chèn dòng phía trên",
     "insert_link": "Chèn liên kết",
     "delete_row": "Xóa dòng",
+    "unsaved_changes_title": "Thay đổi chưa được lưu",
+    "unsaved_changes_description": "Bạn có thay đổi trong bảng tính chưa được lưu. Nếu rời trang, các thay đổi này sẽ bị mất.",
+    "stay_on_page": "Ở lại",
+    "leave_page": "Rời trang",
     "excel_sheet_name": "Sản phẩm",
+    "api": {
+      "load_error": "Không thể tải bảng tính sản phẩm. Vui lòng thử lại.",
+      "import_error": "Không thể nhập tệp Excel. Vui lòng kiểm tra định dạng tệp và thử lại.",
+      "save_error": "Không thể lưu thay đổi trong bảng tính. Vui lòng thử lại.",
+      "save_success": "Lưu thay đổi bảng tính thành công."
+    },
 
     "sku": "Mã SKU",
     "name": "Tên sản phẩm",
@@ -361,6 +389,7 @@
     "required": "Trường này là bắt buộc",
     "invalid_email": "Vui lòng nhập địa chỉ email hợp lệ",
     "min_length": "Phải có ít nhất {{value}} ký tự",
-    "password_not_match": "Mật khẩu xác nhận không khớp"
+    "password_not_match": "Mật khẩu xác nhận không khớp",
+    "close_notification": "Đóng thông báo"
   }
 }

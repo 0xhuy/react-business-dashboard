@@ -15,3 +15,7 @@
 .tooltip {
   @apply max-w-[320px] whitespace-normal break-words z-[9999];
 }
+
+.dropdownOpenUpward {
+  position: absolute;
+}

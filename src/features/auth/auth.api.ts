@@ -4,8 +4,8 @@
 
 // ===== Others =====
 import { supabase } from "@/services/supabase";
-import { DEFAULT_REGISTER_ROLE } from "./auth.constant";
-import type { LoginPayload, RegisterPayload } from "./auth.type";
+import { DEFAULT_REGISTER_ROLE } from "@/utils/constants";
+import type { LoginPayload, RegisterPayload } from "./auth.types";
 import { authRouteAbsolute } from "@/utils/constants";
 
 // ===== Api =====

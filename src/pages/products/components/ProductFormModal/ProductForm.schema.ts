@@ -1,6 +1,18 @@
 // ===== Libs =====
 import type { TFunction } from "i18next";
 import { z } from "zod";
+import { isProductCategory } from "@/utils/helper";
+
+const requiredNonNegativeNumber = (
+  requiredMessage: string,
+  invalidMessage: string,
+) =>
+  z.preprocess(
+    (value) => (value === "" || value === null ? undefined : Number(value)),
+    z
+      .number({ error: requiredMessage })
+      .min(0, invalidMessage),
+  );
 
 // ===== Schema =====
 export const productFormSchema = (t: TFunction) =>
@@ -12,16 +24,20 @@ export const productFormSchema = (t: TFunction) =>
     category: z
       .string()
       .trim()
-      .min(1, t("products.validation.category_required")),
+      .min(1, t("products.validation.category_required"))
+      .refine(isProductCategory, t("products.validation.category_invalid")),
 
-    price: z.coerce.number().min(0, t("products.validation.price_invalid")),
+    price: requiredNonNegativeNumber(
+      t("products.validation.price_required"),
+      t("products.validation.price_invalid"),
+    ),
 
-    stock: z.coerce.number().min(0, t("products.validation.stock_invalid")),
+    stock: requiredNonNegativeNumber(
+      t("products.validation.stock_required"),
+      t("products.validation.stock_invalid"),
+    ),
 
-    description: z
-      .string()
-      .trim()
-      .min(1, t("products.validation.description_required")),
+    description: z.string().trim(),
   });
 
 // ===== Types =====

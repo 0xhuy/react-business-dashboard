@@ -8,3 +8,5 @@ export { default as BasePagination } from "./pagination/BasePagination";
 export { default as BaseModal } from "./modal/BaseModal";
 export { default as BaseTextarea } from "./textarea/BaseTextarea";
 export { default as BaseActionMenu } from "./action-menu/BaseActionMenu";
+export { default as BaseLoading } from "./loading/BaseLoading";
+export { default as BaseToast } from "./toast/BaseToast";

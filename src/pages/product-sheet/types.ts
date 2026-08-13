@@ -7,7 +7,10 @@ import { PRODUCT_SHEET_EXCEL_COLUMN_KEYS } from "@/utils/constants";
 export type ProductSheetImportValidationError = {
   rowIndex: number;
   rowNumber: number;
-  columnId: keyof Pick<ProductSheetRow, "sku" | "name" | "price" | "stock">;
+  columnId: keyof Pick<
+    ProductSheetRow,
+    "sku" | "name" | "category" | "price" | "stock"
+  >;
   messageKey: string;
   messageValues?: Record<string, string | number>;
 };

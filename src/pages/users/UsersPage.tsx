@@ -26,6 +26,8 @@ import { KeyTableEnum } from "@/utils/enum";
 import { icons } from "@/assets";
 import type { UserFilterValues, UserRow } from "./type";
 import {
+  DEFAULT_FILTER_PANEL_WIDTH,
+  DEFAULT_FILTER_SELECT_HEIGHT,
   DEFAULT_USER_FILTER_VALUES,
   USER_DATA_SOURCE,
   USER_ROLE_OPTIONS,
@@ -315,7 +317,7 @@ const UsersPage = () => {
             <BaseFilter<UserFilterValues>
               valueFilter={filterValues}
               defaultValue={DEFAULT_USER_FILTER_VALUES}
-              widthPanel={500}
+              widthPanel={DEFAULT_FILTER_PANEL_WIDTH}
               onApply={handleApplyFilter}
             >
               {({ valueFilter, isChecked, onCheckboxChange, onChange }) => (
@@ -335,7 +337,7 @@ const UsersPage = () => {
                         <BaseSelect
                           name="role"
                           options={userRoleOptions}
-                          height={40}
+                          height={DEFAULT_FILTER_SELECT_HEIGHT}
                           value={valueFilter.role}
                           placeholder={t("users.role")}
                           onChange={({ value }, name) => {
@@ -364,7 +366,7 @@ const UsersPage = () => {
                         <BaseSelect
                           name="status"
                           options={userStatusOptions}
-                          height={40}
+                          height={DEFAULT_FILTER_SELECT_HEIGHT}
                           value={valueFilter.status}
                           placeholder={t("users.status")}
                           onChange={({ value }, name) => {

@@ -4,6 +4,7 @@ import type { Cell, Column } from "@silevis/reactgrid";
 
 // ===== Types =====
 export type ProductSheetRow = {
+  id?: string;
   sku: string;
   name: string;
   category: string;
@@ -18,7 +19,7 @@ export type ProductSheetColumn = Column & {
   dataIndex?: keyof ProductSheetRow;
   translationKey?: string;
   isReadOnly?: boolean;
-  cellType?: "text" | "number";
+  cellType?: "text" | "number" | "dropdown";
 };
 
 export type ProductSheetHighlightedRowVariant = "search" | "error";
@@ -31,6 +32,7 @@ export type BuildProductSheetRowsParams = {
   rowOffset?: number;
   highlightedRowIndex?: number | null;
   highlightedRowVariant?: ProductSheetHighlightedRowVariant;
+  openDropdownRowIndex?: number | null;
 };
 
 export type ProductSpreadsheetProps = {

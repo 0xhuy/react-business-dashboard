@@ -12,12 +12,14 @@ import {
 
 // ===== Reducers =====
 import authReducer from "@/redux/thunks/auth/authSlice";
+import productReducer from "@/redux/thunks/products/productSlice";
 
 // ============================================================
 // ROOT REDUCER
 // ============================================================
 const rootReducer = combineReducers({
   auth: authReducer,
+  products: productReducer,
 });
 
 // ============================================================

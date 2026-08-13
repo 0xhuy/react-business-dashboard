@@ -1,4 +1,5 @@
 // ===== Others =====
+import { DEFAULT_ICON_SIZE } from "@/utils/constants";
 import { SLATE500 } from "@/utils/constants/color";
 
 // ===== Types =====
@@ -11,7 +12,12 @@ type Props = {
 
 const IconClose = (props: Props) => {
   // ===== Props =====
-  const { strokePath = SLATE500, width = 16, height = 16, className } = props;
+  const {
+    strokePath = SLATE500,
+    width = DEFAULT_ICON_SIZE,
+    height = DEFAULT_ICON_SIZE,
+    className,
+  } = props;
 
   return (
     <svg

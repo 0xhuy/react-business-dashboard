@@ -8,6 +8,7 @@ import { OrderStatusEnum } from "@/utils/enum";
 // ===== Schema =====
 export const orderFormSchema = (t: TFunction) =>
   z.object({
+    supplier: z.string().trim().min(1, t("common.required")),
     orderDate: z.string().trim().min(1, t("common.required")),
     status: z.enum(OrderStatusEnum),
     note: z.string().trim(),

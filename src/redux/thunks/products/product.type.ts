@@ -7,7 +7,7 @@ import type {
 export type ProductState = {
   products: ProductRow[];
   loading: boolean;
-  mutating: boolean;
+  isProcessing: boolean;
   error: string | null;
 };
 

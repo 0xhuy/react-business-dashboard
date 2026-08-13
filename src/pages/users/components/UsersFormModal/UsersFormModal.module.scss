@@ -11,11 +11,11 @@
 }
 
 .sectionTitle {
-  @apply text-base font-semibold text-slate-900;
+  @apply text-sm font-semibold text-slate-900;
 }
 
 .sectionDescription {
-  @apply mt-1 text-sm text-slate-500;
+  @apply mt-1 text-xs leading-5 text-slate-500;
 }
 
 .twoColumns {

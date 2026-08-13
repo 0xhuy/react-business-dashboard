@@ -71,6 +71,10 @@
   }
 }
 
+.dateError {
+  @apply text-xs font-medium text-red-500;
+}
+
 .table {
   @apply flex-1 overflow-hidden z-0;
 }
@@ -93,10 +97,6 @@
 
 .statusCancelled {
   @apply bg-rose-100 text-rose-700;
-}
-
-.noteCell {
-  @apply block w-full min-w-0 overflow-hidden text-ellipsis whitespace-nowrap;
 }
 
 @media (max-width: 1024px) {

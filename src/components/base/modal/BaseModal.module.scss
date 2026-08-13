@@ -19,7 +19,7 @@
 }
 
 .title {
-  @apply text-xl font-semibold text-slate-900;
+  @apply text-lg font-semibold text-slate-900;
 }
 
 .closeButton {
@@ -54,12 +54,10 @@
   @apply flex items-center justify-end gap-3 px-7 py-5;
 
   border-top: 1px solid rgba(148, 163, 184, 0.18);
-}
 
-.loadingLayer {
-  @apply absolute inset-0 bg-white/50;
-
-  backdrop-filter: blur(2px);
+  > button {
+    @apply h-9 min-w-[96px] px-4 text-sm;
+  }
 }
 
 @keyframes modalReveal {

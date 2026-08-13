@@ -39,6 +39,19 @@ const BaseTable = <T extends Record<string, unknown>>(
       : MAX_WIDTH_PERCENT;
   }, [columns]);
 
+  const tableMinWidth = useMemo(() => {
+    const columnWidths = columns.map((column) => column.width);
+
+    if (!columnWidths.every((width) => typeof width === "number")) {
+      return undefined;
+    }
+
+    return columnWidths.reduce<number>(
+      (total, width) => total + Number(width),
+      DEFAULT_NUMBER_ZERO,
+    );
+  }, [columns]);
+
   // ===== Handlers =====
   const handleClickRow = (record: T) => {
     onClickRow?.(record);
@@ -53,6 +66,7 @@ const BaseTable = <T extends Record<string, unknown>>(
         <table
           style={{
             width: tableWidth,
+            minWidth: tableMinWidth,
             tableLayout: "fixed",
           }}
           className={cx("tableContainer", typeStyle)}

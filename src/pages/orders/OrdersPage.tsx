@@ -1,6 +1,6 @@
 // ===== Libs =====
 import classNames from "classnames/bind";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Trans, useTranslation } from "react-i18next";
 
@@ -12,9 +12,11 @@ import {
   BaseCheckbox,
   BaseFilter,
   BaseInput,
+  BaseLoading,
   BasePagination,
   BaseSelect,
   BaseTable,
+  BaseToast,
 } from "@/components";
 import BaseConfirmModal from "@/components/base/confirm-modal/BaseConfirmModal";
 
@@ -24,10 +26,10 @@ import type { ColumnType } from "@/utils/interfaces";
 import { InputTypeEnum } from "@/utils/enum/input.enum";
 import { KeyTableEnum } from "@/utils/enum";
 import { icons } from "@/assets";
-import type { PurchaseOrderFilterValues, PurchaseOrderRow } from "./type";
+import type { PurchaseOrderFilterValues } from "./type";
+import type { PurchaseOrderRow } from "@/features/orders/order.types";
 import {
   getPurchaseOrderTotalAmount,
-  getPurchaseOrderTotalItems,
   getPurchaseOrderTotalQuantity,
   purchaseOrderCurrencyFormatter,
 } from "./helpers";
@@ -35,8 +37,16 @@ import {
   DEFAULT_FILTER_PANEL_WIDTH,
   DEFAULT_FILTER_SELECT_HEIGHT,
   DEFAULT_PURCHASE_ORDER_FILTER_VALUES,
-  PURCHASE_ORDER_DATA_SOURCE,
+  EMPTY_STRING,
 } from "@/utils/constants";
+import { useAppDispatch, useOrders } from "@/redux/hooks";
+import {
+  createPurchaseOrderThunk,
+  deletePurchaseOrderThunk,
+  getPurchaseOrdersThunk,
+  updatePurchaseOrderThunk,
+} from "@/redux/thunks/orders/orderThunk";
+import { getProductsThunk } from "@/redux/thunks/products/productThunk";
 
 // ===== Styles =====
 import styles from "./OrdersPage.module.scss";
@@ -47,11 +57,16 @@ const OrdersPage = () => {
   // ===== Hooks =====
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const {
+    orders: purchaseOrders,
+    loading: isLoading,
+    isProcessing,
+  } = useOrders();
 
   // ===== States =====
-  const purchaseOrders = PURCHASE_ORDER_DATA_SOURCE;
   const [isOpenOrderModal, setIsOpenOrderModal] = useState(false);
-  const [selectedOrder, setSelectedOrder] = useState<OrderFormValues>();
+  const [selectedOrder, setSelectedOrder] = useState<PurchaseOrderRow>();
   const [searchValue, setSearchValue] = useState("");
   const [filterValues, setFilterValues] = useState<PurchaseOrderFilterValues>(
     DEFAULT_PURCHASE_ORDER_FILTER_VALUES,
@@ -59,6 +74,19 @@ const OrdersPage = () => {
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
   const [selectedDeleteOrder, setSelectedDeleteOrder] =
     useState<PurchaseOrderRow>();
+  const [apiError, setApiError] = useState(EMPTY_STRING);
+  const [apiMessage, setApiMessage] = useState(EMPTY_STRING);
+
+  // ===== Effects =====
+  useEffect(() => {
+    void Promise.all([
+      dispatch(getPurchaseOrdersThunk()).unwrap(),
+      dispatch(getProductsThunk()).unwrap(),
+    ]).catch((error) => {
+      console.error("Unable to load purchase orders:", error);
+      setApiError(t("orders.api.load_error"));
+    });
+  }, [dispatch, t]);
 
   // ===== Handlers =====
   const handleSearchChange = useCallback(
@@ -88,6 +116,15 @@ const OrdersPage = () => {
       isChecked: { [K in keyof PurchaseOrderFilterValues]?: boolean },
     ) => {
       if (!isChecked.orderDate) return false;
+      if (!valueFilter.fromDate || !valueFilter.toDate) return true;
+
+      return new Date(valueFilter.fromDate) > new Date(valueFilter.toDate);
+    },
+    [],
+  );
+
+  const getHasInvalidDateRange = useCallback(
+    (valueFilter: PurchaseOrderFilterValues) => {
       if (!valueFilter.fromDate || !valueFilter.toDate) return false;
 
       return new Date(valueFilter.fromDate) > new Date(valueFilter.toDate);
@@ -106,25 +143,32 @@ const OrdersPage = () => {
   }, []);
 
   const handleSubmitOrder = useCallback(
-    (data: OrderFormValues) => {
-      console.log("Submit purchase order", data);
-      handleCloseOrderModal();
+    async (data: OrderFormValues) => {
+      setApiError(EMPTY_STRING);
+      setApiMessage(EMPTY_STRING);
+
+      try {
+        if (selectedOrder) {
+          await dispatch(
+            updatePurchaseOrderThunk({ id: selectedOrder.id, order: data }),
+          ).unwrap();
+          setApiMessage(t("orders.api.update_success"));
+        } else {
+          await dispatch(createPurchaseOrderThunk(data)).unwrap();
+          setApiMessage(t("orders.api.create_success"));
+        }
+
+        handleCloseOrderModal();
+      } catch (error) {
+        console.error("Unable to save purchase order:", error);
+        setApiError(t("orders.api.save_error"));
+      }
     },
-    [handleCloseOrderModal],
+    [dispatch, handleCloseOrderModal, selectedOrder, t],
   );
 
   const handleEditOrder = useCallback((record: PurchaseOrderRow) => {
-    setSelectedOrder({
-      orderDate: record.orderDate,
-      status: record.status,
-      note: record.note,
-      items: record.items.map((item) => ({
-        productSku: item.productSku,
-        quantity: item.quantity,
-        unitPrice: item.unitPrice,
-      })),
-    });
-
+    setSelectedOrder(record);
     setIsOpenOrderModal(true);
   }, []);
 
@@ -138,10 +182,18 @@ const OrdersPage = () => {
     setIsOpenDeleteModal(false);
   }, []);
 
-  const handleConfirmDelete = useCallback(() => {
-    console.log("Delete purchase order", selectedDeleteOrder);
-    handleCloseDeleteModal();
-  }, [handleCloseDeleteModal, selectedDeleteOrder]);
+  const handleConfirmDelete = useCallback(async () => {
+    if (!selectedDeleteOrder) return;
+
+    try {
+      await dispatch(deletePurchaseOrderThunk(selectedDeleteOrder.id)).unwrap();
+      setApiMessage(t("orders.api.delete_success"));
+      handleCloseDeleteModal();
+    } catch (error) {
+      console.error("Unable to delete purchase order:", error);
+      setApiError(t("orders.api.delete_error"));
+    }
+  }, [dispatch, handleCloseDeleteModal, selectedDeleteOrder, t]);
 
   // ===== Memos =====
   const filteredPurchaseOrders = useMemo(() => {
@@ -150,6 +202,7 @@ const OrdersPage = () => {
     return purchaseOrders.filter((order) => {
       const searchableText = [
         order.poNumber,
+        order.supplier,
         order.note,
         ...order.items.flatMap((item) => [
           item.productSku,
@@ -187,6 +240,22 @@ const OrdersPage = () => {
     });
   }, [filterValues, purchaseOrders, searchValue]);
 
+  const orderFormInitialValues = useMemo<OrderFormValues | undefined>(() => {
+    if (!selectedOrder) return undefined;
+
+    return {
+      supplier: selectedOrder.supplier,
+      orderDate: selectedOrder.orderDate,
+      status: selectedOrder.status,
+      note: selectedOrder.note,
+      items: selectedOrder.items.map((item) => ({
+        productSku: item.productSku,
+        quantity: item.quantity,
+        unitPrice: item.unitPrice,
+      })),
+    };
+  }, [selectedOrder]);
+
   const purchaseOrderStatusOptions = useMemo(
     () => [
       {
@@ -215,29 +284,34 @@ const OrdersPage = () => {
         title: t("orders.po_number"),
         dataIndex: "poNumber",
         key: "poNumber",
+        width: 180,
         tooltip: true,
       },
       {
         title: t("orders.order_date"),
         dataIndex: "orderDate",
         key: "orderDate",
+        width: 150,
         tooltip: true,
       },
       {
-        title: t("orders.total_items"),
-        key: "totalItems",
+        title: t("orders.supplier"),
+        dataIndex: "supplier",
+        key: "supplier",
+        width: 220,
         tooltip: true,
-        render: (_, record) => getPurchaseOrderTotalItems(record.items),
       },
       {
         title: t("orders.total_quantity"),
         key: "totalQuantity",
+        width: 150,
         tooltip: true,
         render: (_, record) => getPurchaseOrderTotalQuantity(record.items),
       },
       {
         title: t("orders.total_amount"),
         key: "totalAmount",
+        width: 180,
         tooltip: true,
         render: (_, record) =>
           purchaseOrderCurrencyFormatter.format(
@@ -248,6 +322,7 @@ const OrdersPage = () => {
         title: t("orders.status"),
         dataIndex: "status",
         key: "status",
+        width: 150,
         tooltip: true,
         render: (_, record) => (
           <span
@@ -260,13 +335,6 @@ const OrdersPage = () => {
             {t(`orders.status_${record.status.toLowerCase()}`)}
           </span>
         ),
-      },
-      {
-        title: t("orders.note"),
-        key: "note",
-        width: 300,
-        tooltip: true,
-        render: (_, record) => <p className={cx("noteCell")}>{record.note}</p>,
       },
       {
         title: t("common.actions"),
@@ -412,7 +480,7 @@ const OrdersPage = () => {
                           />
                         </div>
 
-                        {getIsApplyDisabled(valueFilter, isChecked) && (
+                        {getHasInvalidDateRange(valueFilter) && (
                           <p className={cx("dateError")}>
                             {t("orders.invalid_date_range")}
                           </p>
@@ -436,11 +504,15 @@ const OrdersPage = () => {
       </section>
 
       <div className={cx("table")}>
-        <BaseTable
-          columns={purchaseOrderColumns}
-          dataSource={filteredPurchaseOrders}
-          onClickRow={handleOpenOrderDetail}
-        />
+        {isLoading ? (
+          <BaseLoading />
+        ) : (
+          <BaseTable
+            columns={purchaseOrderColumns}
+            dataSource={filteredPurchaseOrders}
+            onClickRow={handleOpenOrderDetail}
+          />
+        )}
       </div>
 
       <BasePagination
@@ -452,7 +524,8 @@ const OrdersPage = () => {
 
       <OrdersFormModal
         isOpen={isOpenOrderModal}
-        initialValues={selectedOrder}
+        isLoading={isProcessing}
+        initialValues={orderFormInitialValues}
         onClose={handleCloseOrderModal}
         onSubmit={handleSubmitOrder}
       />
@@ -468,8 +541,19 @@ const OrdersPage = () => {
           />
         }
         variant="danger"
+        isLoading={isProcessing}
         onClose={handleCloseDeleteModal}
         onConfirm={handleConfirmDelete}
+      />
+
+      <BaseToast
+        isOpen={Boolean(apiError || apiMessage)}
+        message={apiError || apiMessage}
+        variant={apiError ? "error" : "success"}
+        onClose={() => {
+          setApiError(EMPTY_STRING);
+          setApiMessage(EMPTY_STRING);
+        }}
       />
     </div>
   );

@@ -259,6 +259,8 @@
     "summary": "Tổng kết",
 
     "po_number": "Mã đơn nhập",
+    "supplier": "Nhà cung cấp",
+    "supplier_placeholder": "Nhập tên nhà cung cấp",
     "order_date": "Ngày đặt hàng",
     "status": "Trạng thái",
     "note": "Ghi chú",
@@ -278,7 +280,15 @@
     "not_found": "Không tìm thấy đơn nhập hàng",
     "total_items_value": "{{count}} mặt hàng",
     "total_quantity_value": "{{count}} sản phẩm",
-    "total_amount_value": "{{value}}"
+    "total_amount_value": "{{value}}",
+    "api": {
+      "load_error": "Không thể tải danh sách đơn nhập hàng.",
+      "create_success": "Tạo đơn nhập hàng thành công.",
+      "update_success": "Cập nhật đơn nhập hàng thành công.",
+      "delete_success": "Xóa đơn nhập hàng thành công.",
+      "save_error": "Không thể lưu đơn nhập hàng.",
+      "delete_error": "Không thể xóa đơn nhập hàng."
+    }
   },
   "users": {
     "title": "Người dùng",

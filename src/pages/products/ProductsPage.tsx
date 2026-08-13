@@ -43,7 +43,7 @@ const cx = classNames.bind(styles);
 const ProductsPage = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { products, loading: isLoading, mutating: isMutating } = useProducts();
+  const { products, loading: isLoading, isProcessing } = useProducts();
 
   // ===== State =====
   const [isOpenProductModal, setIsOpenProductModal] = useState<boolean>(false);
@@ -127,7 +127,7 @@ const ProductsPage = () => {
   }, []);
 
   const handleCloseDeleteModal = () => {
-    if (isMutating) return;
+    if (isProcessing) return;
 
     setSelectedDeleteProduct(undefined);
     setIsOpenDeleteModal(false);
@@ -223,7 +223,7 @@ const ProductsPage = () => {
 
       <ProductFormModal
         isOpen={isOpenProductModal}
-        isLoading={isMutating}
+        isLoading={isProcessing}
         initialValues={selectedProduct}
         onClose={handleCloseProductModal}
         onSubmit={handleSubmitProduct}
@@ -240,7 +240,7 @@ const ProductsPage = () => {
           />
         }
         variant="danger"
-        isLoading={isMutating}
+        isLoading={isProcessing}
         onClose={handleCloseDeleteModal}
         onConfirm={handleConfirmDelete}
       />

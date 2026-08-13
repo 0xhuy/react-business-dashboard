@@ -59,12 +59,20 @@ const BaseFilter = <T extends object>(props: BaseFilterProps<T>) => {
 
   // ===== Memos =====
   const isDisableApply = useMemo(() => {
-    const isUnchanged =
+    const isValueUnchanged =
       JSON.stringify(tempValueFilter) === JSON.stringify(rootValueFilter);
+    const isCheckedStateUnchanged =
+      JSON.stringify(tempIsChecked) === JSON.stringify(isChecked);
     const isInvalid = isApplyDisabled?.(tempValueFilter, tempIsChecked);
 
-    return isUnchanged || !!isInvalid;
-  }, [isApplyDisabled, rootValueFilter, tempIsChecked, tempValueFilter]);
+    return (isValueUnchanged && isCheckedStateUnchanged) || !!isInvalid;
+  }, [
+    isApplyDisabled,
+    isChecked,
+    rootValueFilter,
+    tempIsChecked,
+    tempValueFilter,
+  ]);
 
   // ===== Handlers =====
   const handleApply = (close: () => void) => {
@@ -98,13 +106,12 @@ const BaseFilter = <T extends object>(props: BaseFilterProps<T>) => {
     }));
 
     setTempValueFilter((prev) => {
-      const updatedValue = { ...prev };
+      if (checked) return prev;
 
-      if (!checked) {
-        delete updatedValue[key];
-      }
-
-      return updatedValue as T;
+      return {
+        ...prev,
+        [key]: defaultValue[key],
+      };
     });
   };
 
@@ -146,14 +153,15 @@ const BaseFilter = <T extends object>(props: BaseFilterProps<T>) => {
               <div className={cx("panelActions")}> 
                 <BaseButton
                   variant="outline"
+                  size="sm"
                   isStatic
-                  className={cx("cancelButton")}
                   onClick={() => handleClose(close)}
                 >
                   {t("common.btn_cancel")}
                 </BaseButton>
 
                 <BaseButton
+                  size="sm"
                   isStatic
                   className={cx("applyButton")}
                   onClick={() => handleApply(close)}

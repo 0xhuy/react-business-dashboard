@@ -22,11 +22,10 @@ import { getCurrencyFormatter } from "@/utils/helper";
 import {
   DEFAULT_ORDER_FORM_VALUES,
   ORDER_STATUS_OPTIONS,
-  PRODUCT_DATA_SOURCE,
-  PRODUCT_OPTIONS,
 } from "@/utils/constants/orders.constants";
 import { orderFormSchema } from "./OrdersForm.schema";
 import type { OrderFormModalProps, OrderFormValues } from "./types";
+import { useProducts } from "@/redux/hooks";
 
 // ===== Styles =====
 import styles from "./OrdersFormModal.module.scss";
@@ -40,6 +39,7 @@ const OrdersFormModal = (props: OrderFormModalProps) => {
 
   // ===== Hooks =====
   const { t, i18n } = useTranslation();
+  const { products } = useProducts();
   const currencyFormatter = getCurrencyFormatter(i18n.language);
   const schema = orderFormSchema(t);
 
@@ -86,6 +86,15 @@ const OrdersFormModal = (props: OrderFormModalProps) => {
     );
   }, [orderItems]);
 
+  const productOptions = useMemo(
+    () =>
+      products.map((product) => ({
+        label: `${product.name} (${product.sku})`,
+        value: product.sku,
+      })),
+    [products],
+  );
+
   // ===== Effects =====
   useEffect(() => {
     reset(initialValues || DEFAULT_ORDER_FORM_VALUES);
@@ -123,16 +132,25 @@ const OrdersFormModal = (props: OrderFormModalProps) => {
       onClose={handleClose}
       footer={
         <>
-          <BaseButton variant="outline" isStatic onClick={handleClose}>
+          <BaseButton
+            variant="outline"
+            size="sm"
+            isStatic
+            isDisabled={isLoading}
+            className={cx("footerButton")}
+            onClick={handleClose}
+          >
             {t("common.btn_cancel")}
           </BaseButton>
 
           <BaseButton
             type="submit"
             form="orderForm"
+            size="sm"
             isStatic
             isLoading={isLoading}
             isDisabled={!isValid}
+            className={cx("footerButton")}
           >
             {t("common.btn_save")}
           </BaseButton>
@@ -148,6 +166,20 @@ const OrdersFormModal = (props: OrderFormModalProps) => {
           <p className={cx("sectionTitle")}>{t("orders.order_information")}</p>
 
           <div className={cx("twoColumns")}>
+            <Controller
+              name="supplier"
+              control={control}
+              render={({ field }) => (
+                <BaseInput
+                  {...field}
+                  label={t("orders.supplier")}
+                  placeholder={t("orders.supplier_placeholder")}
+                  messageError={errors.supplier?.message}
+                  isRequired
+                />
+              )}
+            />
+
             <Controller
               name="orderDate"
               control={control}
@@ -209,8 +241,10 @@ const OrdersFormModal = (props: OrderFormModalProps) => {
 
             <BaseButton
               isStatic
-              variant="ghost"
+              variant="outline"
+              size="sm"
               type="button"
+              className={cx("addProductButton")}
               onClick={handleAddProduct}
             >
               {t("orders.add_product")}
@@ -242,13 +276,13 @@ const OrdersFormModal = (props: OrderFormModalProps) => {
                         <BaseSelect
                           name={field.name}
                           value={field.value}
-                          options={PRODUCT_OPTIONS}
+                          options={productOptions}
                           placeholder={t("orders.select_product")}
                           errorMessage={
                             errors.items?.[index]?.productSku?.message
                           }
                           onChange={(option) => {
-                            const selectedProduct = PRODUCT_DATA_SOURCE.find(
+                            const selectedProduct = products.find(
                               (product) => product.sku === option.value,
                             );
 
@@ -305,7 +339,9 @@ const OrdersFormModal = (props: OrderFormModalProps) => {
                       isStatic
                       type="button"
                       variant="outline"
+                      size="sm"
                       isDisabled={fields.length === 1}
+                      className={cx("deleteItemButton")}
                       onClick={() => remove(index)}
                     >
                       {t("common.btn_delete")}
@@ -321,21 +357,20 @@ const OrdersFormModal = (props: OrderFormModalProps) => {
           <p className={cx("sectionTitle")}>{t("orders.summary")}</p>
 
           <div className={cx("summaryCard")}>
-            <p>
-              {t("orders.total_items_value", {
-                value: summary.totalItems,
-              })}
-            </p>
-            <p>
-              {t("orders.total_quantity_value", {
-                value: summary.totalQuantity,
-              })}
-            </p>
-            <p>
-              {t("orders.total_amount_value", {
-                value: currencyFormatter.format(summary.totalAmount),
-              })}
-            </p>
+            <div className={cx("summaryRow")}>
+              <span>{t("orders.total_items")}</span>
+              <strong>{summary.totalItems}</strong>
+            </div>
+
+            <div className={cx("summaryRow")}>
+              <span>{t("orders.total_quantity")}</span>
+              <strong>{summary.totalQuantity}</strong>
+            </div>
+
+            <div className={cx("summaryRow", "summaryTotalRow")}>
+              <span>{t("orders.total_amount")}</span>
+              <strong>{currencyFormatter.format(summary.totalAmount)}</strong>
+            </div>
           </div>
         </section>
       </form>

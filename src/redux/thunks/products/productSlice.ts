@@ -12,7 +12,7 @@ import {
 const initialState: ProductState = {
   products: [],
   loading: false,
-  mutating: false,
+  isProcessing: false,
   error: null,
 };
 
@@ -42,26 +42,26 @@ const productSlice = createSlice({
     // ===== Create Product =====
     builder
       .addCase(createProductThunk.pending, (state) => {
-        state.mutating = true;
+        state.isProcessing = true;
         state.error = null;
       })
       .addCase(createProductThunk.fulfilled, (state, action) => {
-        state.mutating = false;
+        state.isProcessing = false;
         state.products.unshift(action.payload);
       })
       .addCase(createProductThunk.rejected, (state, action) => {
-        state.mutating = false;
+        state.isProcessing = false;
         state.error = String(action.payload ?? action.error.message ?? "");
       });
 
     // ===== Update Product =====
     builder
       .addCase(updateProductThunk.pending, (state) => {
-        state.mutating = true;
+        state.isProcessing = true;
         state.error = null;
       })
       .addCase(updateProductThunk.fulfilled, (state, action) => {
-        state.mutating = false;
+        state.isProcessing = false;
         const productIndex = state.products.findIndex(
           (product) => product.id === action.payload.id,
         );
@@ -69,39 +69,39 @@ const productSlice = createSlice({
         if (productIndex >= 0) state.products[productIndex] = action.payload;
       })
       .addCase(updateProductThunk.rejected, (state, action) => {
-        state.mutating = false;
+        state.isProcessing = false;
         state.error = String(action.payload ?? action.error.message ?? "");
       });
 
     // ===== Delete Product =====
     builder
       .addCase(deleteProductThunk.pending, (state) => {
-        state.mutating = true;
+        state.isProcessing = true;
         state.error = null;
       })
       .addCase(deleteProductThunk.fulfilled, (state, action) => {
-        state.mutating = false;
+        state.isProcessing = false;
         state.products = state.products.filter(
           (product) => product.id !== action.payload,
         );
       })
       .addCase(deleteProductThunk.rejected, (state, action) => {
-        state.mutating = false;
+        state.isProcessing = false;
         state.error = String(action.payload ?? action.error.message ?? "");
       });
 
     // ===== Save Products =====
     builder
       .addCase(saveProductsThunk.pending, (state) => {
-        state.mutating = true;
+        state.isProcessing = true;
         state.error = null;
       })
       .addCase(saveProductsThunk.fulfilled, (state, action) => {
-        state.mutating = false;
+        state.isProcessing = false;
         state.products = action.payload;
       })
       .addCase(saveProductsThunk.rejected, (state, action) => {
-        state.mutating = false;
+        state.isProcessing = false;
         state.error = String(action.payload ?? action.error.message ?? "");
       });
   },

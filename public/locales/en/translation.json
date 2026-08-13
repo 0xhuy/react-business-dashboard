@@ -258,6 +258,8 @@
     "unit_price_placeholder": "Unit price",
 
     "po_number": "PO Number",
+    "supplier": "Supplier",
+    "supplier_placeholder": "Enter supplier name",
     "order_date": "Order Date",
     "status": "Status",
     "note": "Note",
@@ -279,7 +281,15 @@
     "not_found": "Purchase order not found",
     "total_items_value": "{{count}} items",
     "total_quantity_value": "{{count}} units",
-    "total_amount_value": "{{value}}"
+    "total_amount_value": "{{value}}",
+    "api": {
+      "load_error": "Unable to load purchase orders.",
+      "create_success": "Purchase order created successfully.",
+      "update_success": "Purchase order updated successfully.",
+      "delete_success": "Purchase order deleted successfully.",
+      "save_error": "Unable to save purchase order.",
+      "delete_error": "Unable to delete purchase order."
+    }
   },
   "users": {
     "title": "Users",

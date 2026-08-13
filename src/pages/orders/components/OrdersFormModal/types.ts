@@ -1,4 +1,4 @@
-export type OrderStatus = "Pending" | "Received" | "Cancelled";
+import type { PurchaseOrderStatus } from "@/features/orders/order.types";
 
 export type OrderItemFormValues = {
   productSku: string;
@@ -7,8 +7,9 @@ export type OrderItemFormValues = {
 };
 
 export type OrderFormValues = {
+  supplier: string;
   orderDate: string;
-  status: OrderStatus;
+  status: PurchaseOrderStatus;
   note: string;
   items: OrderItemFormValues[];
 };

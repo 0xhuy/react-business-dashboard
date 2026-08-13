@@ -67,7 +67,7 @@ const ProductSheetPage = () => {
   // ===== Hooks =====
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { loading: isLoading, mutating: isSaving } = useProducts();
+  const { loading: isLoading, isProcessing: isSaving } = useProducts();
   const sheetScrollRef = useRef<HTMLDivElement>(null);
 
   // ===== States =====

@@ -101,7 +101,6 @@ const BaseModal = (props: BaseModalProps) => {
 
         {footer && <div className={cx("footer")}>{footer}</div>}
 
-        {isLoading && <div className={cx("loadingLayer")} />}
       </div>
     </div>
   );

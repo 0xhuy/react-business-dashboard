@@ -1,16 +1,16 @@
 // ===== Libs =====
 import classNames from "classnames/bind";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
+import { Tooltip } from "react-tooltip";
 
 // ===== Components =====
-import { BaseButton, BaseModal } from "@/components";
+import { BaseButton, BaseLoading, BaseModal } from "@/components";
 import OrdersFormModal from "./components/OrdersFormModal/OrdersFormModal";
 import type { OrderFormValues } from "./components/OrdersFormModal/types";
 
 // ===== Others =====
-import { PURCHASE_ORDER_DATA_SOURCE } from "@/utils/constants/orders.constants";
 import {
   getPurchaseOrderTotalAmount,
   getPurchaseOrderTotalItems,
@@ -21,6 +21,13 @@ import {
 import styles from "./OrderDetailPage.module.scss";
 import { IconArrow } from "@/assets";
 import { DEFAULT_CURRENCY } from "@/utils/constants";
+import { useAppDispatch, useOrders } from "@/redux/hooks";
+import {
+  deletePurchaseOrderThunk,
+  getPurchaseOrdersThunk,
+  updatePurchaseOrderThunk,
+} from "@/redux/thunks/orders/orderThunk";
+import { getProductsThunk } from "@/redux/thunks/products/productThunk";
 
 const cx = classNames.bind(styles);
 
@@ -30,6 +37,8 @@ const OrderDetailPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { t, i18n } = useTranslation();
+  const dispatch = useAppDispatch();
+  const { orders, loading: isLoading, isProcessing } = useOrders();
   const currencyFormatter = useMemo(
     () =>
       new Intl.NumberFormat(i18n.language, {
@@ -43,10 +52,19 @@ const OrderDetailPage = () => {
   const [isOpenOrderModal, setIsOpenOrderModal] = useState(false);
   const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
 
+  useEffect(() => {
+    if (orders.length > 0) return;
+
+    void Promise.all([
+      dispatch(getPurchaseOrdersThunk()).unwrap(),
+      dispatch(getProductsThunk()).unwrap(),
+    ]);
+  }, [dispatch, orders.length]);
+
   // ===== Memos =====
   const purchaseOrder = useMemo(() => {
-    return PURCHASE_ORDER_DATA_SOURCE.find((order) => order.poNumber === id);
-  }, [id]);
+    return orders.find((order) => order.poNumber === id);
+  }, [id, orders]);
 
   const summary = useMemo(() => {
     if (!purchaseOrder) {
@@ -68,6 +86,7 @@ const OrderDetailPage = () => {
     if (!purchaseOrder) return undefined;
 
     return {
+      supplier: purchaseOrder.supplier,
       orderDate: purchaseOrder.orderDate,
       status: purchaseOrder.status,
       note: purchaseOrder.note,
@@ -93,11 +112,19 @@ const OrderDetailPage = () => {
   }, []);
 
   const handleSubmitOrder = useCallback(
-    (data: OrderFormValues) => {
-      console.log("Submit purchase order", data);
-      handleCloseOrderModal();
+    async (data: OrderFormValues) => {
+      if (!purchaseOrder) return;
+
+      try {
+        await dispatch(
+          updatePurchaseOrderThunk({ id: purchaseOrder.id, order: data }),
+        ).unwrap();
+        handleCloseOrderModal();
+      } catch (error) {
+        console.error("Unable to update purchase order:", error);
+      }
     },
-    [handleCloseOrderModal],
+    [dispatch, handleCloseOrderModal, purchaseOrder],
   );
 
   const handleDeleteOrder = useCallback(() => {
@@ -108,11 +135,21 @@ const OrderDetailPage = () => {
     setIsOpenDeleteModal(false);
   }, []);
 
-  const handleConfirmDelete = useCallback(() => {
-    console.log("Delete purchase order", purchaseOrder);
-    handleCloseDeleteModal();
-    navigate(-1);
-  }, [handleCloseDeleteModal, navigate, purchaseOrder]);
+  const handleConfirmDelete = useCallback(async () => {
+    if (!purchaseOrder) return;
+
+    try {
+      await dispatch(deletePurchaseOrderThunk(purchaseOrder.id)).unwrap();
+      handleCloseDeleteModal();
+      navigate(-1);
+    } catch (error) {
+      console.error("Unable to delete purchase order:", error);
+    }
+  }, [dispatch, handleCloseDeleteModal, navigate, purchaseOrder]);
+
+  if (isLoading) {
+    return <BaseLoading variant="page" />;
+  }
 
   if (!purchaseOrder) {
     return (
@@ -187,25 +224,63 @@ const OrderDetailPage = () => {
 
         <div className={cx("detailSummaryGrid")}>
           <div className={cx("detailSummaryItem")}>
+            <span>{t("orders.supplier")}</span>
+            <p
+              data-tooltip-id="order-detail-summary-tooltip"
+              data-tooltip-content={purchaseOrder.supplier}
+            >
+              {purchaseOrder.supplier}
+            </p>
+          </div>
+
+          <div className={cx("detailSummaryItem")}>
             <span>{t("orders.order_date")}</span>
-            <p>{purchaseOrder.orderDate}</p>
+            <p
+              data-tooltip-id="order-detail-summary-tooltip"
+              data-tooltip-content={purchaseOrder.orderDate}
+            >
+              {purchaseOrder.orderDate}
+            </p>
           </div>
 
           <div className={cx("detailSummaryItem")}>
             <span>{t("orders.total_items")}</span>
-            <p>{summary.totalItems}</p>
+            <p
+              data-tooltip-id="order-detail-summary-tooltip"
+              data-tooltip-content={String(summary.totalItems)}
+            >
+              {summary.totalItems}
+            </p>
           </div>
 
           <div className={cx("detailSummaryItem")}>
             <span>{t("orders.total_quantity")}</span>
-            <p>{summary.totalQuantity}</p>
+            <p
+              data-tooltip-id="order-detail-summary-tooltip"
+              data-tooltip-content={String(summary.totalQuantity)}
+            >
+              {summary.totalQuantity}
+            </p>
           </div>
 
           <div className={cx("detailSummaryItem")}>
             <span>{t("orders.total_amount")}</span>
-            <p>{currencyFormatter.format(summary.totalAmount)}</p>
+            <p
+              data-tooltip-id="order-detail-summary-tooltip"
+              data-tooltip-content={currencyFormatter.format(
+                summary.totalAmount,
+              )}
+            >
+              {currencyFormatter.format(summary.totalAmount)}
+            </p>
           </div>
         </div>
+
+        <Tooltip
+          id="order-detail-summary-tooltip"
+          place="top"
+          className={cx("tooltip")}
+        />
       </section>
 
       <section className={cx("detailContentGrid")}>
@@ -262,6 +337,11 @@ const OrderDetailPage = () => {
               </div>
 
               <div>
+                <span>{t("orders.supplier")}</span>
+                <p>{purchaseOrder.supplier}</p>
+              </div>
+
+              <div>
                 <span>{t("orders.status")}</span>
                 <p>
                   {t(`orders.status_${purchaseOrder.status.toLowerCase()}`)}
@@ -279,6 +359,7 @@ const OrderDetailPage = () => {
 
       <OrdersFormModal
         isOpen={isOpenOrderModal}
+        isLoading={isProcessing}
         initialValues={orderFormInitialValues}
         onClose={handleCloseOrderModal}
         onSubmit={handleSubmitOrder}
@@ -299,7 +380,12 @@ const OrderDetailPage = () => {
               {t("common.btn_cancel")}
             </BaseButton>
 
-            <BaseButton variant="danger" isStatic onClick={handleConfirmDelete}>
+            <BaseButton
+              variant="danger"
+              isStatic
+              isLoading={isProcessing}
+              onClick={handleConfirmDelete}
+            >
               {t("common.btn_delete")}
             </BaseButton>
           </>

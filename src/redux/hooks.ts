@@ -22,3 +22,6 @@ export const useAuth = () => useAppSelector((state) => state.auth);
 
 // ===== Products =====
 export const useProducts = () => useAppSelector((state) => state.products);
+
+// ===== Purchase Orders =====
+export const useOrders = () => useAppSelector((state) => state.orders);

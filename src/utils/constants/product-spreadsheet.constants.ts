@@ -10,6 +10,9 @@ export const PRODUCT_SHEET_TEMPLATE_FILE_NAME = "product-sheet-template.xlsx";
 export const PRODUCT_SHEET_EXCEL_SHEET_TRANSLATION_KEY =
   "product_sheet.excel_sheet_name";
 export const PRODUCT_SHEET_MAX_VALIDATION_ISSUE_COUNT = 99;
+export const PRODUCT_SHEET_DROPDOWN_OPEN_UPWARD_ROW_COUNT = 7;
+export const PRODUCT_SHEET_HEADER_ROW_OFFSET = 1;
+export const PRODUCT_SHEET_ACTION_HEIGHT = 32;
 
 export const PRODUCT_SHEET_COLUMN_WIDTH = {
   SKU: 140,
@@ -70,7 +73,7 @@ export const PRODUCT_SHEET_COLUMNS: ProductSheetColumn[] = [
     dataIndex: "category",
     translationKey: "products.category",
     width: PRODUCT_SHEET_COLUMN_WIDTH.CATEGORY,
-    cellType: "text",
+    cellType: "dropdown",
   },
   {
     columnId: "price",

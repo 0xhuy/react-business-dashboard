@@ -7,7 +7,12 @@ import type { CellChange, DefaultCellTypes, Row } from "@silevis/reactgrid";
 import i18n from "i18next";
 
 // ===== Others =====
-import { DEFAULT_NUMBER_ZERO, EMPTY_STRING } from "@/utils/constants";
+import {
+  DEFAULT_NUMBER_ZERO,
+  EMPTY_STRING,
+  PRODUCT_CATEGORY_OPTIONS,
+  PRODUCT_SHEET_DROPDOWN_OPEN_UPWARD_ROW_COUNT,
+} from "@/utils/constants";
 import { getCurrencyFormatter } from "@/utils/helper";
 import {
   getProductInventoryValue,
@@ -84,7 +89,9 @@ export const createProductSheetDataCell = (
 
     return {
       type: "text",
-      text: i18n.t(`products.status_${status.toLowerCase()}`),
+      text: status
+        ? i18n.t(`products.status_${status.toLowerCase()}`)
+        : EMPTY_STRING,
     };
   }
 
@@ -97,12 +104,24 @@ export const createProductSheetDataCell = (
     };
   }
 
+  if (column.cellType === "dropdown") {
+    return {
+      type: "dropdown",
+      selectedValue: String(value ?? EMPTY_STRING),
+      values: PRODUCT_CATEGORY_OPTIONS.map((option) => ({
+        value: option.value,
+        label: i18n.t(option.label),
+      })),
+    };
+  }
+
   if (column.cellType === "number") {
     return {
       type: "number",
       value: Number.isFinite(Number(value))
         ? Number(value)
-        : DEFAULT_NUMBER_ZERO,
+        : Number.NaN,
+      nanToZero: false,
     };
   }
 
@@ -127,6 +146,7 @@ export const buildProductSheetRows = (
     className,
     highlightedRowIndex,
     highlightedRowVariant = "search",
+    openDropdownRowIndex,
     rowOffset = DEFAULT_NUMBER_ZERO,
   } = params;
 
@@ -150,9 +170,22 @@ export const buildProductSheetRows = (
         }),
         ...columns.map((column) => {
           const cell = createProductSheetDataCell(row, column);
+          const shouldOpenDropdownUpward =
+            cell.type === "dropdown" &&
+            rowIndex >=
+              Math.max(
+                dataSource.length -
+                  PRODUCT_SHEET_DROPDOWN_OPEN_UPWARD_ROW_COUNT,
+                DEFAULT_NUMBER_ZERO,
+              );
+          const dropdownState =
+            cell.type === "dropdown"
+              ? { isOpen: openDropdownRowIndex === rowIndex }
+              : {};
           const cellClassName = className(
             cell.className ?? EMPTY_STRING,
             highlightedCellClassName,
+            shouldOpenDropdownUpward ? "dropdownOpenUpward" : EMPTY_STRING,
           );
 
           if (column.isReadOnly) {
@@ -164,6 +197,7 @@ export const buildProductSheetRows = (
 
           return {
             ...cell,
+            ...dropdownState,
             className: cellClassName,
           };
         }),
@@ -204,6 +238,11 @@ export const applyProductSheetChanges = (
 
     if (newCell.type === "number") {
       nextRow[columnId as keyof ProductSheetRow] = newCell.value as never;
+    }
+
+    if (newCell.type === "dropdown") {
+      nextRow[columnId as keyof ProductSheetRow] = (newCell.selectedValue ??
+        EMPTY_STRING) as never;
     }
 
     nextRow.inventoryValue = getProductInventoryValue(

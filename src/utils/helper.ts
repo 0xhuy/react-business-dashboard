@@ -6,6 +6,7 @@ import {
   LanguageLocaleEnum,
 } from "./enum/language.enum";
 import type { IRouteModel } from "./interfaces";
+import { PRODUCT_CATEGORY_OPTIONS } from "./constants/product.constants";
 
 // ============================================================
 // ROUTE
@@ -94,3 +95,23 @@ export const getCurrencyFormatter = (language: string): Intl.NumberFormat => {
     },
   );
 };
+
+// ============================================================
+// PRODUCT
+// ============================================================
+
+export const normalizeProductCategory = (value: unknown): string => {
+  const normalizedValue = String(value ?? "")
+    .trim()
+    .toLowerCase();
+  const matchedCategory = PRODUCT_CATEGORY_OPTIONS.find(
+    (option) =>
+      option.value.toLowerCase() === normalizedValue ||
+      option.label.toLowerCase() === normalizedValue,
+  );
+
+  return matchedCategory?.value ?? "";
+};
+
+export const isProductCategory = (value: unknown): boolean =>
+  Boolean(normalizeProductCategory(value));

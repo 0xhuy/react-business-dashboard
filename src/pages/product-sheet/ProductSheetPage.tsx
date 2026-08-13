@@ -1,15 +1,17 @@
 // ===== Libs =====
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames/bind";
 
 // ===== Components =====
-import { BaseButton, BaseInput, BaseModal, BasePagination } from "@/components";
+import { BaseLoading, BasePagination, BaseToast } from "@/components";
+import BaseConfirmModal from "@/components/base/confirm-modal/BaseConfirmModal";
 import ProductSpreadsheet from "./components/ProductSpreadsheet/ProductSpreadsheet";
-import ProductSheetSearch from "./components/ProductSheetSearch/ProductSheetSearch";
+import ProductSheetToolbar from "./components/ProductSheetToolbar/ProductSheetToolbar";
+import ProductSheetActions from "./components/ProductSheetActions/ProductSheetActions";
+import ProductSheetValidationModal from "./components/ProductSheetValidationModal/ProductSheetValidationModal";
 
 // ===== Others =====
-import { InputTypeEnum } from "@/utils/enum/input.enum";
 import {
   DEFAULT_NUMBER_ZERO,
   DEFAULT_ROW_QUANTITY,
@@ -24,25 +26,49 @@ import {
   createProductSheetRows,
   downloadProductSheetTemplate,
   exportProductSheetExcel,
+  getProductInventoryValue,
+  getProductSheetStatus,
   isProductSheetRowEmpty,
   readProductSheetExcelFile,
-  searchProductSheetRows,
   validateProductSheetRows,
 } from "./helpers";
-import type {
-  ProductSheetHighlightedRowVariant,
-  ProductSheetRow,
-} from "./components/ProductSpreadsheet/types";
+import type { ProductSheetRow } from "./components/ProductSpreadsheet/types";
 import type { ProductSheetImportValidationError } from "./types";
+import type {
+  ProductDraft,
+  ProductRow,
+} from "@/features/products/product.types";
+import { useUnsavedChangesGuard } from "./hooks/useUnsavedChangesGuard";
+import { useProductSheetSearch } from "./hooks/useProductSheetSearch";
+import { useAppDispatch, useProducts } from "@/redux/hooks";
+import {
+  getProductsThunk,
+  saveProductsThunk,
+} from "@/redux/thunks/products/productThunk";
 
 // ===== Styles =====
 import styles from "./ProductSheetPage.module.scss";
 
 const cx = classNames.bind(styles);
 
+const mapProductToSheetRow = (product: ProductRow): ProductSheetRow => ({
+  id: product.id,
+  sku: product.sku,
+  name: product.name,
+  category: product.category,
+  price: product.price,
+  stock: product.stock,
+  status: getProductSheetStatus(product.stock),
+  inventoryValue: getProductInventoryValue(product.price, product.stock),
+  description: product.description,
+});
+
 const ProductSheetPage = () => {
   // ===== Hooks =====
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const { loading: isLoading, mutating: isSaving } = useProducts();
+  const sheetScrollRef = useRef<HTMLDivElement>(null);
 
   // ===== States =====
   const [productSheetData, setProductSheetData] = useState<ProductSheetRow[]>(
@@ -51,9 +77,6 @@ const ProductSheetPage = () => {
   const [rowsToAdd, setRowsToAdd] = useState<string>(
     String(DEFAULT_ROW_QUANTITY),
   );
-  const [searchKeyword, setSearchKeyword] = useState<string>(EMPTY_STRING);
-  const [currentSearchResultIndex, setCurrentSearchResultIndex] =
-    useState<number>(DEFAULT_NUMBER_ZERO);
   const [validationErrors, setValidationErrors] = useState<
     ProductSheetImportValidationError[]
   >([]);
@@ -61,6 +84,40 @@ const ProductSheetPage = () => {
     useState<boolean>(false);
   const [isDirty, setIsDirty] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = useState<number>(DEFAULT_NUMBER_ZERO);
+  const [savedProductIds, setSavedProductIds] = useState<string[]>([]);
+  const [apiError, setApiError] = useState(EMPTY_STRING);
+  const [apiMessage, setApiMessage] = useState(EMPTY_STRING);
+  const navigationBlocker = useUnsavedChangesGuard(isDirty, isSaving);
+  const {
+    searchKeyword,
+    searchResultIndexes,
+    currentSearchResultIndex,
+    highlightedRowIndex,
+    highlightedRowVariant,
+    setHighlightedRowIndex,
+    setHighlightedRowVariant,
+    focusRow: focusProductSheetRow,
+    resetHighlight,
+    syncAfterDataChange: syncSearchHighlightAfterDataChange,
+    handleKeywordChange: handleSearchKeywordChange,
+    handlePreviousResult: handlePreviousSearchResult,
+    handleNextResult: handleNextSearchResult,
+  } = useProductSheetSearch(productSheetData, setCurrentPage);
+
+  // ===== Effects =====
+  useEffect(() => {
+    void dispatch(getProductsThunk())
+      .unwrap()
+      .then((products) => {
+        setProductSheetData(products.map(mapProductToSheetRow));
+        setSavedProductIds(products.map((product) => product.id));
+        setIsDirty(false);
+      })
+      .catch((error) => {
+        console.error("Unable to load product spreadsheet:", error);
+        setApiError(t("product_sheet.api.load_error"));
+      });
+  }, [dispatch, t]);
 
   // ===== Derived =====
   const validationIssueCount =
@@ -82,10 +139,6 @@ const ProductSheetPage = () => {
     }),
     [t],
   );
-  const searchResultIndexes = useMemo(() => {
-    return searchProductSheetRows(productSheetData, searchKeyword);
-  }, [productSheetData, searchKeyword]);
-
   const totalPages = Math.max(
     1,
     Math.ceil(productSheetData.length / PRODUCT_SHEET_PAGE_SIZE),
@@ -103,11 +156,6 @@ const ProductSheetPage = () => {
     [productSheetData, startRowIndex],
   );
 
-  const [highlightedRowIndex, setHighlightedRowIndex] = useState<number | null>(
-    null,
-  );
-  const [highlightedRowVariant, setHighlightedRowVariant] =
-    useState<ProductSheetHighlightedRowVariant>("search");
   // ===== Handlers =====
   const showValidationErrors = useCallback(
     (errors: ProductSheetImportValidationError[]): void => {
@@ -143,77 +191,29 @@ const ProductSheetPage = () => {
         }
       }
     },
-    [highlightedRowIndex, highlightedRowVariant],
-  );
-
-  const focusProductSheetRow = useCallback(
-    (
-      rowIndex: number,
-      variant: ProductSheetHighlightedRowVariant = "search",
-    ): void => {
-      setCurrentPage(Math.floor(rowIndex / PRODUCT_SHEET_PAGE_SIZE));
-      setHighlightedRowIndex(rowIndex);
-      setHighlightedRowVariant(variant);
-    },
-    [],
-  );
-
-  const syncSearchHighlightAfterDataChange = useCallback(
-    (rows: ProductSheetRow[]): void => {
-      if (highlightedRowVariant !== "search" || !searchKeyword.trim()) {
-        return;
-      }
-
-      const nextSearchResultIndexes = searchProductSheetRows(
-        rows,
-        searchKeyword,
-      );
-
-      if (nextSearchResultIndexes.length === DEFAULT_NUMBER_ZERO) {
-        setCurrentSearchResultIndex(DEFAULT_NUMBER_ZERO);
-        setHighlightedRowIndex(null);
-        return;
-      }
-
-      const nextSearchResultIndex = Math.min(
-        currentSearchResultIndex,
-        nextSearchResultIndexes.length - 1,
-      );
-
-      setCurrentSearchResultIndex(nextSearchResultIndex);
-
-      if (
-        highlightedRowIndex === null ||
-        !nextSearchResultIndexes.includes(highlightedRowIndex)
-      ) {
-        setHighlightedRowIndex(null);
-      }
-    },
     [
-      currentSearchResultIndex,
       highlightedRowIndex,
       highlightedRowVariant,
-      searchKeyword,
+      setHighlightedRowIndex,
+      setHighlightedRowVariant,
     ],
   );
 
   const handleProductSheetChange = useCallback(
     (updatedVisibleData: ProductSheetRow[]): void => {
-      setProductSheetData((prevData) => {
-        const nextData = [...prevData];
+      const nextData = [...productSheetData];
 
-        updatedVisibleData.forEach((row, index) => {
-          nextData[startRowIndex + index] = row;
-        });
-
-        syncValidationErrors(nextData);
-        syncSearchHighlightAfterDataChange(nextData);
-        setIsDirty(true);
-
-        return nextData;
+      updatedVisibleData.forEach((row, index) => {
+        nextData[startRowIndex + index] = row;
       });
+
+      setProductSheetData(nextData);
+      syncValidationErrors(nextData);
+      syncSearchHighlightAfterDataChange(nextData);
+      setIsDirty(true);
     },
     [
+      productSheetData,
       syncSearchHighlightAfterDataChange,
       syncValidationErrors,
       startRowIndex,
@@ -221,23 +221,33 @@ const ProductSheetPage = () => {
   );
 
   const handleAddRows = useCallback((): void => {
-    const quantity = Math.min(
-      Number(rowsToAdd) || DEFAULT_ROW_QUANTITY,
-      MAX_ROW_QUANTITY,
-    );
-    const newRows = createProductSheetRows(quantity);
-    setProductSheetData((prevData) => {
-      const nextData = [...prevData, ...newRows];
-      setCurrentPage(
-        Math.max(0, Math.ceil(nextData.length / PRODUCT_SHEET_PAGE_SIZE) - 1),
-      );
-      syncValidationErrors(nextData);
-      syncSearchHighlightAfterDataChange(nextData);
-      setIsDirty(true);
+    const quantity = Number(rowsToAdd);
 
-      return nextData;
+    if (!Number.isInteger(quantity) || quantity <= DEFAULT_NUMBER_ZERO) {
+      return;
+    }
+
+    const newRows = createProductSheetRows(quantity);
+    const nextData = [...productSheetData, ...newRows];
+    const lastPage = Math.max(
+      DEFAULT_NUMBER_ZERO,
+      Math.ceil(nextData.length / PRODUCT_SHEET_PAGE_SIZE) - 1,
+    );
+
+    setProductSheetData(nextData);
+    setCurrentPage(lastPage);
+    syncValidationErrors(nextData);
+    syncSearchHighlightAfterDataChange(nextData);
+    setIsDirty(true);
+
+    window.requestAnimationFrame(() => {
+      sheetScrollRef.current?.scrollTo({
+        top: sheetScrollRef.current.scrollHeight,
+        behavior: "smooth",
+      });
     });
   }, [
+    productSheetData,
     rowsToAdd,
     syncSearchHighlightAfterDataChange,
     syncValidationErrors,
@@ -252,86 +262,35 @@ const ProductSheetPage = () => {
         return;
       }
 
-      const numericValue = Math.min(
-        Number(value) || DEFAULT_ROW_QUANTITY,
-        MAX_ROW_QUANTITY,
-      );
+      const digitsOnly = value.replace(/\D/g, EMPTY_STRING);
+
+      if (digitsOnly === EMPTY_STRING) {
+        setRowsToAdd(EMPTY_STRING);
+        return;
+      }
+
+      const numericValue = Math.min(Number(digitsOnly), MAX_ROW_QUANTITY);
 
       setRowsToAdd(String(numericValue));
     },
     [],
   );
 
-  const handleSearchKeywordChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>): void => {
-      const nextSearchKeyword = event.target.value;
-      const nextSearchResultIndexes = searchProductSheetRows(
-        productSheetData,
-        nextSearchKeyword,
-      );
-      const firstMatchedRowIndex = nextSearchResultIndexes[DEFAULT_NUMBER_ZERO];
-
-      setSearchKeyword(nextSearchKeyword);
-      setCurrentSearchResultIndex(DEFAULT_NUMBER_ZERO);
-
-      if (
-        !nextSearchKeyword.trim() ||
-        typeof firstMatchedRowIndex !== "number"
-      ) {
-        setHighlightedRowIndex(null);
-        setHighlightedRowVariant("search");
-        return;
-      }
-
-      focusProductSheetRow(firstMatchedRowIndex, "search");
-    },
-    [focusProductSheetRow, productSheetData],
-  );
-
-  const handlePreviousSearchResult = useCallback((): void => {
-    if (searchResultIndexes.length === DEFAULT_NUMBER_ZERO) {
-      return;
-    }
-
-    const nextSearchResultIndex =
-      currentSearchResultIndex === DEFAULT_NUMBER_ZERO
-        ? searchResultIndexes.length - 1
-        : currentSearchResultIndex - 1;
-
-    const matchedRowIndex = searchResultIndexes[nextSearchResultIndex];
-
-    setCurrentSearchResultIndex(nextSearchResultIndex);
-    focusProductSheetRow(matchedRowIndex, "search");
-  }, [currentSearchResultIndex, focusProductSheetRow, searchResultIndexes]);
-
-  const handleNextSearchResult = useCallback((): void => {
-    if (searchResultIndexes.length === DEFAULT_NUMBER_ZERO) {
-      return;
-    }
-
-    const nextSearchResultIndex =
-      currentSearchResultIndex >= searchResultIndexes.length - 1
-        ? DEFAULT_NUMBER_ZERO
-        : currentSearchResultIndex + 1;
-
-    const matchedRowIndex = searchResultIndexes[nextSearchResultIndex];
-
-    setCurrentSearchResultIndex(nextSearchResultIndex);
-    focusProductSheetRow(matchedRowIndex, "search");
-  }, [currentSearchResultIndex, focusProductSheetRow, searchResultIndexes]);
-
   const handleImportExcel = useCallback(
     async (file: File): Promise<void> => {
-      const importedRows = await readProductSheetExcelFile(file);
-      const nextValidationErrors = validateProductSheetRows(importedRows);
-      if (nextValidationErrors.length > DEFAULT_NUMBER_ZERO) {
-        showValidationErrors(nextValidationErrors);
-        return;
-      }
+      try {
+        const importedRows = await readProductSheetExcelFile(file);
+        const nextValidationErrors = validateProductSheetRows(importedRows);
 
-      clearValidationErrors();
-      setProductSheetData((prevData) => {
-        const nextData = [...prevData, ...importedRows];
+        if (nextValidationErrors.length > DEFAULT_NUMBER_ZERO) {
+          showValidationErrors(nextValidationErrors);
+          return;
+        }
+
+        const nextData = [...productSheetData, ...importedRows];
+
+        clearValidationErrors();
+        setProductSheetData(nextData);
         setCurrentPage(
           Math.max(
             DEFAULT_NUMBER_ZERO,
@@ -340,14 +299,17 @@ const ProductSheetPage = () => {
         );
         syncSearchHighlightAfterDataChange(nextData);
         setIsDirty(true);
-
-        return nextData;
-      });
+      } catch (error) {
+        console.error("Unable to import product spreadsheet:", error);
+        setApiError(t("product_sheet.api.import_error"));
+      }
     },
     [
       clearValidationErrors,
+      productSheetData,
       showValidationErrors,
       syncSearchHighlightAfterDataChange,
+      t,
     ],
   );
 
@@ -404,28 +366,26 @@ const ProductSheetPage = () => {
 
   const handleDeleteRows = useCallback(
     (rowIndexes: number[]): void => {
-      setProductSheetData((prevData) => {
-        const nextData = prevData.filter(
-          (_, index) => !rowIndexes.includes(index),
-        );
+      const nextData = productSheetData.filter(
+        (_, index) => !rowIndexes.includes(index),
+      );
 
-        setCurrentPage((prevPage) =>
-          Math.min(
-            prevPage,
-            Math.max(
-              DEFAULT_NUMBER_ZERO,
-              Math.ceil(nextData.length / PRODUCT_SHEET_PAGE_SIZE) - 1,
-            ),
+      setProductSheetData(nextData);
+      setCurrentPage((prevPage) =>
+        Math.min(
+          prevPage,
+          Math.max(
+            DEFAULT_NUMBER_ZERO,
+            Math.ceil(nextData.length / PRODUCT_SHEET_PAGE_SIZE) - 1,
           ),
-        );
-        syncValidationErrors(nextData);
-        syncSearchHighlightAfterDataChange(nextData);
-        setIsDirty(true);
-
-        return nextData;
-      });
+        ),
+      );
+      syncValidationErrors(nextData);
+      syncSearchHighlightAfterDataChange(nextData);
+      setIsDirty(true);
     },
     [
+      productSheetData,
       syncSearchHighlightAfterDataChange,
       syncValidationErrors,
     ],
@@ -434,19 +394,16 @@ const ProductSheetPage = () => {
   const handleInsertRows = useCallback(
     (rowIndex: number, quantity = DEFAULT_ROW_QUANTITY): void => {
       const newRows = createProductSheetRows(quantity);
+      const nextData = [...productSheetData];
 
-      setProductSheetData((prevData) => {
-        const nextData = [...prevData];
-
-        nextData.splice(rowIndex, DEFAULT_NUMBER_ZERO, ...newRows);
-        syncValidationErrors(nextData);
-        syncSearchHighlightAfterDataChange(nextData);
-        setIsDirty(true);
-
-        return nextData;
-      });
+      nextData.splice(rowIndex, DEFAULT_NUMBER_ZERO, ...newRows);
+      setProductSheetData(nextData);
+      syncValidationErrors(nextData);
+      syncSearchHighlightAfterDataChange(nextData);
+      setIsDirty(true);
     },
     [
+      productSheetData,
       syncSearchHighlightAfterDataChange,
       syncValidationErrors,
     ],
@@ -463,7 +420,7 @@ const ProductSheetPage = () => {
     [focusProductSheetRow],
   );
 
-  const handleSave = useCallback((): void => {
+  const handleSave = useCallback(async (): Promise<void> => {
     const nextValidationErrors = validateProductSheetRows(productSheetData);
 
     if (nextValidationErrors.length > DEFAULT_NUMBER_ZERO) {
@@ -471,162 +428,153 @@ const ProductSheetPage = () => {
       return;
     }
 
-    clearValidationErrors();
-    setHighlightedRowIndex(null);
-    setHighlightedRowVariant("search");
-    setIsDirty(false);
-  }, [clearValidationErrors, productSheetData, showValidationErrors]);
+    const nonEmptyRows = productSheetData.filter(
+      (row) => !isProductSheetRowEmpty(row),
+    );
+    const currentProductIds = new Set(
+      nonEmptyRows.flatMap((row) => (row.id ? [row.id] : [])),
+    );
+    const deletedIds = savedProductIds.filter(
+      (id) => !currentProductIds.has(id),
+    );
+    const productsToSave: ProductDraft[] = nonEmptyRows.map((row) => ({
+      id: row.id,
+      sku: row.sku.trim(),
+      name: row.name.trim(),
+      category: row.category.trim(),
+      price: row.price,
+      stock: row.stock,
+      description: row.description.trim(),
+    }));
+
+    setApiError(EMPTY_STRING);
+    setApiMessage(EMPTY_STRING);
+
+    try {
+      const savedProducts = await dispatch(
+        saveProductsThunk({ products: productsToSave, deletedIds }),
+      ).unwrap();
+
+      clearValidationErrors();
+      setProductSheetData(savedProducts.map(mapProductToSheetRow));
+      setSavedProductIds(savedProducts.map((product) => product.id));
+      setCurrentPage(DEFAULT_NUMBER_ZERO);
+      resetHighlight();
+      setIsDirty(false);
+      setApiMessage(t("product_sheet.api.save_success"));
+    } catch (error) {
+      console.error("Unable to save product spreadsheet:", error);
+      setApiError(t("product_sheet.api.save_error"));
+    }
+  }, [
+    clearValidationErrors,
+    dispatch,
+    productSheetData,
+    resetHighlight,
+    savedProductIds,
+    showValidationErrors,
+    t,
+  ]);
 
   return (
     <div className={cx("container")}>
-      <div className={cx("toolbarCard")}>
-        <div className={cx("toolbarHeader")}>
-          <div className={cx("pageTitle")}>{t("sidebar.product_sheet")}</div>
-
-          <ProductSheetSearch
-            searchKeyword={searchKeyword}
-            searchResultIndexes={searchResultIndexes}
-            currentSearchResultIndex={currentSearchResultIndex}
-            onSearchKeywordChange={handleSearchKeywordChange}
-            onPreviousSearchResult={handlePreviousSearchResult}
-            onNextSearchResult={handleNextSearchResult}
-          />
-
-          <button
-            type="button"
-            disabled={validationErrors.length === DEFAULT_NUMBER_ZERO}
-            className={cx(
-              "headerErrorButton",
-              validationErrors.length > DEFAULT_NUMBER_ZERO
-                ? "headerErrorButtonActive"
-                : "headerErrorButtonInactive",
-            )}
-            onClick={() => setIsValidationModalOpen(true)}
-          >
-            {t("product_sheet.error_count", {
-              count: validationIssueCount,
-            })}
-          </button>
-
-          <BaseButton
-            isStatic
-            className={cx("saveButton")}
-            isDisabled={!isDirty}
-            onClick={handleSave}
-          >
-            {t("common.btn_save")}
-          </BaseButton>
-        </div>
-      </div>
+      <ProductSheetToolbar
+        productCount={productSheetData.length}
+        searchKeyword={searchKeyword}
+        searchResultIndexes={searchResultIndexes}
+        currentSearchResultIndex={currentSearchResultIndex}
+        validationIssueCount={validationIssueCount}
+        hasValidationErrors={
+          validationErrors.length > DEFAULT_NUMBER_ZERO
+        }
+        isDirty={isDirty}
+        isLoading={isLoading}
+        isSaving={isSaving}
+        onSearchKeywordChange={handleSearchKeywordChange}
+        onPreviousSearchResult={handlePreviousSearchResult}
+        onNextSearchResult={handleNextSearchResult}
+        onOpenValidationErrors={() => setIsValidationModalOpen(true)}
+        onSave={() => void handleSave()}
+      />
 
       <div className={cx("body")}>
-        <div className={cx("bodyScroll")}>
-          <div className={cx("section")}>
-            <ProductSpreadsheet
-              dataSource={visibleProductSheetData}
-              onChange={handleProductSheetChange}
-              onDeleteRows={handleDeleteRows}
-              onInsertRows={handleInsertRows}
-              rowOffset={startRowIndex}
-              highlightedRowIndex={highlightedRowIndex}
-              highlightedRowVariant={highlightedRowVariant}
-            />
-          </div>
-        </div>
-
-        {productSheetData.length > DEFAULT_NUMBER_ZERO && (
-          <div className={cx("sectionFooter")}>
-            <div className={cx("pagination")}>
-              <BasePagination
-                currentPage={paginationCurrentPage}
-                totalItems={productSheetData.length}
-                totalPages={totalPages}
-                onChange={handlePageChange}
-              />
+        {isLoading ? (
+          <BaseLoading
+            className={cx("sheetLoading")}
+            variant="section"
+          />
+        ) : (
+          <>
+            <div ref={sheetScrollRef} className={cx("bodyScroll")}>
+              <div className={cx("section")}>
+                <ProductSpreadsheet
+                  dataSource={visibleProductSheetData}
+                  onChange={handleProductSheetChange}
+                  onDeleteRows={handleDeleteRows}
+                  onInsertRows={handleInsertRows}
+                  rowOffset={startRowIndex}
+                  highlightedRowIndex={highlightedRowIndex}
+                  highlightedRowVariant={highlightedRowVariant}
+                />
+              </div>
             </div>
-          </div>
+
+            {productSheetData.length > DEFAULT_NUMBER_ZERO && (
+              <div className={cx("sectionFooter")}>
+                <div className={cx("pagination")}>
+                  <BasePagination
+                    currentPage={paginationCurrentPage}
+                    totalItems={productSheetData.length}
+                    totalPages={totalPages}
+                    onChange={handlePageChange}
+                  />
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
-      <div className={cx("toolbarActions")}>
-        <BaseButton
-          isStatic
-          className={cx("addButton")}
-          onClick={handleAddRows}
-        >
-          {t("product_sheet.add_row")}
-        </BaseButton>
+      <ProductSheetActions
+        rowsToAdd={rowsToAdd}
+        canAddRows={Number(rowsToAdd) > DEFAULT_NUMBER_ZERO}
+        canExport={!productSheetData.every(isProductSheetRowEmpty)}
+        onAddRows={handleAddRows}
+        onRowsToAddChange={handleRowsToAddChange}
+        onFileChange={handleFileChange}
+        onDownloadTemplate={handleDownloadTemplate}
+        onExportExcel={() => void handleExportExcel()}
+      />
 
-        <div className={cx("quantityInput")}>
-          <BaseInput
-            type={InputTypeEnum.NUMBER}
-            value={rowsToAdd}
-            onChange={handleRowsToAddChange}
-          />
-        </div>
-
-        <label htmlFor="product-sheet-file" className={cx("actionButton")}>
-          {t("product_sheet.import_excel")}
-          <input
-            id="product-sheet-file"
-            type="file"
-            accept=".xlsx,.xls"
-            className={cx("fileInput")}
-            onChange={handleFileChange}
-          />
-        </label>
-
-        <BaseButton
-          variant="secondary"
-          className={cx("actionButton")}
-          onClick={() => void handleDownloadTemplate()}
-        >
-          {t("product_sheet.download_template")}
-        </BaseButton>
-
-        <BaseButton
-          variant="secondary"
-          className={cx("actionButton")}
-          isDisabled={productSheetData.every(isProductSheetRowEmpty)}
-          onClick={() => void handleExportExcel()}
-        >
-          {t("product_sheet.export_excel")}
-        </BaseButton>
-      </div>
-
-      <BaseModal
+      <ProductSheetValidationModal
         isOpen={
           validationErrors.length > DEFAULT_NUMBER_ZERO && isValidationModalOpen
         }
-        title={t("product_sheet.validation_errors")}
+        errors={validationErrors}
+        columnLabels={productSheetColumnLabels}
         onClose={() => setIsValidationModalOpen(false)}
-      >
-        <div className={cx("validationModalDescription")}>
-          {t("product_sheet.validation_errors_description")}
-        </div>
+        onFocusError={handleFocusValidationError}
+      />
 
-        <ul className={cx("validationErrorList")}>
-          {validationErrors.map((error) => (
-            <li key={`${error.rowIndex}-${error.columnId}-${error.messageKey}`}>
-              <button
-                type="button"
-                className={cx("validationErrorItem")}
-                onClick={() => handleFocusValidationError(error.rowIndex)}
-              >
-                <span className={cx("validationErrorMessage")}>
-                  <strong className={cx("validationErrorLocation")}>
-                    {t("product_sheet.validation.row", {
-                      row: error.rowNumber,
-                      column: productSheetColumnLabels[error.columnId],
-                    })}
-                    {": "}
-                  </strong>
-                  {t(error.messageKey, error.messageValues)}
-                </span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </BaseModal>
+      <BaseConfirmModal
+        isOpen={navigationBlocker.state === "blocked"}
+        title={t("product_sheet.unsaved_changes_title")}
+        description={t("product_sheet.unsaved_changes_description")}
+        confirmText={t("product_sheet.leave_page")}
+        cancelText={t("product_sheet.stay_on_page")}
+        variant="danger"
+        onClose={() => navigationBlocker.reset?.()}
+        onConfirm={() => navigationBlocker.proceed?.()}
+      />
+
+      <BaseToast
+        isOpen={Boolean(apiError || apiMessage)}
+        message={apiError || apiMessage}
+        variant={apiError ? "error" : "success"}
+        onClose={() => {
+          setApiError(EMPTY_STRING);
+          setApiMessage(EMPTY_STRING);
+        }}
+      />
     </div>
   );
 };

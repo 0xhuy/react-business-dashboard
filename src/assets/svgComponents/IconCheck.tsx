@@ -1,4 +1,5 @@
 // Others
+import { DEFAULT_ICON_SIZE } from "@/utils/constants";
 import { WHITE } from "@/utils/constants/color";
 
 type Props = {
@@ -10,7 +11,12 @@ type Props = {
 
 const IconCheck = (props: Props) => {
   // ===== Props =====
-  const { strokePath = WHITE, width = 16, height = 16, className } = props;
+  const {
+    strokePath = WHITE,
+    width = DEFAULT_ICON_SIZE,
+    height = DEFAULT_ICON_SIZE,
+    className,
+  } = props;
 
   return (
     <svg

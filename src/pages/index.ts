@@ -22,3 +22,4 @@ export { default as OrderDetailPage } from "./orders/OrderDetailPage";
 export { default as UsersPage } from "./users/UsersPage";
 export { default as UsersDetailPage } from "./users/UsersDetailPage";
 export { default as SettingsPage } from "./settings/SettingsPage";
+export { default as NotFoundPage } from "./not-found/NotFoundPage";

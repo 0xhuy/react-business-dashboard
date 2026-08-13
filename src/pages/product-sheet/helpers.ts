@@ -17,6 +17,7 @@ import type {
 import {
   DEFAULT_NUMBER_ZERO,
   EMPTY_STRING,
+  PRODUCT_SEARCH_FIELDS,
   PRODUCT_SHEET_EXCEL_COLUMN_KEYS,
   PRODUCT_SHEET_EXCEL_FILE_NAME,
   PRODUCT_SHEET_EXCEL_HEADER_SEPARATOR,
@@ -25,6 +26,10 @@ import {
   PRODUCT_SHEET_TEMPLATE_COLUMN_WIDTHS,
   PRODUCT_SHEET_TEMPLATE_FILE_NAME,
 } from "@/utils/constants";
+import {
+  isProductCategory,
+  normalizeProductCategory,
+} from "@/utils/helper";
 
 /**
  * Calculates inventory value from price and stock.
@@ -43,6 +48,7 @@ export const getProductInventoryValue = (
 export const getProductSheetStatus = (
   stock: number,
 ): ProductSheetRow["status"] => {
+  if (!Number.isFinite(stock)) return EMPTY_STRING;
   if (stock === DEFAULT_NUMBER_ZERO) return "OutOfStock";
   if (stock <= 20) return "LowStock";
 
@@ -60,8 +66,8 @@ export const createProductSheetRows = (quantity: number): ProductSheetRow[] => {
     sku: EMPTY_STRING,
     name: EMPTY_STRING,
     category: EMPTY_STRING,
-    price: DEFAULT_NUMBER_ZERO,
-    stock: DEFAULT_NUMBER_ZERO,
+    price: Number.NaN,
+    stock: Number.NaN,
     status: EMPTY_STRING,
     inventoryValue: DEFAULT_NUMBER_ZERO,
     description: EMPTY_STRING,
@@ -83,7 +89,7 @@ const normalizeExcelHeader = (header: string): string => {
 
 const normalizeExcelNumber = (value: unknown): number => {
   if (typeof value === "number") {
-    return Number.isFinite(value) ? value : DEFAULT_NUMBER_ZERO;
+    return Number.isFinite(value) ? value : Number.NaN;
   }
 
   const normalizedValue = String(value ?? EMPTY_STRING)
@@ -92,7 +98,9 @@ const normalizeExcelNumber = (value: unknown): number => {
 
   const parsedValue = Number(normalizedValue);
 
-  return Number.isFinite(parsedValue) ? parsedValue : DEFAULT_NUMBER_ZERO;
+  return Number.isFinite(parsedValue) && normalizedValue
+    ? parsedValue
+    : Number.NaN;
 };
 
 const normalizeExcelText = (value: unknown): string =>
@@ -103,10 +111,6 @@ const normalizeSearchText = (value: unknown): string => {
     .trim()
     .toLowerCase();
 };
-
-const PRODUCT_SHEET_SEARCH_FIELDS: Array<
-  keyof Pick<ProductSheetRow, "sku" | "name" | "category" | "description">
-> = ["sku", "name", "category", "description"];
 
 export const parseProductSheetWorksheet = (
   worksheet: WorkSheet,
@@ -135,7 +139,7 @@ export const parseProductSheetWorksheet = (
     return {
       sku: normalizeExcelText(normalizedRow.SKU),
       name: normalizeExcelText(normalizedRow.NAME),
-      category: normalizeExcelText(normalizedRow.CATEGORY),
+      category: normalizeProductCategory(normalizedRow.CATEGORY),
       price,
       stock,
       status: getProductSheetStatus(stock),
@@ -150,8 +154,8 @@ export const isProductSheetRowEmpty = (row: ProductSheetRow): boolean => {
     !row.sku.trim() &&
     !row.name.trim() &&
     !row.category.trim() &&
-    Number(row.price) === DEFAULT_NUMBER_ZERO &&
-    Number(row.stock) === DEFAULT_NUMBER_ZERO &&
+    (!Number.isFinite(row.price) || row.price === DEFAULT_NUMBER_ZERO) &&
+    (!Number.isFinite(row.stock) || row.stock === DEFAULT_NUMBER_ZERO) &&
     !row.description.trim()
   );
 };
@@ -178,7 +182,7 @@ export const searchProductSheetRows = (
         })
       : EMPTY_STRING;
     const isMatched = [
-      ...PRODUCT_SHEET_SEARCH_FIELDS.map((field) => row[field]),
+      ...PRODUCT_SEARCH_FIELDS.map((field) => row[field]),
       categoryTranslation,
       statusTranslation,
     ].some((value) =>
@@ -328,6 +332,31 @@ const validateProductSheetName = (
   });
 };
 
+const validateProductSheetCategory = (
+  row: ProductSheetRow,
+  rowIndex: number,
+  errors: ProductSheetImportValidationError[],
+): void => {
+  if (!row.category.trim()) {
+    addProductSheetValidationError(errors, {
+      rowIndex,
+      rowNumber: rowIndex + 1,
+      columnId: "category",
+      messageKey: "products.validation.category_required",
+    });
+    return;
+  }
+
+  if (!isProductCategory(row.category)) {
+    addProductSheetValidationError(errors, {
+      rowIndex,
+      rowNumber: rowIndex + 1,
+      columnId: "category",
+      messageKey: "products.validation.category_invalid",
+    });
+  }
+};
+
 const validateProductSheetNumberFields = (
   row: ProductSheetRow,
   rowIndex: number,
@@ -335,7 +364,14 @@ const validateProductSheetNumberFields = (
 ): void => {
   const rowNumber = rowIndex + 1;
 
-  if (row.price < DEFAULT_NUMBER_ZERO) {
+  if (!Number.isFinite(row.price)) {
+    addProductSheetValidationError(errors, {
+      rowIndex,
+      rowNumber,
+      columnId: "price",
+      messageKey: "products.validation.price_required",
+    });
+  } else if (row.price < DEFAULT_NUMBER_ZERO) {
     addProductSheetValidationError(errors, {
       rowIndex,
       rowNumber,
@@ -344,7 +380,14 @@ const validateProductSheetNumberFields = (
     });
   }
 
-  if (row.stock < DEFAULT_NUMBER_ZERO) {
+  if (!Number.isFinite(row.stock)) {
+    addProductSheetValidationError(errors, {
+      rowIndex,
+      rowNumber,
+      columnId: "stock",
+      messageKey: "products.validation.stock_required",
+    });
+  } else if (row.stock < DEFAULT_NUMBER_ZERO) {
     addProductSheetValidationError(errors, {
       rowIndex,
       rowNumber,
@@ -367,6 +410,7 @@ export const validateProductSheetRows = (
 
     validateProductSheetSku(row, rowIndex, skuMap, errors);
     validateProductSheetName(row, rowIndex, errors);
+    validateProductSheetCategory(row, rowIndex, errors);
     validateProductSheetNumberFields(row, rowIndex, errors);
   });
 

@@ -17,6 +17,10 @@ import {
 
 // ===== Others =====
 import { InputTypeEnum } from "@/utils/enum/input.enum";
+import {
+  DEFAULT_PRODUCT_FORM_VALUES,
+  PRODUCT_CATEGORY_OPTIONS,
+} from "@/utils/constants";
 import { productFormSchema } from "./ProductForm.schema";
 import type { ProductFormModalProps, ProductFormValues } from "./types";
 
@@ -24,34 +28,6 @@ import type { ProductFormModalProps, ProductFormValues } from "./types";
 import styles from "./ProductFormModal.module.scss";
 
 const cx = classNames.bind(styles);
-
-const PRODUCT_CATEGORY_OPTIONS = [
-  {
-    label: "products.category_electronics",
-    value: "Electronics",
-  },
-  {
-    label: "products.category_furniture",
-    value: "Furniture",
-  },
-  {
-    label: "products.category_lifestyle",
-    value: "Lifestyle",
-  },
-  {
-    label: "products.category_stationery",
-    value: "Stationery",
-  },
-];
-
-const DEFAULT_PRODUCT_FORM_VALUES: ProductFormValues = {
-  sku: "",
-  name: "",
-  category: "",
-  price: 0,
-  stock: 0,
-  description: "",
-};
 
 // ===== Component =====
 const ProductFormModal = (props: ProductFormModalProps) => {
@@ -77,10 +53,12 @@ const ProductFormModal = (props: ProductFormModalProps) => {
   // ===== Effects =====
   useEffect(() => {
     reset(initialValues || DEFAULT_PRODUCT_FORM_VALUES);
-  }, [initialValues, reset]);
+  }, [initialValues, isOpen, reset]);
 
   // ===== Handlers =====
   const handleClose = () => {
+    if (isLoading) return;
+
     reset(initialValues || DEFAULT_PRODUCT_FORM_VALUES);
     onClose();
   };
@@ -97,11 +75,15 @@ const ProductFormModal = (props: ProductFormModalProps) => {
         initialValues ? "products.edit_product" : "products.add_product",
       )}
       width={720}
-      isLoading={isLoading}
       onClose={handleClose}
       footer={
         <>
-          <BaseButton variant="outline" isStatic onClick={handleClose}>
+          <BaseButton
+            variant="outline"
+            isStatic
+            isDisabled={isLoading}
+            onClick={handleClose}
+          >
             {t("common.btn_cancel")}
           </BaseButton>
 
@@ -213,7 +195,6 @@ const ProductFormModal = (props: ProductFormModalProps) => {
               placeholder={t("products.placeholder_description")}
               onTextareaChange={field.onChange}
               errorMessage={errors.description?.message}
-              isRequired
               height={120}
             />
           )}

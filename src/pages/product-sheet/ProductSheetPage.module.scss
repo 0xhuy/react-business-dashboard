@@ -1,5 +1,5 @@
 .container {
-  @apply flex h-full w-full flex-col gap-5 overflow-hidden pb-10;
+  @apply flex h-full w-full flex-col gap-4 overflow-hidden pb-10;
 }
 
 .toolbarCard {
@@ -17,7 +17,7 @@
 }
 
 .toolbarActions {
-  @apply flex items-center justify-start gap-3;
+  @apply flex items-center justify-start gap-2;
 }
 
 .pagination {
@@ -33,7 +33,7 @@
 }
 
 .actionButton {
-  @apply flex h-10 min-w-28 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-medium text-slate-700 transition-all duration-200;
+  @apply flex h-8 min-w-20 cursor-pointer items-center justify-center rounded-lg border border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 transition-all duration-200;
 
   &:hover {
     @apply border-indigo-500 text-indigo-600;
@@ -41,7 +41,7 @@
 }
 
 .addButton {
-  @apply flex h-10 min-h-10 shrink-0 items-center justify-center rounded-xl px-5 text-sm font-medium;
+  @apply flex h-8 min-h-8 shrink-0 items-center justify-center rounded-lg px-3.5 text-xs font-medium;
 }
 
 .saveButton {
@@ -49,7 +49,7 @@
 }
 
 .quantityInput {
-  @apply w-24;
+  @apply w-16;
 }
 
 .fileInput {
@@ -60,6 +60,10 @@
   @apply flex min-h-0 flex-1 flex-col overflow-hidden rounded-3xl bg-white;
 
   border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.sheetLoading {
+  @apply h-full min-h-full border-0;
 }
 
 .bodyScroll {

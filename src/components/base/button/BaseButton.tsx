@@ -69,15 +69,17 @@ const BaseButton = (props: BaseButtonProps) => {
       aria-busy={isLoading}
       {...restProps}
     >
-      {isLoading ? (
-        <span className={cx("spinner")} />
-      ) : (
-        <>
-          {leftIcon && <span className={cx("iconLeft")}>{leftIcon}</span>}
-          <span className={cx("label")}>{children}</span>
-          {rightIcon && <span className={cx("iconRight")}>{rightIcon}</span>}
-        </>
+      {isLoading && (
+        <span className={cx("loadingSpinner")}>
+          <span className={cx("spinner")} />
+        </span>
       )}
+
+      <span className={cx("content", { contentHidden: isLoading })}>
+        {leftIcon && <span className={cx("iconLeft")}>{leftIcon}</span>}
+        <span className={cx("label")}>{children}</span>
+        {rightIcon && <span className={cx("iconRight")}>{rightIcon}</span>}
+      </span>
     </button>
   );
 };

@@ -32,9 +32,11 @@ import {
   purchaseOrderCurrencyFormatter,
 } from "./helpers";
 import {
+  DEFAULT_FILTER_PANEL_WIDTH,
+  DEFAULT_FILTER_SELECT_HEIGHT,
   DEFAULT_PURCHASE_ORDER_FILTER_VALUES,
   PURCHASE_ORDER_DATA_SOURCE,
-} from "@/utils/constants/orders.constants";
+} from "@/utils/constants";
 
 // ===== Styles =====
 import styles from "./OrdersPage.module.scss";
@@ -320,7 +322,7 @@ const OrdersPage = () => {
             <BaseFilter<PurchaseOrderFilterValues>
               valueFilter={filterValues}
               defaultValue={DEFAULT_PURCHASE_ORDER_FILTER_VALUES}
-              widthPanel={500}
+              widthPanel={DEFAULT_FILTER_PANEL_WIDTH}
               onApply={handleApplyFilter}
               isApplyDisabled={getIsApplyDisabled}
             >
@@ -341,7 +343,7 @@ const OrdersPage = () => {
                         <BaseSelect
                           name="status"
                           options={purchaseOrderStatusOptions}
-                          height={40}
+                          height={DEFAULT_FILTER_SELECT_HEIGHT}
                           value={valueFilter.status}
                           placeholder={t("orders.status")}
                           onChange={({ value }, name) => {
@@ -383,7 +385,7 @@ const OrdersPage = () => {
                             name="fromDate"
                             type={InputTypeEnum.DATE}
                             value={valueFilter.fromDate}
-                            height={40}
+                            height={DEFAULT_FILTER_SELECT_HEIGHT}
                             onChange={(event) => {
                               onChange({
                                 name: "fromDate",
@@ -400,7 +402,7 @@ const OrdersPage = () => {
                             name="toDate"
                             type={InputTypeEnum.DATE}
                             value={valueFilter.toDate}
-                            height={40}
+                            height={DEFAULT_FILTER_SELECT_HEIGHT}
                             onChange={(event) => {
                               onChange({
                                 name: "toDate",

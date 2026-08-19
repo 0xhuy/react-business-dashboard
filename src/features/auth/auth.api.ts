@@ -4,7 +4,6 @@
 
 // ===== Others =====
 import { supabase } from "@/services/supabase";
-import { DEFAULT_REGISTER_ROLE } from "@/utils/constants";
 import type { LoginPayload, RegisterPayload } from "./auth.types";
 import { authRouteAbsolute } from "@/utils/constants";
 
@@ -23,7 +22,6 @@ const authApi = {
       options: {
         data: {
           full_name: fullName.trim(),
-          role: DEFAULT_REGISTER_ROLE,
         },
       },
     });

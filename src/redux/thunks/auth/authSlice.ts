@@ -9,13 +9,7 @@ import type { Session, User } from "@supabase/supabase-js";
 
 // ===== Others =====
 import { getAuthThunk, logoutAuthThunk } from "./authThunk";
-import { Role } from "@/utils/enum";
-
-const getSessionRole = (session: Session | null): Role | null => {
-  const role = session?.user.user_metadata?.role;
-
-  return Object.values(Role).includes(role as Role) ? (role as Role) : null;
-};
+import type { Role } from "@/utils/enum";
 // ============================================================
 // AUTH STATE
 // ============================================================
@@ -43,17 +37,11 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    syncAuthSession(state, action: PayloadAction<Session | null>) {
+    syncSession(state, action: PayloadAction<Session | null>) {
       state.session = action.payload;
       state.user = action.payload?.user ?? null;
-      state.role = getSessionRole(action.payload);
-      state.loading = false;
-    },
-    clearAuthState(state) {
-      state.session = null;
-      state.user = null;
-      state.role = null;
-      state.loading = false;
+
+      if (!action.payload) state.role = null;
     },
   },
   extraReducers(builder) {
@@ -65,9 +53,9 @@ const authSlice = createSlice({
       .addCase(getAuthThunk.fulfilled, (state, action) => {
         state.loading = false;
 
-        state.session = action.payload;
-        state.user = action.payload?.user || null;
-        state.role = getSessionRole(action.payload);
+        state.session = action.payload.session;
+        state.user = action.payload.session?.user || null;
+        state.role = action.payload.role;
       })
       .addCase(getAuthThunk.rejected, (state) => {
         state.loading = false;

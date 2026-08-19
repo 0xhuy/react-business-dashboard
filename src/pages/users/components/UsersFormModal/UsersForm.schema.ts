@@ -6,7 +6,7 @@ import { z } from "zod";
 import { UserRoleEnum, UserStatusEnum } from "@/utils/enum";
 
 // ===== Schema =====
-export const userFormSchema = (t: TFunction, isEdit = false) =>
+export const createUserFormSchema = (t: TFunction, isEdit = false) =>
   z
     .object({
       fullName: z.string().trim().min(1, t("common.required")),
@@ -22,7 +22,13 @@ export const userFormSchema = (t: TFunction, isEdit = false) =>
       status: z.nativeEnum(UserStatusEnum),
 
       password: isEdit
-        ? z.string().optional()
+        ? z
+            .string()
+            .refine(
+              (value) => !value || value.trim().length >= 6,
+              t("common.min_length", { value: 6 }),
+            )
+            .optional()
         : z
             .string()
             .trim()
@@ -32,10 +38,15 @@ export const userFormSchema = (t: TFunction, isEdit = false) =>
         ? z.string().optional()
         : z.string().trim().min(1, t("common.required")),
     })
-    .refine((data) => isEdit || data.password === data.confirmPassword, {
-      path: ["confirmPassword"],
-      message: t("common.password_not_match"),
-    });
+    .refine(
+      (data) =>
+        (!data.password && !data.confirmPassword) ||
+        data.password === data.confirmPassword,
+      {
+        path: ["confirmPassword"],
+        message: t("common.password_not_match"),
+      },
+    );
 
 // ===== Types =====
-export type UserFormSchema = z.infer<ReturnType<typeof userFormSchema>>;
+export type UserFormSchema = z.infer<ReturnType<typeof createUserFormSchema>>;

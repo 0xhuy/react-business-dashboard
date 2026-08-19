@@ -77,7 +77,7 @@
   }
 
   p {
-    @apply mt-2 overflow-hidden text-lg font-semibold break-words text-slate-900;
+    @apply mt-2 overflow-hidden break-words text-lg font-semibold text-slate-900;
 
     display: -webkit-box;
     -webkit-box-orient: vertical;

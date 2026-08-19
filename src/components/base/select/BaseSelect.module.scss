@@ -21,7 +21,16 @@
   }
 
   &[data-disabled] {
-    @apply cursor-not-allowed bg-slate-50 text-slate-400;
+    @apply cursor-not-allowed border-slate-200 bg-slate-100 text-slate-400 shadow-none;
+
+    .btnText,
+    .btnPlaceholder {
+      @apply text-slate-400;
+    }
+
+    .iconArrow {
+      @apply opacity-40;
+    }
   }
 }
 

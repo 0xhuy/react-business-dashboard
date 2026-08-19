@@ -52,7 +52,8 @@ const getPurchaseOrders = async (): Promise<PurchaseOrderRow[]> => {
   const { data, error } = await supabase
     .from("purchase_orders")
     .select(ORDER_SELECT)
-    .order("created_at", { ascending: false });
+    .order("order_date", { ascending: true })
+    .order("created_at", { ascending: true });
 
   if (error) throw error;
   return ((data ?? []) as OrderRecord[]).map(mapOrder);

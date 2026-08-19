@@ -4,20 +4,20 @@
 
 // ===== Libs =====
 import classNames from "classnames/bind";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // ===== Components, Layouts, Pages=====
-import { BaseInput, BaseButton } from "@/components";
+import { BaseInput, BaseButton, BaseToast } from "@/components";
 import { AuthLayout } from "@/layouts";
 
 // ===== Other =====
 import { authRouteAbsolute, EMPTY_STRING } from "@/utils/constants";
 import { getRedirectByRole } from "@/router/redirect";
-import { InputTypeEnum, Role } from "@/utils/enum";
+import { InputTypeEnum } from "@/utils/enum";
 import {
   createLoginSchema,
   INITIAL_LOGIN_FORM,
@@ -37,6 +37,7 @@ const cx = classNames.bind(styles);
 const Login = () => {
   // ===== Hooks =====
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const { t, i18n } = useTranslation();
   const loginSchema = useMemo(() => createLoginSchema(t), [t]);
@@ -44,6 +45,8 @@ const Login = () => {
   // ===== State =====
   const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(EMPTY_STRING);
+  const [successMessage, setSuccessMessage] = useState(EMPTY_STRING);
 
   // ===== Form =====
   const {
@@ -69,12 +72,22 @@ const Login = () => {
     trigger(errorFieldNames);
   }, [i18n.language, errors, trigger]);
 
+  useEffect(() => {
+    const state = location.state as { registrationSuccess?: boolean } | null;
+
+    if (!state?.registrationSuccess) return;
+
+    setSuccessMessage(t("auth.register.success_message"));
+    navigate(location.pathname, { replace: true, state: null });
+  }, [location.pathname, location.state, navigate, t]);
+
   // ===== Handlers =====
   const handleLogin = async (data: LoginFormData) => {
     if (isLoading) return;
 
     try {
       setIsLoading(true);
+      setErrorMessage(EMPTY_STRING);
 
       const { data: authData, error } = await authApi.login({
         email: data.email,
@@ -83,16 +96,25 @@ const Login = () => {
 
       if (error) {
         console.error(error.message);
+        setErrorMessage(t("auth.errors.login_failed"));
         return;
       }
 
-      const role = authData.user?.user_metadata?.role || Role.VIEWER;
+      const { role, isInactive } = await dispatch(
+        getAuthThunk(authData.session ?? undefined),
+      ).unwrap();
 
-      await dispatch(getAuthThunk()).unwrap();
+      if (isInactive) {
+        setErrorMessage(t("auth.errors.account_inactive"));
+        return;
+      }
+
+      if (!role) return;
 
       navigate(getRedirectByRole(role));
     } catch (error) {
       console.error(error);
+      setErrorMessage(t("auth.errors.login_failed"));
     } finally {
       setIsLoading(false);
     }
@@ -236,6 +258,16 @@ const Login = () => {
           </div>
         </form>
       </div>
+
+      <BaseToast
+        isOpen={Boolean(errorMessage || successMessage)}
+        message={errorMessage || successMessage}
+        variant={errorMessage ? "error" : "success"}
+        onClose={() => {
+          setErrorMessage(EMPTY_STRING);
+          setSuccessMessage(EMPTY_STRING);
+        }}
+      />
     </AuthLayout>
   );
 };

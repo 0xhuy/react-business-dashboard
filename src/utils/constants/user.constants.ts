@@ -1,6 +1,34 @@
 // ===== Others =====
 import type { UserFormValues } from "@/pages/users/components/UsersFormModal/types";
-import type { UserFilterValues, UserRow } from "@/pages/users/type";
+import type { UserFilterValues } from "@/pages/users/type";
+import {
+  ProfileStatusEnum,
+  Role,
+  UserRoleEnum,
+  UserStatusEnum,
+} from "@/utils/enum";
+
+export const PROFILE_ROLE_TO_USER_ROLE = {
+  [Role.ADMIN]: UserRoleEnum.ADMIN,
+  [Role.STAFF]: UserRoleEnum.STAFF,
+  [Role.VIEWER]: UserRoleEnum.VIEWER,
+} as const;
+
+export const USER_ROLE_TO_PROFILE_ROLE = {
+  [UserRoleEnum.ADMIN]: Role.ADMIN,
+  [UserRoleEnum.STAFF]: Role.STAFF,
+  [UserRoleEnum.VIEWER]: Role.VIEWER,
+} as const;
+
+export const PROFILE_STATUS_TO_USER_STATUS = {
+  [ProfileStatusEnum.ACTIVE]: UserStatusEnum.ACTIVE,
+  [ProfileStatusEnum.INACTIVE]: UserStatusEnum.INACTIVE,
+} as const;
+
+export const USER_STATUS_TO_PROFILE_STATUS = {
+  [UserStatusEnum.ACTIVE]: ProfileStatusEnum.ACTIVE,
+  [UserStatusEnum.INACTIVE]: ProfileStatusEnum.INACTIVE,
+} as const;
 
 export const DEFAULT_USER_FILTER_VALUES: UserFilterValues = {
   role: "",
@@ -13,24 +41,24 @@ export const USER_ROLE_OPTIONS = [
     value: "all",
   },
   {
-    label: "Admin",
-    value: "Admin",
+    label: UserRoleEnum.ADMIN,
+    value: UserRoleEnum.ADMIN,
   },
   {
-    label: "Manager",
-    value: "Manager",
+    label: UserRoleEnum.STAFF,
+    value: UserRoleEnum.STAFF,
   },
   {
-    label: "Staff",
-    value: "Staff",
+    label: UserRoleEnum.VIEWER,
+    value: UserRoleEnum.VIEWER,
   },
 ];
 
 export const DEFAULT_USER_FORM_VALUES: UserFormValues = {
   fullName: "",
   email: "",
-  role: "Staff",
-  status: "Active",
+  role: UserRoleEnum.STAFF,
+  status: UserStatusEnum.ACTIVE,
   password: "",
   confirmPassword: "",
 };
@@ -41,54 +69,11 @@ export const USER_STATUS_OPTIONS = [
     value: "all",
   },
   {
-    label: "Active",
-    value: "Active",
+    label: UserStatusEnum.ACTIVE,
+    value: UserStatusEnum.ACTIVE,
   },
   {
-    label: "Inactive",
-    value: "Inactive",
-  },
-];
-
-export const USER_DATA_SOURCE: UserRow[] = [
-  {
-    id: "USR-001",
-    fullName: "Admin User",
-    email: "admin@example.com",
-    role: "Admin",
-    status: "Active",
-    createdAt: "2026-07-01",
-  },
-  {
-    id: "USR-002",
-    fullName: "John Manager",
-    email: "john.manager@example.com",
-    role: "Manager",
-    status: "Active",
-    createdAt: "2026-07-05",
-  },
-  {
-    id: "USR-003",
-    fullName: "Anna Staff",
-    email: "anna.staff@example.com",
-    role: "Staff",
-    status: "Active",
-    createdAt: "2026-07-10",
-  },
-  {
-    id: "USR-004",
-    fullName: "David Staff",
-    email: "david.staff@example.com",
-    role: "Staff",
-    status: "Inactive",
-    createdAt: "2026-07-12",
-  },
-  {
-    id: "USR-005",
-    fullName: "Emily Manager",
-    email: "emily.manager@example.com",
-    role: "Manager",
-    status: "Inactive",
-    createdAt: "2026-07-18",
+    label: UserStatusEnum.INACTIVE,
+    value: UserStatusEnum.INACTIVE,
   },
 ];

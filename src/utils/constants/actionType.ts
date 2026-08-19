@@ -20,3 +20,9 @@ export const GET_PURCHASE_ORDERS = "orders/getPurchaseOrders";
 export const CREATE_PURCHASE_ORDER = "orders/createPurchaseOrder";
 export const UPDATE_PURCHASE_ORDER = "orders/updatePurchaseOrder";
 export const DELETE_PURCHASE_ORDER = "orders/deletePurchaseOrder";
+
+// ============================================================
+// USERS
+// ============================================================
+export const GET_USERS = "users/getUsers";
+export const UPDATE_USER = "users/updateUser";

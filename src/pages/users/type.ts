@@ -1,17 +1,12 @@
-export type UserRole = "Admin" | "Manager" | "Staff";
+import type {
+  UserRole,
+  UserRow,
+  UserStatus,
+} from "@/features/users/user.types";
 
-export type UserStatus = "Active" | "Inactive";
+export type { UserRole, UserRow, UserStatus };
 
 export type UserFilterValues = {
   role?: UserRole | "all" | "";
   status?: UserStatus | "all" | "";
-};
-
-export type UserRow = {
-  id: string;
-  fullName: string;
-  email: string;
-  role: UserRole;
-  status: UserStatus;
-  createdAt: string;
 };

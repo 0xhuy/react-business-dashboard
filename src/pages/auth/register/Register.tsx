@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // ===== Components, Layouts, Pages =====
-import { BaseButton, BaseInput } from "@/components";
+import { BaseButton, BaseInput, BaseToast } from "@/components";
 import { AuthLayout } from "@/layouts";
 
 // ===== Others =====
@@ -38,6 +38,7 @@ const Register = () => {
 
   // ===== State =====
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(EMPTY_STRING);
 
   // ===== Memo =====
   const registerSchema = useMemo(() => createRegisterSchema(t), [t]);
@@ -82,6 +83,7 @@ const Register = () => {
 
     try {
       setIsLoading(true);
+      setErrorMessage(EMPTY_STRING);
 
       const { error } = await authApi.register({
         fullName: data.fullName,
@@ -91,12 +93,16 @@ const Register = () => {
 
       if (error) {
         console.error(error.message);
+        setErrorMessage(t("auth.errors.register_failed"));
         return;
       }
 
-      navigate(authRouteAbsolute.login);
+      navigate(authRouteAbsolute.login, {
+        state: { registrationSuccess: true },
+      });
     } catch (error) {
       console.error(error);
+      setErrorMessage(t("auth.errors.register_failed"));
     } finally {
       setIsLoading(false);
     }
@@ -262,6 +268,13 @@ const Register = () => {
           </div>
         </form>
       </div>
+
+      <BaseToast
+        isOpen={Boolean(errorMessage)}
+        message={errorMessage}
+        variant="error"
+        onClose={() => setErrorMessage(EMPTY_STRING)}
+      />
     </AuthLayout>
   );
 };

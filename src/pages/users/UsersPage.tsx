@@ -1,7 +1,7 @@
 // ===== Libs =====
 import classNames from "classnames/bind";
-import { useCallback, useMemo, useState } from "react";
-import { Trans, useTranslation } from "react-i18next";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 // ===== Components =====
@@ -12,11 +12,11 @@ import {
   BaseCheckbox,
   BaseFilter,
   BaseInput,
-  BasePagination,
+  BaseLoading,
   BaseSelect,
   BaseTable,
+  BaseToast,
 } from "@/components";
-import BaseConfirmModal from "@/components/base/confirm-modal/BaseConfirmModal";
 
 // ===== Others =====
 import type { UserFormValues } from "./components/UsersFormModal/types";
@@ -29,10 +29,12 @@ import {
   DEFAULT_FILTER_PANEL_WIDTH,
   DEFAULT_FILTER_SELECT_HEIGHT,
   DEFAULT_USER_FILTER_VALUES,
-  USER_DATA_SOURCE,
   USER_ROLE_OPTIONS,
   USER_STATUS_OPTIONS,
+  EMPTY_STRING,
 } from "@/utils/constants";
+import { useAppDispatch, useAuth, useUsers } from "@/redux/hooks";
+import { getUsersThunk, updateUserThunk } from "@/redux/thunks/users/userThunk";
 
 // ===== Styles =====
 import styles from "./UsersPage.module.scss";
@@ -43,9 +45,11 @@ const UsersPage = () => {
   // ===== Hooks =====
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { user: currentUser } = useAuth();
+  const { users, loading: isLoading, isProcessing } = useUsers();
 
   // ===== States =====
-  const [users, setUsers] = useState<UserRow[]>(USER_DATA_SOURCE);
   const [isOpenUserModal, setIsOpenUserModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserRow>();
   const [searchValue, setSearchValue] = useState("");
@@ -54,8 +58,18 @@ const UsersPage = () => {
     DEFAULT_USER_FILTER_VALUES,
   );
 
-  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
-  const [selectedDeleteUser, setSelectedDeleteUser] = useState<UserRow>();
+  const [apiError, setApiError] = useState(EMPTY_STRING);
+  const [apiMessage, setApiMessage] = useState(EMPTY_STRING);
+
+  // ===== Effects =====
+  useEffect(() => {
+    void dispatch(getUsersThunk())
+      .unwrap()
+      .catch((error) => {
+        console.error("Unable to load users:", error);
+        setApiError(t("users.api.load_error"));
+      });
+  }, [dispatch, t]);
 
   // ===== Handlers =====
   const handleSearchChange = useCallback(
@@ -76,49 +90,37 @@ const UsersPage = () => {
     setFilterValues(valueFilter);
   }, []);
 
-  const handleOpenUserModal = useCallback(() => {
-    setSelectedUser(undefined);
-    setIsOpenUserModal(true);
-  }, []);
-
   const handleCloseUserModal = useCallback(() => {
     setSelectedUser(undefined);
     setIsOpenUserModal(false);
   }, []);
 
   const handleSubmitUser = useCallback(
-    (data: UserFormValues) => {
-      if (selectedUser) {
-        setUsers((currentUsers) =>
-          currentUsers.map((user) =>
-            user.id === selectedUser.id
-              ? {
-                  ...user,
-                  fullName: data.fullName,
-                  email: data.email,
-                  role: data.role,
-                  status: data.status,
-                }
-              : user,
-          ),
-        );
-      } else {
-        setUsers((currentUsers) => [
-          ...currentUsers,
-          {
-            id: `USR-${String(currentUsers.length + 1).padStart(3, "0")}`,
-            fullName: data.fullName,
-            email: data.email,
-            role: data.role,
-            status: data.status,
-            createdAt: new Date().toISOString().slice(0, 10),
-          },
-        ]);
-      }
+    async (data: UserFormValues) => {
+      if (!selectedUser) return;
 
-      handleCloseUserModal();
+      setApiError(EMPTY_STRING);
+      setApiMessage(EMPTY_STRING);
+      const isEditingCurrentUser = selectedUser.id === currentUser?.id;
+
+      const user = {
+        fullName: data.fullName,
+        email: selectedUser.email,
+        role: isEditingCurrentUser ? selectedUser.role : data.role,
+        status: isEditingCurrentUser ? selectedUser.status : data.status,
+      };
+
+      try {
+        await dispatch(updateUserThunk({ id: selectedUser.id, user })).unwrap();
+        setApiMessage(t("users.api.update_success"));
+
+        handleCloseUserModal();
+      } catch (error) {
+        console.error("Unable to save user:", error);
+        setApiError(t("users.api.save_error"));
+      }
     },
-    [handleCloseUserModal, selectedUser],
+    [currentUser?.id, dispatch, handleCloseUserModal, selectedUser, t],
   );
 
   const handleEditUser = useCallback((record: UserRow) => {
@@ -126,38 +128,30 @@ const UsersPage = () => {
     setIsOpenUserModal(true);
   }, []);
 
-  const handleToggleUserStatus = useCallback((record: UserRow) => {
-    setUsers((currentUsers) =>
-      currentUsers.map((user) =>
-        user.id === record.id
-          ? {
-              ...user,
-              status: user.status === "Active" ? "Inactive" : "Active",
-            }
-          : user,
-      ),
-    );
-  }, []);
+  const handleToggleUserStatus = useCallback(
+    async (record: UserRow) => {
+      if (record.id === currentUser?.id) return;
 
-  const handleDeleteUser = useCallback((record: UserRow) => {
-    setSelectedDeleteUser(record);
-    setIsOpenDeleteModal(true);
-  }, []);
-
-  const handleCloseDeleteModal = useCallback(() => {
-    setSelectedDeleteUser(undefined);
-    setIsOpenDeleteModal(false);
-  }, []);
-
-  const handleConfirmDelete = useCallback(() => {
-    if (!selectedDeleteUser) return;
-
-    setUsers((currentUsers) =>
-      currentUsers.filter((user) => user.id !== selectedDeleteUser.id),
-    );
-
-    handleCloseDeleteModal();
-  }, [handleCloseDeleteModal, selectedDeleteUser]);
+      try {
+        await dispatch(
+          updateUserThunk({
+            id: record.id,
+            user: {
+              fullName: record.fullName,
+              email: record.email,
+              role: record.role,
+              status: record.status === "Active" ? "Inactive" : "Active",
+            },
+          }),
+        ).unwrap();
+        setApiMessage(t("users.api.status_success"));
+      } catch (error) {
+        console.error("Unable to update user status:", error);
+        setApiError(t("users.api.status_error"));
+      }
+    },
+    [currentUser?.id, dispatch, t],
+  );
 
   // ===== Memos =====
   const filteredUsers = useMemo(() => {
@@ -214,6 +208,17 @@ const UsersPage = () => {
     [t],
   );
 
+  const userFormInitialValues = useMemo(() => {
+    if (!selectedUser) return undefined;
+
+    return {
+      fullName: selectedUser.fullName,
+      email: selectedUser.email,
+      role: selectedUser.role,
+      status: selectedUser.status,
+    };
+  }, [selectedUser]);
+
   const userColumns = useMemo((): ColumnType<UserRow>[] => {
     return [
       {
@@ -266,37 +271,55 @@ const UsersPage = () => {
             <BaseActionMenu
               actions={[
                 {
+                  icon: icons.iconView,
+                  label: t("common.btn_view"),
+                  onClick: () => handleOpenUserDetail(record),
+                },
+                {
                   icon: icons.iconEdit,
                   label: t("common.btn_edit"),
                   onClick: () => handleEditUser(record),
                 },
-                {
-                  icon:
-                    record.status === "Active"
-                      ? icons.iconDeactivate
-                      : icons.iconActivate,
-                  label:
-                    record.status === "Active"
-                      ? t("users.deactivate")
-                      : t("users.activate"),
-                  onClick: () => handleToggleUserStatus(record),
-                },
-                {
-                  icon: icons.iconTrash,
-                  label: t("common.btn_delete"),
-                  variant: "danger",
-                  onClick: () => handleDeleteUser(record),
-                },
+                ...(record.id === currentUser?.id
+                  ? []
+                  : [
+                      {
+                        icon:
+                          record.status === "Active"
+                            ? icons.iconDeactivate
+                            : icons.iconActivate,
+                        label:
+                          record.status === "Active"
+                            ? t("users.deactivate")
+                            : t("users.activate"),
+                        onClick: () => handleToggleUserStatus(record),
+                      },
+                      {
+                        icon: icons.iconTrash,
+                        label: t("common.btn_delete"),
+                        variant: "danger" as const,
+                        isDisabled: true,
+                        onClick: () => undefined,
+                      },
+                    ]),
               ]}
             />
           </div>
         ),
       },
     ];
-  }, [handleDeleteUser, handleEditUser, handleToggleUserStatus, t]);
+  }, [
+    currentUser?.id,
+    handleEditUser,
+    handleOpenUserDetail,
+    handleToggleUserStatus,
+    t,
+  ]);
 
   return (
     <div className={cx("wrapper")}>
+      <p className={cx("backendNotice")}>{t("users.backend_notice")}</p>
+
       <section className={cx("toolbarCard")}>
         <div className={cx("toolbarHeader")}>
           <p className={cx("pageTitle")}>
@@ -385,7 +408,7 @@ const UsersPage = () => {
 
             <BaseButton
               isStatic
-              onClick={handleOpenUserModal}
+              isDisabled
               className={cx("addButton")}
             >
               {t("users.add_user")}
@@ -395,51 +418,36 @@ const UsersPage = () => {
       </section>
 
       <div className={cx("table")}>
-        <BaseTable
-          columns={userColumns}
-          dataSource={filteredUsers}
-          onClickRow={handleOpenUserDetail}
-        />
+        {isLoading ? (
+          <BaseLoading />
+        ) : (
+          <BaseTable
+            columns={userColumns}
+            dataSource={filteredUsers}
+            onClickRow={handleOpenUserDetail}
+          />
+        )}
       </div>
-
-      <BasePagination
-        currentPage={1}
-        totalItems={filteredUsers.length}
-        totalPages={1}
-        onChange={() => undefined}
-      />
 
       <UsersFormModal
         isOpen={isOpenUserModal}
-        initialValues={
-          selectedUser
-            ? {
-                fullName: selectedUser.fullName,
-                email: selectedUser.email,
-                role: selectedUser.role,
-                status: selectedUser.status,
-              }
-            : undefined
+        isLoading={isProcessing}
+        isCurrentUser={
+          Boolean(selectedUser) && selectedUser?.id === currentUser?.id
         }
+        initialValues={userFormInitialValues}
         onClose={handleCloseUserModal}
         onSubmit={handleSubmitUser}
       />
 
-      <BaseConfirmModal
-        isOpen={isOpenDeleteModal}
-        title={t("common.confirm_delete")}
-        description={
-          <Trans
-            i18nKey="common.delete_description"
-            values={{
-              value: selectedDeleteUser?.fullName,
-            }}
-            components={[<strong key="strong" />]}
-          />
-        }
-        variant="danger"
-        onClose={handleCloseDeleteModal}
-        onConfirm={handleConfirmDelete}
+      <BaseToast
+        isOpen={Boolean(apiError || apiMessage)}
+        message={apiError || apiMessage}
+        variant={apiError ? "error" : "success"}
+        onClose={() => {
+          setApiError(EMPTY_STRING);
+          setApiMessage(EMPTY_STRING);
+        }}
       />
     </div>
   );

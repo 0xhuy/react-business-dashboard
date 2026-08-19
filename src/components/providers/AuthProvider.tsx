@@ -25,12 +25,12 @@ export const AuthProvider = ({ children }: Props) => {
 
   // ===== Effects =====
   useEffect(() => {
-    dispatch(getAuthThunk());
+    void dispatch(getAuthThunk());
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      dispatch(authActions.syncAuthSession(session));
+      dispatch(authActions.syncSession(session));
     });
 
     return () => subscription.unsubscribe();

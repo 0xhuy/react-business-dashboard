@@ -47,7 +47,8 @@
       "has_account": "Already have an account?",
       "login": "Sign in",
       "show_password": "Show password",
-      "hide_password": "Hide password"
+      "hide_password": "Hide password",
+      "success_message": "Account created successfully. Please check your email to confirm your account before signing in."
     },
     "forgot_password": {
       "title": "Forgot Password",
@@ -74,6 +75,13 @@
       "success_description": "Your password has been updated. You can now sign in with your new password.",
       "show_password": "Show password",
       "hide_password": "Hide password"
+    },
+    "errors": {
+      "login_failed": "Unable to sign in. Check your email and password.",
+      "account_inactive": "Your account has been deactivated. Contact an administrator.",
+      "register_failed": "Unable to create your account. The email may already be in use.",
+      "reset_email_failed": "Unable to send the password reset email. Please try again.",
+      "password_update_failed": "Unable to update your password. Please request a new reset link."
     },
     "validation": {
       "full_name_required": "Full name is required",
@@ -299,6 +307,10 @@
     "user_information": "User Information",
     "account_information": "Account Information",
     "account_information_description": "Basic account details and permissions.",
+    "personal_information": "Personal Information",
+    "access_permissions": "Access & Permissions",
+    "copy": "Copy",
+    "user_id_copied": "User ID copied successfully.",
     "security": "Security",
     "full_name": "Full Name",
     "full_name_placeholder": "Enter full name",
@@ -308,8 +320,8 @@
     "select_role": "Select role",
     "role_all": "All roles",
     "role_admin": "Admin",
-    "role_manager": "Manager",
     "role_staff": "Staff",
+    "role_viewer": "Viewer",
     "status": "Status",
     "select_status": "Select status",
     "status_all": "All statuses",
@@ -323,7 +335,15 @@
     "user_id": "User ID",
     "activate": "Activate",
     "deactivate": "Deactivate",
-    "not_found": "User not found"
+    "not_found": "User not found",
+    "backend_notice": "Admins can edit user names, roles, and statuses. Add, Delete, email, and password management remain visible but require a secure Backend Admin API.",
+    "api": {
+      "load_error": "Unable to load users.",
+      "update_success": "User updated successfully.",
+      "status_success": "User status updated successfully.",
+      "save_error": "Unable to save user.",
+      "status_error": "Unable to update user status."
+    }
   },
   "settings": {
     "title": "Settings",

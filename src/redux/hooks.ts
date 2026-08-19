@@ -25,3 +25,6 @@ export const useProducts = () => useAppSelector((state) => state.products);
 
 // ===== Purchase Orders =====
 export const useOrders = () => useAppSelector((state) => state.orders);
+
+// ===== Users =====
+export const useUsers = () => useAppSelector((state) => state.users);

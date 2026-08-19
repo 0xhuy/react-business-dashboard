@@ -96,7 +96,11 @@ const BaseInput = (props: BaseInputProps) => {
       )}
 
       <div
-        className={cx("baseInputContent", typeStyle)}
+        className={cx(
+          "baseInputContent",
+          disabled && "baseInputContentDisabled",
+          typeStyle,
+        )}
         style={{ height, borderRadius }}
       >
         {prefix && (

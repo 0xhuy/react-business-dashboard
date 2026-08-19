@@ -2,6 +2,10 @@
   @apply flex h-full flex-col gap-5 pb-10 overflow-hidden;
 }
 
+.backendNotice {
+  @apply rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800;
+}
+
 .toolbarCard {
   @apply rounded-3xl bg-white px-7 py-6;
 

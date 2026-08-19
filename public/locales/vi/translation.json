@@ -47,7 +47,8 @@
       "hide_password": "Ẩn mật khẩu",
       "dashboard_alt": "Bảng điều khiển",
       "widgets_alt": "Tiện ích",
-      "logo_alt": "Logo Dashly"
+      "logo_alt": "Logo Dashly",
+      "success_message": "Tạo tài khoản thành công. Vui lòng kiểm tra email để xác nhận tài khoản trước khi đăng nhập."
     },
     "forgot_password": {
       "title": "Quên mật khẩu",
@@ -74,6 +75,13 @@
       "success_description": "Mật khẩu của bạn đã được cập nhật. Bây giờ bạn có thể đăng nhập bằng mật khẩu mới.",
       "show_password": "Hiện mật khẩu",
       "hide_password": "Ẩn mật khẩu"
+    },
+    "errors": {
+      "login_failed": "Không thể đăng nhập. Vui lòng kiểm tra email và mật khẩu.",
+      "account_inactive": "Tài khoản đã bị vô hiệu hóa. Vui lòng liên hệ quản trị viên.",
+      "register_failed": "Không thể tạo tài khoản. Email có thể đã được sử dụng.",
+      "reset_email_failed": "Không thể gửi email đặt lại mật khẩu. Vui lòng thử lại.",
+      "password_update_failed": "Không thể cập nhật mật khẩu. Vui lòng yêu cầu liên kết đặt lại mới."
     },
     "validation": {
       "full_name_required": "Vui lòng nhập họ và tên",
@@ -298,6 +306,10 @@
     "user_information": "Thông tin người dùng",
     "account_information": "Thông tin tài khoản",
     "account_information_description": "Thông tin cơ bản và quyền của tài khoản.",
+    "personal_information": "Thông tin cá nhân",
+    "access_permissions": "Quyền truy cập",
+    "copy": "Sao chép",
+    "user_id_copied": "Đã sao chép mã người dùng.",
     "security": "Bảo mật",
     "full_name": "Họ và tên",
     "full_name_placeholder": "Nhập họ và tên",
@@ -307,8 +319,8 @@
     "select_role": "Chọn vai trò",
     "role_all": "Tất cả vai trò",
     "role_admin": "Quản trị viên",
-    "role_manager": "Quản lý",
     "role_staff": "Nhân viên",
+    "role_viewer": "Người xem",
     "status": "Trạng thái",
     "select_status": "Chọn trạng thái",
     "status_all": "Tất cả trạng thái",
@@ -322,7 +334,15 @@
     "user_id": "Mã người dùng",
     "activate": "Kích hoạt",
     "deactivate": "Vô hiệu hóa",
-    "not_found": "Không tìm thấy người dùng"
+    "not_found": "Không tìm thấy người dùng",
+    "backend_notice": "Admin có thể sửa tên, vai trò và trạng thái của người dùng. Thêm, Xóa, email và mật khẩu vẫn được hiển thị nhưng cần Backend Admin API bảo mật.",
+    "api": {
+      "load_error": "Không thể tải danh sách người dùng.",
+      "update_success": "Cập nhật người dùng thành công.",
+      "status_success": "Cập nhật trạng thái người dùng thành công.",
+      "save_error": "Không thể lưu người dùng.",
+      "status_error": "Không thể cập nhật trạng thái người dùng."
+    }
   },
   "settings": {
     "title": "Cài đặt",

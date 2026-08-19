@@ -16,7 +16,7 @@ import {
   USER_ROLE_OPTIONS,
   USER_STATUS_OPTIONS,
 } from "@/utils/constants/user.constants";
-import { userFormSchema } from "./UsersForm.schema";
+import { createUserFormSchema } from "./UsersForm.schema";
 import type { UserFormModalProps, UserFormValues } from "./types";
 
 // ===== Styles =====
@@ -35,11 +35,19 @@ const getUserFormValues = (
 // ===== Component =====
 const UsersFormModal = (props: UserFormModalProps) => {
   // ===== Props =====
-  const { isOpen, isLoading = false, initialValues, onClose, onSubmit } = props;
+  const {
+    isOpen,
+    isLoading = false,
+    isCurrentUser = false,
+    initialValues,
+    onClose,
+    onSubmit,
+  } = props;
 
   // ===== Hooks =====
   const { t } = useTranslation();
-  const schema = userFormSchema(t, Boolean(initialValues));
+  const isEditMode = Boolean(initialValues);
+  const schema = createUserFormSchema(t, isEditMode);
 
   const {
     control,
@@ -73,7 +81,7 @@ const UsersFormModal = (props: UserFormModalProps) => {
   return (
     <BaseModal
       isOpen={isOpen}
-      title={initialValues ? t("users.edit_user") : t("users.add_user")}
+      title={isEditMode ? t("users.edit_user") : t("users.add_user")}
       width={680}
       isLoading={isLoading}
       onClose={handleClose}
@@ -124,6 +132,7 @@ const UsersFormModal = (props: UserFormModalProps) => {
               <BaseInput
                 {...field}
                 type={InputTypeEnum.EMAIL}
+                disabled={isEditMode}
                 label={t("users.email")}
                 placeholder={t("users.email_placeholder")}
                 messageError={errors.email?.message}
@@ -139,6 +148,7 @@ const UsersFormModal = (props: UserFormModalProps) => {
               render={({ field }) => (
                 <BaseSelect
                   name={field.name}
+                  disabled={isCurrentUser}
                   label={t("users.role")}
                   value={field.value}
                   options={USER_ROLE_OPTIONS.filter(
@@ -159,6 +169,7 @@ const UsersFormModal = (props: UserFormModalProps) => {
               render={({ field }) => (
                 <BaseSelect
                   name={field.name}
+                  disabled={isCurrentUser}
                   label={t("users.status")}
                   value={field.value}
                   options={USER_STATUS_OPTIONS.filter(
@@ -175,7 +186,7 @@ const UsersFormModal = (props: UserFormModalProps) => {
           </div>
         </section>
 
-        <section className={cx("section")}>
+        {!isCurrentUser && <section className={cx("section")}>
           <p className={cx("sectionTitle")}>{t("users.security")}</p>
 
           <div className={cx("twoColumns")}>
@@ -187,10 +198,11 @@ const UsersFormModal = (props: UserFormModalProps) => {
                   {...field}
                   value={field.value ?? ""}
                   type={InputTypeEnum.PASSWORD}
+                  disabled={isEditMode}
                   label={t("users.password")}
                   placeholder={t("users.password_placeholder")}
                   messageError={errors.password?.message}
-                  isRequired={!initialValues}
+                  isRequired={!isEditMode}
                   renderPasswordToggle={(isShow) => (
                     <img
                       className={cx("toggleIcon")}
@@ -214,10 +226,11 @@ const UsersFormModal = (props: UserFormModalProps) => {
                   {...field}
                   value={field.value ?? ""}
                   type={InputTypeEnum.PASSWORD}
+                  disabled={isEditMode}
                   label={t("users.confirm_password")}
                   placeholder={t("users.confirm_password_placeholder")}
                   messageError={errors.confirmPassword?.message}
-                  isRequired={!initialValues}
+                  isRequired={!isEditMode}
                   renderPasswordToggle={(isShow) => (
                     <img
                       className={cx("toggleIcon")}
@@ -233,7 +246,7 @@ const UsersFormModal = (props: UserFormModalProps) => {
               )}
             />
           </div>
-        </section>
+        </section>}
       </form>
     </BaseModal>
   );

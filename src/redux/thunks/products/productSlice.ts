@@ -47,7 +47,7 @@ const productSlice = createSlice({
       })
       .addCase(createProductThunk.fulfilled, (state, action) => {
         state.isProcessing = false;
-        state.products.unshift(action.payload);
+        state.products.push(action.payload);
       })
       .addCase(createProductThunk.rejected, (state, action) => {
         state.isProcessing = false;

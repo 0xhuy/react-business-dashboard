@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // ===== Components, Layouts, Pages =====
-import { BaseButton, BaseInput } from "@/components";
+import { BaseButton, BaseInput, BaseToast } from "@/components";
 import AuthLayout from "../../../layouts/auth/AuthLayout";
 
 // ===== Others =====
@@ -40,6 +40,7 @@ const CreateNewPassword = () => {
   // ===== State =====
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(EMPTY_STRING);
 
   // ===== Form =====
   const {
@@ -73,17 +74,20 @@ const CreateNewPassword = () => {
 
     try {
       setIsLoading(true);
+      setErrorMessage(EMPTY_STRING);
 
       const { error } = await authApi.createNewPassword(data.newPassword);
 
       if (error) {
         console.error(error.message);
+        setErrorMessage(t("auth.errors.password_update_failed"));
         return;
       }
 
       setIsSubmitted(true);
     } catch (error) {
       console.error(error);
+      setErrorMessage(t("auth.errors.password_update_failed"));
     } finally {
       setIsLoading(false);
     }
@@ -216,6 +220,13 @@ const CreateNewPassword = () => {
           </button>
         </div>
       </div>
+
+      <BaseToast
+        isOpen={Boolean(errorMessage)}
+        message={errorMessage}
+        variant="error"
+        onClose={() => setErrorMessage(EMPTY_STRING)}
+      />
     </AuthLayout>
   );
 };

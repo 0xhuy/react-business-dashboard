@@ -20,6 +20,16 @@
   @apply border-primary shadow-soft;
 }
 
+.baseInputContentDisabled,
+.baseInputContentDisabled:focus-within {
+  @apply cursor-not-allowed border-slate-200 bg-slate-100 shadow-none;
+}
+
+.baseInputContentDisabled .baseInputPrefix,
+.baseInputContentDisabled .baseInputSuffix {
+  @apply pointer-events-none opacity-40;
+}
+
 .baseInputPrefix {
   @apply mr-2 flex items-center;
 }
@@ -33,7 +43,7 @@
 }
 
 .baseInputBase:disabled {
-  @apply cursor-not-allowed bg-transparent;
+  @apply cursor-not-allowed bg-transparent text-slate-400;
 }
 
 .baseInputMessageError {

@@ -2,6 +2,14 @@
   @apply w-full;
 }
 
+.collapsed .menuItem {
+  @apply justify-center px-0;
+}
+
+.collapsed .labelGroup {
+  @apply flex-none justify-center;
+}
+
 .menuItem {
   @apply flex h-12 w-full cursor-pointer items-center justify-between gap-3 rounded-2xl border bg-transparent px-4 text-left text-sm font-semibold;
 
@@ -74,7 +82,6 @@
 
 .submenuLink:hover {
   background: rgba(255, 255, 255, 0.08);
-  // color: rgba(255, 255, 255, 0.82);
 }
 
 .submenuLinkActive {
@@ -86,4 +93,26 @@
 
 .submenuText {
   @apply block truncate;
+}
+
+.submenuTextTrack {
+  @apply inline-flex w-max gap-8;
+
+  span:last-child {
+    display: none;
+  }
+}
+
+.marquee .submenuTextTrack {
+  animation: submenu-marquee 6s linear infinite;
+
+  span:last-child {
+    display: inline;
+  }
+}
+
+@keyframes submenu-marquee {
+  to {
+    transform: translateX(calc(-50% - 1rem));
+  }
 }

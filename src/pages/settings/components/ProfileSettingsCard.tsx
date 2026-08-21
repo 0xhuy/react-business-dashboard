@@ -7,7 +7,7 @@ import classNames from "classnames/bind";
 import { useTranslation } from "react-i18next";
 
 // ===== Components =====
-import { BaseInput } from "@/components";
+import { BaseButton, BaseInput } from "@/components";
 import SettingsCard from "./SettingsCard";
 
 // ===== Others =====
@@ -30,9 +30,13 @@ const ProfileSettingsCard = ({
   isOpen,
   isFullNameTouched,
   isValid,
+  hasChanges,
+  isSaving,
+  isSaved,
   onToggle,
   onFullNameBlur,
   onFullNameChange,
+  onSave,
 }: ProfileSettingsCardProps) => {
   const { t } = useTranslation();
 
@@ -65,6 +69,21 @@ const ProfileSettingsCard = ({
           value={email}
           disabled
         />
+      </div>
+
+      <div className={cx("cardAction")}>
+        {isSaved && (
+          <span className={cx("successMessage")}>{t("settings.saved")}</span>
+        )}
+        <BaseButton
+          isStatic
+          isDisabled={!isValid || !hasChanges}
+          isLoading={isSaving}
+          className={cx("settingsActionButton")}
+          onClick={onSave}
+        >
+          {t("common.btn_save")}
+        </BaseButton>
       </div>
     </SettingsCard>
   );

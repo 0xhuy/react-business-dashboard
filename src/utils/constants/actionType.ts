@@ -26,3 +26,10 @@ export const DELETE_PURCHASE_ORDER = "orders/deletePurchaseOrder";
 // ============================================================
 export const GET_USERS = "users/getUsers";
 export const UPDATE_USER = "users/updateUser";
+
+// ============================================================
+// SETTINGS
+// ============================================================
+export const GET_SETTINGS = "settings/getSettings";
+export const UPDATE_SETTINGS = "settings/updateSettings";
+export const CHANGE_SETTINGS_PASSWORD = "settings/changePassword";

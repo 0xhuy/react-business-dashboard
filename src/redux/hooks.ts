@@ -28,3 +28,6 @@ export const useOrders = () => useAppSelector((state) => state.orders);
 
 // ===== Users =====
 export const useUsers = () => useAppSelector((state) => state.users);
+
+// ===== Settings =====
+export const useSettings = () => useAppSelector((state) => state.settings);

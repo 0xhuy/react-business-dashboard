@@ -52,3 +52,8 @@ export const DEFAULT_ACTION_MENU_WIDTH = 168;
 // BASE TOAST
 // ============================================================
 export const DEFAULT_TOAST_DURATION = 3500;
+
+// ============================================================
+// SIDEBAR
+// ============================================================
+export const SIDEBAR_COLLAPSED_STORAGE_KEY = "sidebar-collapsed";

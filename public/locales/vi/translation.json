@@ -420,6 +420,8 @@
     "invalid_email": "Vui lòng nhập địa chỉ email hợp lệ",
     "min_length": "Phải có ít nhất {{value}} ký tự",
     "password_not_match": "Mật khẩu xác nhận không khớp",
-    "close_notification": "Đóng thông báo"
+    "close_notification": "Đóng thông báo",
+    "sidebar_collapse": "Thu gọn thanh điều hướng",
+    "sidebar_expand": "Mở rộng thanh điều hướng"
   }
 }

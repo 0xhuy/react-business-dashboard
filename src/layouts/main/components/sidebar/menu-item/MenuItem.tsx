@@ -6,7 +6,7 @@ import { NavLink, useLocation } from "react-router-dom";
 
 // ===== Types =====
 import type { IRouteModel } from "@/utils/interfaces";
-import { hasActiveChild } from "@/utils/helper";
+import { hasActiveChild, toggleMarquee } from "@/utils/helper";
 import { WHITE, WHITE_OPACITY_50 } from "@/utils/constants/color";
 import { ROOT_PATH } from "@/utils/constants/common";
 
@@ -18,10 +18,12 @@ const cx = classNames.bind(styles);
 
 type Props = {
   menuItem: IRouteModel;
+  isCollapsed: boolean;
+  onExpand: () => void;
 };
 
 // ===== Component =====
-const MenuItem = ({ menuItem }: Props) => {
+const MenuItem = ({ menuItem, isCollapsed, onExpand }: Props) => {
   // ===== Destructuring =====
   const { path, name, icon, iconActive, index, children } = menuItem;
 
@@ -42,13 +44,25 @@ const MenuItem = ({ menuItem }: Props) => {
 
   // ===== Render =====
   return (
-    <div id="menuItemComponent" className={cx("menuItemComponent")}>
+    <div
+      id="menuItemComponent"
+      className={cx("menuItemComponent", { collapsed: isCollapsed })}
+    >
       {isSubmenu ? (
         <div className={cx("submenuWrap")}>
           <button
             type="button"
             className={cx("menuItem", { active: isActive })}
-            onClick={() => setIsOpenDropdown((prevState) => !prevState)}
+            title={isCollapsed ? t(name) : undefined}
+            onClick={() => {
+              if (isCollapsed) {
+                setIsOpenDropdown(true);
+                onExpand();
+                return;
+              }
+
+              setIsOpenDropdown((prevState) => !prevState);
+            }}
           >
             <div className={cx("labelGroup")}>
               {currentIcon && (
@@ -59,23 +73,27 @@ const MenuItem = ({ menuItem }: Props) => {
                 />
               )}
 
-              <span className={cx("menuText")}>{t(name)}</span>
+              {!isCollapsed && (
+                <span className={cx("menuText")}>{t(name)}</span>
+              )}
             </div>
 
-            <span
-              className={cx("dropdownIcon", {
-                open: isOpenDropdown,
-              })}
-            >
-              <IconArrow
-                width={20}
-                height={20}
-                strokePath={isActive ? WHITE : WHITE_OPACITY_50}
-              />
-            </span>
+            {!isCollapsed && (
+              <span
+                className={cx("dropdownIcon", {
+                  open: isOpenDropdown,
+                })}
+              >
+                <IconArrow
+                  width={20}
+                  height={20}
+                  strokePath={isActive ? WHITE : WHITE_OPACITY_50}
+                />
+              </span>
+            )}
           </button>
 
-          {isOpenDropdown && (
+          {isOpenDropdown && !isCollapsed && (
             <div className={cx("submenuContainer")}>
               {visibleChildren?.map((submenuItem) => {
                 if (!submenuItem.name) return null;
@@ -92,8 +110,25 @@ const MenuItem = ({ menuItem }: Props) => {
                       ),
                     })}
                   >
-                    <span className={cx("submenuText")}>
-                      {t(submenuItem.name)}
+                    <span
+                      className={cx("submenuText")}
+                      onMouseEnter={(event) =>
+                        toggleMarquee(event.currentTarget, styles.marquee, true)
+                      }
+                      onMouseLeave={(event) =>
+                        toggleMarquee(event.currentTarget, styles.marquee, false)
+                      }
+                      onFocus={(event) =>
+                        toggleMarquee(event.currentTarget, styles.marquee, true)
+                      }
+                      onBlur={(event) =>
+                        toggleMarquee(event.currentTarget, styles.marquee, false)
+                      }
+                    >
+                      <span className={cx("submenuTextTrack")}>
+                        <span>{t(submenuItem.name)}</span>
+                        <span aria-hidden>{t(submenuItem.name)}</span>
+                      </span>
                     </span>
                   </NavLink>
                 );
@@ -108,6 +143,7 @@ const MenuItem = ({ menuItem }: Props) => {
           className={cx("menuItem", {
             active: isActive,
           })}
+          title={isCollapsed ? t(name) : undefined}
         >
           <div className={cx("labelGroup")}>
             {currentIcon && (
@@ -118,7 +154,9 @@ const MenuItem = ({ menuItem }: Props) => {
               />
             )}
 
-            <span className={cx("menuText")}>{t(name)}</span>
+            {!isCollapsed && (
+              <span className={cx("menuText")}>{t(name)}</span>
+            )}
           </div>
         </NavLink>
       )}

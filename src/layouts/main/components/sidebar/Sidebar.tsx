@@ -1,5 +1,6 @@
 // ===== Libs =====
 import classNames from "classnames/bind";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 // ===== Redux =====
@@ -19,7 +20,9 @@ import { Role } from "@/utils/enum";
 import MenuItem from "./menu-item/MenuItem";
 
 // ===== Assets =====
-import { icons } from "@/assets";
+import { IconArrow, icons } from "@/assets";
+import { SIDEBAR_COLLAPSED_STORAGE_KEY } from "@/utils/constants";
+import { WHITE } from "@/utils/constants/color";
 
 // ===== Styles =====
 import styles from "./Sidebar.module.scss";
@@ -41,12 +44,53 @@ const Sidebar = () => {
   // ===== Redux =====
   const role = useAppSelector((state) => state.auth.role);
 
+  // ===== States =====
+  const [isCollapsed, setIsCollapsed] = useState(
+    () =>
+      localStorage.getItem(SIDEBAR_COLLAPSED_STORAGE_KEY) === String(true),
+  );
+
   // ===== Derived =====
   const menuGroups = role ? routeGroupsByRole[role as Role] : [];
 
+  // ===== Handlers =====
+  const handleToggleSidebar = () => {
+    setIsCollapsed((currentValue) => {
+      const nextValue = !currentValue;
+      localStorage.setItem(
+        SIDEBAR_COLLAPSED_STORAGE_KEY,
+        String(nextValue),
+      );
+      return nextValue;
+    });
+  };
+
+  const handleExpandSidebar = () => {
+    setIsCollapsed(false);
+    localStorage.setItem(SIDEBAR_COLLAPSED_STORAGE_KEY, String(false));
+  };
+
   // ===== Render =====
   return (
-    <aside className={cx("sidebar")}>
+    <aside className={cx("sidebar", { collapsed: isCollapsed })}>
+      <button
+        type="button"
+        className={cx("toggleButton", { toggleButtonCollapsed: isCollapsed })}
+        aria-label={
+          isCollapsed
+            ? t("common.sidebar_expand")
+            : t("common.sidebar_collapse")
+        }
+        title={
+          isCollapsed
+            ? t("common.sidebar_expand")
+            : t("common.sidebar_collapse")
+        }
+        onClick={handleToggleSidebar}
+      >
+        <IconArrow width={18} height={18} strokePath={WHITE} />
+      </button>
+
       <div className={cx("formLogo")}>
         <img
           className={cx("logoIcon")}
@@ -54,7 +98,9 @@ const Sidebar = () => {
           alt={t("auth.login.logo_alt")}
         />
 
-        <p className={cx("logoText")}>{t("auth.app_name")}</p>
+        {!isCollapsed && (
+          <p className={cx("logoText")}>{t("auth.app_name")}</p>
+        )}
       </div>
 
       <nav className={cx("menu")}>
@@ -64,7 +110,14 @@ const Sidebar = () => {
               {group.menu.map((menu) => {
                 if (!menu.name) return null;
 
-                return <MenuItem key={menu.path} menuItem={menu} />;
+                return (
+                  <MenuItem
+                    key={menu.path}
+                    menuItem={menu}
+                    isCollapsed={isCollapsed}
+                    onExpand={handleExpandSidebar}
+                  />
+                );
               })}
             </div>
           );

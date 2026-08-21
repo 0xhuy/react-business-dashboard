@@ -6,7 +6,6 @@
 import { LanguageEnum } from "@/utils/enum";
 
 // ===== Constants =====
-export const SETTINGS_STORAGE_KEY = "dashboard-settings";
 export const SETTINGS_PASSWORD_MIN_LENGTH = 8;
 export const SETTINGS_SCROLL_FADE_THRESHOLD = 0;
 export const DEFAULT_SETTINGS_LANGUAGE = LanguageEnum.EN;

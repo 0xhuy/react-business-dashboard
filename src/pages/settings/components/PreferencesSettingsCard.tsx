@@ -7,7 +7,7 @@ import classNames from "classnames/bind";
 import { useTranslation } from "react-i18next";
 
 // ===== Components =====
-import { BaseSelect } from "@/components";
+import { BaseButton, BaseSelect } from "@/components";
 import SettingsCard from "./SettingsCard";
 
 // ===== Others =====
@@ -28,8 +28,12 @@ const cx = classNames.bind(styles);
 const PreferencesSettingsCard = ({
   language,
   isOpen,
+  hasChanges,
+  isSaving,
+  isSaved,
   onToggle,
   onLanguageChange,
+  onSave,
 }: PreferencesSettingsCardProps) => {
   const { t } = useTranslation();
 
@@ -51,6 +55,21 @@ const PreferencesSettingsCard = ({
           options={SETTINGS_LANGUAGE_OPTIONS}
           onChange={(option) => onLanguageChange(String(option.value))}
         />
+      </div>
+
+      <div className={cx("cardAction")}>
+        {isSaved && (
+          <span className={cx("successMessage")}>{t("settings.saved")}</span>
+        )}
+        <BaseButton
+          isStatic
+          isDisabled={!hasChanges}
+          isLoading={isSaving}
+          className={cx("settingsActionButton")}
+          onClick={onSave}
+        >
+          {t("common.btn_save")}
+        </BaseButton>
       </div>
     </SettingsCard>
   );

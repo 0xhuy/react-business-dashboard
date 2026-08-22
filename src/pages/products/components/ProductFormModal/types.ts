@@ -1,11 +1,4 @@
-export type ProductFormValues = {
-  sku: string;
-  name: string;
-  category: string;
-  price: number;
-  stock: number;
-  description: string;
-};
+import type { ProductFormValues } from "@/features/products/product.types";
 
 export type ProductFormModalProps = {
   isOpen: boolean;

@@ -4,11 +4,11 @@ import { useTranslation } from "react-i18next";
 
 import { icons } from "@/assets";
 import { BaseActionMenu } from "@/components";
+import { getProductStatus } from "@/features/products/product.helpers";
+import type { ProductRow } from "@/features/products/product.types";
 import { KeyTableEnum } from "@/utils/enum";
 import { getCurrencyFormatter } from "@/utils/helper";
 import type { ColumnType } from "@/utils/interfaces";
-import { getProductStatus } from "../helpers";
-import type { ProductRow } from "@/features/products/product.types";
 
 import styles from "../ProductsPage.module.scss";
 

@@ -6,7 +6,7 @@
 import {
   SETTINGS_SECTIONS,
 } from "@/utils/constants";
-import type { SettingsSection } from "./types";
+import type { SettingsSection } from "@/features/settings/settings.types";
 
 // ===== Helpers =====
 export const getSettingsSectionFromHash = (

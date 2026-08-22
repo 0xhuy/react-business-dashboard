@@ -12,7 +12,7 @@ import UsersFormModal from "./components/UsersFormModal/UsersFormModal";
 import type {
   UserFormInitialValues,
   UserFormValues,
-} from "./components/UsersFormModal/types";
+} from "@/features/users/user.types";
 import { EMPTY_STRING } from "@/utils/constants";
 import { IconArrow } from "@/assets";
 import { useAppDispatch, useAuth, useUsers } from "@/redux/hooks";

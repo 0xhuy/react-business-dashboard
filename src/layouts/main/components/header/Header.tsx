@@ -26,7 +26,7 @@ import {
 import { logoutAuthThunk } from "@/redux/thunks/auth/authThunk";
 import { useAppDispatch, useAuth } from "@/redux/hooks";
 import { Role } from "@/utils/enum";
-import type { SettingsSection } from "@/pages/settings/types";
+import type { SettingsSection } from "@/features/settings/settings.types";
 
 // ===== Styles =====
 import styles from "./Header.module.scss";

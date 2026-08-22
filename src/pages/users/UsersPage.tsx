@@ -19,12 +19,15 @@ import {
 } from "@/components";
 
 // ===== Others =====
-import type { UserFormValues } from "./components/UsersFormModal/types";
 import type { ColumnType } from "@/utils/interfaces";
 import { InputTypeEnum } from "@/utils/enum/input.enum";
 import { KeyTableEnum } from "@/utils/enum";
 import { icons } from "@/assets";
-import type { UserFilterValues, UserRow } from "./type";
+import type {
+  UserFilterValues,
+  UserFormValues,
+  UserRow,
+} from "@/features/users/user.types";
 import {
   DEFAULT_FILTER_PANEL_WIDTH,
   DEFAULT_FILTER_SELECT_HEIGHT,

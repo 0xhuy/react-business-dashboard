@@ -1,8 +1,8 @@
 // ===== Others =====
 import type {
   PurchaseOrderFilterValues,
-} from "@/pages/orders/type";
-import type { OrderFormValues } from "@/pages/orders/components/OrdersFormModal/types";
+  OrderFormValues,
+} from "@/features/orders/order.types";
 
 // ===== Constants =====
 export const DEFAULT_PURCHASE_ORDER_FILTER_VALUES: PurchaseOrderFilterValues = {

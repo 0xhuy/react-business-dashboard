@@ -1,29 +1,12 @@
 // ===== Libs =====
 import type { TFunction } from "i18next";
-import type { Cell, Column } from "@silevis/reactgrid";
+import type {
+  ProductSheetColumn,
+  ProductSheetHighlightedRowVariant,
+  ProductSheetRow,
+} from "../../types";
 
 // ===== Types =====
-export type ProductSheetRow = {
-  id?: string;
-  sku: string;
-  name: string;
-  category: string;
-  price: number;
-  stock: number;
-  status: "InStock" | "LowStock" | "OutOfStock" | "";
-  inventoryValue: number;
-  description: string;
-};
-
-export type ProductSheetColumn = Column & {
-  dataIndex?: keyof ProductSheetRow;
-  translationKey?: string;
-  isReadOnly?: boolean;
-  cellType?: "text" | "number" | "dropdown";
-};
-
-export type ProductSheetHighlightedRowVariant = "search" | "error";
-
 export type BuildProductSheetRowsParams = {
   dataSource: ProductSheetRow[];
   columns: ProductSheetColumn[];
@@ -45,5 +28,3 @@ export type ProductSpreadsheetProps = {
   highlightedRowIndex?: number | null;
   highlightedRowVariant?: ProductSheetHighlightedRowVariant;
 };
-
-export type ProductSheetCell = Cell;

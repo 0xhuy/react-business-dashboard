@@ -8,14 +8,14 @@ import { Tooltip } from "react-tooltip";
 // ===== Components =====
 import { BaseButton, BaseLoading, BaseModal } from "@/components";
 import OrdersFormModal from "./components/OrdersFormModal/OrdersFormModal";
-import type { OrderFormValues } from "./components/OrdersFormModal/types";
+import type { OrderFormValues } from "@/features/orders/order.types";
 
 // ===== Others =====
 import {
   getPurchaseOrderTotalAmount,
   getPurchaseOrderTotalItems,
   getPurchaseOrderTotalQuantity,
-} from "./helpers";
+} from "@/features/orders/order.helpers";
 
 // ===== Styles =====
 import styles from "./OrderDetailPage.module.scss";

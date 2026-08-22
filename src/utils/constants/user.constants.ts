@@ -1,6 +1,8 @@
 // ===== Others =====
-import type { UserFormValues } from "@/pages/users/components/UsersFormModal/types";
-import type { UserFilterValues } from "@/pages/users/type";
+import type {
+  UserFilterValues,
+  UserFormValues,
+} from "@/features/users/user.types";
 import {
   ProfileStatusEnum,
   Role,

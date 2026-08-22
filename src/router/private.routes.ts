@@ -1,8 +1,6 @@
 // ===== Pages =====
 import {
-  AdminDashboard,
-  StaffDashboard,
-  ViewerDashboard,
+  DashboardPage,
   ProductsPage,
   ProductSheetPage,
   OrdersPage,
@@ -29,7 +27,7 @@ import type { IRouteModel } from "@/utils/interfaces";
 const privateAdminRouteMenus: IRouteModel[] = [
   {
     path: adminRouteAbsolute.dashboard,
-    component: AdminDashboard,
+    component: DashboardPage,
     name: "sidebar.dashboard",
     icon: icons.iconOverviewInactive,
     iconActive: icons.iconOverviewActive,
@@ -100,7 +98,7 @@ export const privateAdminRouteGroups = [
 export const privateAdminRoutes: IRouteModel[] = [
   {
     path: adminRouteAbsolute.dashboard,
-    component: AdminDashboard,
+    component: DashboardPage,
   },
   {
     path: adminRouteAbsolute.products,
@@ -142,7 +140,7 @@ export const privateAdminRoutes: IRouteModel[] = [
 const privateStaffRouteMenus: IRouteModel[] = [
   {
     path: staffRouteAbsolute.dashboard,
-    component: StaffDashboard,
+    component: DashboardPage,
     name: "sidebar.dashboard",
     icon: icons.iconOverviewInactive,
     iconActive: icons.iconOverviewActive,
@@ -192,7 +190,7 @@ export const privateStaffRouteGroups = [
 export const privateStaffRoutes: IRouteModel[] = [
   {
     path: staffRouteAbsolute.dashboard,
-    component: StaffDashboard,
+    component: DashboardPage,
   },
   {
     path: staffRouteAbsolute.products,
@@ -226,7 +224,7 @@ export const privateStaffRoutes: IRouteModel[] = [
 const privateViewerRouteMenus: IRouteModel[] = [
   {
     path: viewerRouteAbsolute.dashboard,
-    component: ViewerDashboard,
+    component: DashboardPage,
     name: "sidebar.dashboard",
     icon: icons.iconOverviewInactive,
     iconActive: icons.iconOverviewActive,
@@ -262,7 +260,7 @@ export const privateViewerRouteGroups = [
 export const privateViewerRoutes: IRouteModel[] = [
   {
     path: viewerRouteAbsolute.dashboard,
-    component: ViewerDashboard,
+    component: DashboardPage,
   },
   {
     path: viewerRouteAbsolute.products,

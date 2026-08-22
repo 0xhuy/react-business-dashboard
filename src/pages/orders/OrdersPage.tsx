@@ -21,18 +21,20 @@ import {
 import BaseConfirmModal from "@/components/base/confirm-modal/BaseConfirmModal";
 
 // ===== Others =====
-import type { OrderFormValues } from "./components/OrdersFormModal/types";
 import type { ColumnType } from "@/utils/interfaces";
 import { InputTypeEnum } from "@/utils/enum/input.enum";
 import { KeyTableEnum } from "@/utils/enum";
 import { icons } from "@/assets";
-import type { PurchaseOrderFilterValues } from "./type";
-import type { PurchaseOrderRow } from "@/features/orders/order.types";
 import {
   getPurchaseOrderTotalAmount,
   getPurchaseOrderTotalQuantity,
   purchaseOrderCurrencyFormatter,
-} from "./helpers";
+} from "@/features/orders/order.helpers";
+import type {
+  OrderFormValues,
+  PurchaseOrderFilterValues,
+  PurchaseOrderRow,
+} from "@/features/orders/order.types";
 import {
   DEFAULT_FILTER_PANEL_WIDTH,
   DEFAULT_FILTER_SELECT_HEIGHT,

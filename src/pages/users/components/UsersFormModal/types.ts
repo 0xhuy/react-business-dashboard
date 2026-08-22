@@ -1,21 +1,7 @@
 import type {
-  UserRole,
-  UserStatus,
-} from "@/features/users/user.types";
-
-export type UserFormValues = {
-  fullName: string;
-  email: string;
-  role: UserRole;
-  status: UserStatus;
-  password: string;
-  confirmPassword: string;
-};
-
-export type UserFormInitialValues = Omit<
+  UserFormInitialValues,
   UserFormValues,
-  "password" | "confirmPassword"
->;
+} from "@/features/users/user.types";
 
 export type UserFormModalProps = {
   isOpen: boolean;

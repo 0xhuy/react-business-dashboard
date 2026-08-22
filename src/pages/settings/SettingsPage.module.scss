@@ -16,18 +16,6 @@
   @apply mt-1 text-sm text-slate-500;
 }
 
-.saveArea {
-  @apply flex items-center gap-4;
-}
-
-.saveButton {
-  @apply h-10 text-sm font-medium;
-}
-
-.savedMessage {
-  @apply text-sm font-medium text-emerald-600;
-}
-
 .content {
   @apply grid min-h-0 flex-1 gap-5 overflow-y-auto pb-10;
 
@@ -81,7 +69,4 @@
     @apply items-start;
   }
 
-  .saveArea {
-    @apply flex-col items-end;
-  }
 }

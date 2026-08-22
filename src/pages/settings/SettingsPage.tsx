@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 
 // ===== Components =====
-import { BaseButton } from "@/components";
+import { BaseLoading } from "@/components";
 import {
   NotificationsSettingsCard,
   PreferencesSettingsCard,
@@ -18,8 +18,11 @@ import {
 } from "./components";
 
 // ===== Others =====
-import authApi from "@/features/auth/auth.api";
-import { useAuth } from "@/redux/hooks";
+import { useAppDispatch, useAuth, useSettings } from "@/redux/hooks";
+import {
+  changeSettingsPasswordThunk,
+  updateSettingsThunk,
+} from "@/redux/thunks/settings/settingsThunk";
 import {
   DEFAULT_NOTIFICATION_SETTINGS,
   DEFAULT_PASSWORD_SETTINGS_VALUES,
@@ -29,11 +32,7 @@ import {
   SETTINGS_SCROLL_FADE_THRESHOLD,
   SETTINGS_SECTION,
 } from "@/utils/constants";
-import {
-  getSettingsSectionFromHash,
-  getStoredSettings,
-  saveStoredSettings,
-} from "./helpers";
+import { getSettingsSectionFromHash } from "./helpers";
 import type {
   NotificationSettingKey,
   PasswordSettingsValues,
@@ -48,43 +47,56 @@ const cx = classNames.bind(styles);
 const SettingsPage = () => {
   // ===== Hooks =====
   const { user } = useAuth();
+  const {
+    data: savedSettings,
+    loading,
+    isSaving,
+    isChangingPassword,
+  } = useSettings();
+  const dispatch = useAppDispatch();
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
 
   // ===== States =====
-  const [storedSettings] = useState(getStoredSettings);
   const [openSection, setOpenSection] = useState<SettingsSection | null>(
     getSettingsSectionFromHash(location.hash),
   );
-  const [fullName, setFullName] = useState<string | undefined>(
-    storedSettings.fullName,
-  );
+  const [fullName, setFullName] = useState(EMPTY_STRING);
   const [language, setLanguage] = useState(
-    storedSettings.language ??
-      i18n.resolvedLanguage ??
-      DEFAULT_SETTINGS_LANGUAGE,
+    i18n.resolvedLanguage ?? DEFAULT_SETTINGS_LANGUAGE,
   );
   const [notifications, setNotifications] = useState(
-    storedSettings.notifications ?? DEFAULT_NOTIFICATION_SETTINGS,
+    DEFAULT_NOTIFICATION_SETTINGS,
   );
   const [passwordValues, setPasswordValues] = useState<PasswordSettingsValues>(
     DEFAULT_PASSWORD_SETTINGS_VALUES,
   );
   const [passwordError, setPasswordError] = useState(EMPTY_STRING);
-  const [isSaved, setIsSaved] = useState(false);
+  const [savedSection, setSavedSection] = useState<SettingsSection | null>(
+    null,
+  );
   const [isFullNameTouched, setIsFullNameTouched] = useState(false);
   const [isPasswordUpdated, setIsPasswordUpdated] = useState(false);
-  const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
   const [isContentScrolled, setIsContentScrolled] = useState(false);
 
   // ===== Derived =====
-  const displayedFullName =
-    fullName ??
-    user?.user_metadata?.full_name ??
-    user?.user_metadata?.name ??
-    "";
-  const isSettingsFormValid = Boolean(displayedFullName.trim());
+  const isSettingsFormValid = Boolean(fullName.trim());
+  const hasProfileChanges = Boolean(
+    savedSettings &&
+      fullName.trim() !== savedSettings.fullName.trim(),
+  );
+  const hasPreferencesChanges = Boolean(
+    savedSettings && language !== savedSettings.language,
+  );
+  const hasNotificationsChanges = Boolean(
+    savedSettings &&
+      (notifications.emailNotifications !==
+        savedSettings.notifications.emailNotifications ||
+        notifications.orderUpdates !== savedSettings.notifications.orderUpdates ||
+        notifications.lowStockAlerts !==
+          savedSettings.notifications.lowStockAlerts),
+  );
   const isPasswordFormValid =
     Boolean(passwordValues.currentPassword) &&
     passwordValues.newPassword.length >= SETTINGS_PASSWORD_MIN_LENGTH &&
@@ -105,6 +117,18 @@ const SettingsPage = () => {
 
   // ===== Effects =====
   useEffect(() => {
+    if (!savedSettings) return;
+
+    const frameId = requestAnimationFrame(() => {
+      setFullName(savedSettings.fullName);
+      setLanguage(savedSettings.language);
+      setNotifications(savedSettings.notifications);
+    });
+
+    return () => cancelAnimationFrame(frameId);
+  }, [savedSettings]);
+
+  useEffect(() => {
     const section = getSettingsSectionFromHash(location.hash);
     if (!section) return;
 
@@ -124,6 +148,31 @@ const SettingsPage = () => {
   // ===== Handlers =====
   const handleToggleSection = (section: SettingsSection) => {
     const nextSection = openSection === section ? null : section;
+
+    if (section === SETTINGS_SECTION.PROFILE && !nextSection) {
+      setFullName(savedSettings?.fullName ?? EMPTY_STRING);
+      setIsFullNameTouched(false);
+      setSavedSection(null);
+    }
+
+    if (section === SETTINGS_SECTION.PREFERENCES && !nextSection) {
+      setLanguage(savedSettings?.language ?? DEFAULT_SETTINGS_LANGUAGE);
+      setSavedSection(null);
+    }
+
+    if (section === SETTINGS_SECTION.NOTIFICATIONS && !nextSection) {
+      setNotifications(
+        savedSettings?.notifications ?? DEFAULT_NOTIFICATION_SETTINGS,
+      );
+      setSavedSection(null);
+    }
+
+    if (section === SETTINGS_SECTION.SECURITY && !nextSection) {
+      setPasswordValues(DEFAULT_PASSWORD_SETTINGS_VALUES);
+      setPasswordError(EMPTY_STRING);
+      setIsPasswordUpdated(false);
+    }
+
     setOpenSection(nextSection);
     navigate(
       {
@@ -134,20 +183,57 @@ const SettingsPage = () => {
     );
   };
 
-  const handleSave = async () => {
-    if (!isSettingsFormValid) return;
+  const handleSaveProfile = async () => {
+    if (!isSettingsFormValid || !user?.id) return;
 
-    saveStoredSettings({
-      fullName: displayedFullName,
-      language,
-      notifications,
-    });
-    await i18n.changeLanguage(language);
-    setIsSaved(true);
+    try {
+      await dispatch(
+        updateSettingsThunk({
+          userId: user.id,
+          fullName,
+        }),
+      ).unwrap();
+      setSavedSection(SETTINGS_SECTION.PROFILE);
+    } catch {
+      setSavedSection(null);
+    }
+  };
+
+  const handleSavePreferences = async () => {
+    if (!user?.id) return;
+
+    try {
+      await dispatch(
+        updateSettingsThunk({
+          userId: user.id,
+          language,
+        }),
+      ).unwrap();
+      await i18n.changeLanguage(language);
+      setSavedSection(SETTINGS_SECTION.PREFERENCES);
+    } catch {
+      setSavedSection(null);
+    }
+  };
+
+  const handleSaveNotifications = async () => {
+    if (!user?.id) return;
+
+    try {
+      await dispatch(
+        updateSettingsThunk({
+          userId: user.id,
+          notifications,
+        }),
+      ).unwrap();
+      setSavedSection(SETTINGS_SECTION.NOTIFICATIONS);
+    } catch {
+      setSavedSection(null);
+    }
   };
 
   const handleNotificationToggle = (key: NotificationSettingKey) => {
-    setIsSaved(false);
+    setSavedSection(null);
     setNotifications((currentSettings) => ({
       ...currentSettings,
       [key]: !currentSettings[key],
@@ -162,7 +248,7 @@ const SettingsPage = () => {
       ...currentValues,
       [field]: value,
     }));
-    setPasswordError("");
+    setPasswordError(EMPTY_STRING);
     setIsPasswordUpdated(false);
   };
 
@@ -172,34 +258,27 @@ const SettingsPage = () => {
       return;
     }
 
-    setPasswordError("");
+    setPasswordError(EMPTY_STRING);
     setIsPasswordUpdated(false);
-    setIsUpdatingPassword(true);
 
-    const { error: verifyError } = await authApi.login({
-      email: user.email,
-      password: passwordValues.currentPassword,
-    });
+    try {
+      await dispatch(
+        changeSettingsPasswordThunk({
+          email: user.email,
+          currentPassword: passwordValues.currentPassword,
+          newPassword: passwordValues.newPassword,
+        }),
+      ).unwrap();
 
-    if (verifyError) {
-      setPasswordError(t("settings.current_password_incorrect"));
-      setIsUpdatingPassword(false);
-      return;
+      setPasswordValues(DEFAULT_PASSWORD_SETTINGS_VALUES);
+      setIsPasswordUpdated(true);
+    } catch (error) {
+      setPasswordError(
+        error === "CURRENT_PASSWORD_INCORRECT"
+          ? t("settings.current_password_incorrect")
+          : t("settings.password_update_error"),
+      );
     }
-
-    const { error: updateError } = await authApi.createNewPassword(
-      passwordValues.newPassword,
-    );
-
-    if (updateError) {
-      setPasswordError(updateError.message);
-      setIsUpdatingPassword(false);
-      return;
-    }
-
-    setPasswordValues(DEFAULT_PASSWORD_SETTINGS_VALUES);
-    setIsPasswordUpdated(true);
-    setIsUpdatingPassword(false);
   };
 
   // ===== Render =====
@@ -210,22 +289,6 @@ const SettingsPage = () => {
           <p className={cx("pageTitle")}>{t("settings.title")}</p>
           <p className={cx("pageDescription")}>{t("settings.description")}</p>
         </div>
-
-        {openSection !== SETTINGS_SECTION.SECURITY && (
-          <div className={cx("saveArea")}>
-            {isSaved && (
-              <span className={cx("savedMessage")}>{t("settings.saved")}</span>
-            )}
-            <BaseButton
-              isStatic
-              isDisabled={!isSettingsFormValid}
-              className={cx("saveButton")}
-              onClick={handleSave}
-            >
-              {t("common.btn_save")}
-            </BaseButton>
-          </div>
-        )}
       </header>
 
       <div
@@ -236,49 +299,67 @@ const SettingsPage = () => {
           );
         }}
       >
-        <ProfileSettingsCard
-          fullName={displayedFullName}
-          email={user?.email ?? ""}
-          isOpen={openSection === SETTINGS_SECTION.PROFILE}
-          isFullNameTouched={isFullNameTouched}
-          isValid={isSettingsFormValid}
-          onToggle={handleToggleSection}
-          onFullNameBlur={() => setIsFullNameTouched(true)}
-          onFullNameChange={(value) => {
-            setFullName(value);
-            setIsSaved(false);
-          }}
-        />
+        {loading ? (
+          <BaseLoading variant="section" />
+        ) : (
+          <>
+            <ProfileSettingsCard
+              fullName={fullName}
+              email={user?.email ?? ""}
+              isOpen={openSection === SETTINGS_SECTION.PROFILE}
+              isFullNameTouched={isFullNameTouched}
+              isValid={isSettingsFormValid}
+              hasChanges={hasProfileChanges}
+              isSaving={isSaving}
+              isSaved={savedSection === SETTINGS_SECTION.PROFILE}
+              onToggle={handleToggleSection}
+              onFullNameBlur={() => setIsFullNameTouched(true)}
+              onFullNameChange={(value) => {
+                setFullName(value);
+                setSavedSection(null);
+              }}
+              onSave={handleSaveProfile}
+            />
 
-        <SecuritySettingsCard
-          values={passwordValues}
-          validationMessages={passwordValidationMessages}
-          requestError={passwordError}
-          isOpen={openSection === SETTINGS_SECTION.SECURITY}
-          isValid={isPasswordFormValid}
-          isLoading={isUpdatingPassword}
-          isUpdated={isPasswordUpdated}
-          onToggle={handleToggleSection}
-          onChange={handlePasswordChange}
-          onSubmit={handleChangePassword}
-        />
+            <SecuritySettingsCard
+              values={passwordValues}
+              validationMessages={passwordValidationMessages}
+              requestError={passwordError}
+              isOpen={openSection === SETTINGS_SECTION.SECURITY}
+              isValid={isPasswordFormValid}
+              isLoading={isChangingPassword}
+              isUpdated={isPasswordUpdated}
+              onToggle={handleToggleSection}
+              onChange={handlePasswordChange}
+              onSubmit={handleChangePassword}
+            />
 
-        <PreferencesSettingsCard
-          language={language}
-          isOpen={openSection === SETTINGS_SECTION.PREFERENCES}
-          onToggle={handleToggleSection}
-          onLanguageChange={(value) => {
-            setLanguage(value);
-            setIsSaved(false);
-          }}
-        />
+            <PreferencesSettingsCard
+              language={language}
+              isOpen={openSection === SETTINGS_SECTION.PREFERENCES}
+              hasChanges={hasPreferencesChanges}
+              isSaving={isSaving}
+              isSaved={savedSection === SETTINGS_SECTION.PREFERENCES}
+              onToggle={handleToggleSection}
+              onLanguageChange={(value) => {
+                setLanguage(value);
+                setSavedSection(null);
+              }}
+              onSave={handleSavePreferences}
+            />
 
-        <NotificationsSettingsCard
-          notifications={notifications}
-          isOpen={openSection === SETTINGS_SECTION.NOTIFICATIONS}
-          onToggle={handleToggleSection}
-          onNotificationToggle={handleNotificationToggle}
-        />
+            <NotificationsSettingsCard
+              notifications={notifications}
+              isOpen={openSection === SETTINGS_SECTION.NOTIFICATIONS}
+              hasChanges={hasNotificationsChanges}
+              isSaving={isSaving}
+              isSaved={savedSection === SETTINGS_SECTION.NOTIFICATIONS}
+              onToggle={handleToggleSection}
+              onNotificationToggle={handleNotificationToggle}
+              onSave={handleSaveNotifications}
+            />
+          </>
+        )}
       </div>
     </div>
   );

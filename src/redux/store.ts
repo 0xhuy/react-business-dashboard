@@ -15,6 +15,7 @@ import authReducer from "@/redux/thunks/auth/authSlice";
 import productReducer from "@/redux/thunks/products/productSlice";
 import orderReducer from "@/redux/thunks/orders/orderSlice";
 import userReducer from "@/redux/thunks/users/userSlice";
+import settingsReducer from "@/redux/thunks/settings/settingsSlice";
 
 // ============================================================
 // ROOT REDUCER
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   products: productReducer,
   orders: orderReducer,
   users: userReducer,
+  settings: settingsReducer,
 });
 
 // ============================================================

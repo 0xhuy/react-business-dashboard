@@ -55,6 +55,17 @@ export const hasActiveChild = (
   );
 };
 
+export const toggleMarquee = (
+  element: HTMLElement,
+  className: string,
+  shouldPlay: boolean,
+): void => {
+  element.classList.toggle(
+    className,
+    shouldPlay && element.scrollWidth > element.clientWidth,
+  );
+};
+
 // ============================================================
 // LANGUAGE
 // ============================================================

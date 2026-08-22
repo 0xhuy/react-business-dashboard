@@ -4,10 +4,14 @@
 
 .sidebar {
   @apply relative m-4 flex h-[calc(100vh-32px)] w-[280px]
-         flex-shrink-0 flex-col overflow-hidden
+         flex-shrink-0 flex-col overflow-visible
          rounded-[32px]
          border border-white/70
          p-6 text-white;
+
+  transition:
+    width 180ms ease,
+    padding 180ms ease;
 
   background:
     radial-gradient(
@@ -27,6 +31,30 @@
     0 0 0 1px rgba(255, 255, 255, 0.6);
 
   backdrop-filter: blur(40px) saturate(1.6);
+}
+
+.collapsed {
+  @apply w-[88px] px-4;
+}
+
+.toggleButton {
+  @apply absolute -right-3.5 top-[72px] z-20 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-white/50 bg-indigo-400 shadow-md transition-colors;
+
+  transform: rotate(90deg);
+
+  &:hover {
+    @apply bg-indigo-500;
+  }
+
+  &:focus-visible {
+    @apply outline-none ring-2 ring-white/80 ring-offset-2 ring-offset-indigo-400;
+  }
+}
+
+.toggleButtonCollapsed {
+  @apply -right-3.5;
+
+  transform: rotate(-90deg);
 }
 
 .sidebar::before {
@@ -50,6 +78,10 @@
 
 .formLogo {
   @apply relative z-10 mb-10 flex items-center gap-2;
+}
+
+.collapsed .formLogo {
+  @apply justify-center;
 }
 
 .logoIcon {

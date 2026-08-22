@@ -7,6 +7,7 @@ import classNames from "classnames/bind";
 import { useTranslation } from "react-i18next";
 
 // ===== Components =====
+import { BaseButton } from "@/components";
 import SettingsCard from "./SettingsCard";
 
 // ===== Others =====
@@ -27,8 +28,12 @@ const cx = classNames.bind(styles);
 const NotificationsSettingsCard = ({
   notifications,
   isOpen,
+  hasChanges,
+  isSaving,
+  isSaved,
   onToggle,
   onNotificationToggle,
+  onSave,
 }: NotificationsSettingsCardProps) => {
   const { t } = useTranslation();
 
@@ -63,6 +68,21 @@ const NotificationsSettingsCard = ({
             </button>
           </div>
         ))}
+      </div>
+
+      <div className={cx("cardAction")}>
+        {isSaved && (
+          <span className={cx("successMessage")}>{t("settings.saved")}</span>
+        )}
+        <BaseButton
+          isStatic
+          isDisabled={!hasChanges}
+          isLoading={isSaving}
+          className={cx("settingsActionButton")}
+          onClick={onSave}
+        >
+          {t("common.btn_save")}
+        </BaseButton>
       </div>
     </SettingsCard>
   );

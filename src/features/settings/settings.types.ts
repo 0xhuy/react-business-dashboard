@@ -27,3 +27,9 @@ export type ChangePasswordPayload = {
   currentPassword: string;
   newPassword: string;
 };
+
+export type SettingsSection =
+  | "profile"
+  | "security"
+  | "preferences"
+  | "notifications";

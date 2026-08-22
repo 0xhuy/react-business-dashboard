@@ -1,15 +1,8 @@
+import { getProductStatus } from "@/features/products/product.helpers";
 import type {
+  ProductFilterValues,
   ProductRow,
-  ProductStatus,
 } from "@/features/products/product.types";
-import type { ProductFilterValues } from "./types";
-
-export const getProductStatus = (stock: number): ProductStatus => {
-  if (stock === 0) return "OutOfStock";
-  if (stock <= 20) return "LowStock";
-
-  return "InStock";
-};
 
 export const filterProducts = (
   products: ProductRow[],

@@ -1,18 +1,4 @@
-import type { PurchaseOrderStatus } from "@/features/orders/order.types";
-
-export type OrderItemFormValues = {
-  productSku: string;
-  quantity: number;
-  unitPrice: number;
-};
-
-export type OrderFormValues = {
-  supplier: string;
-  orderDate: string;
-  status: PurchaseOrderStatus;
-  note: string;
-  items: OrderItemFormValues[];
-};
+import type { OrderFormValues } from "@/features/orders/order.types";
 
 export type OrderFormModalProps = {
   isOpen: boolean;

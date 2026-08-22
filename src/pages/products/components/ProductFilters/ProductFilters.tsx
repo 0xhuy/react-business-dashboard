@@ -9,8 +9,10 @@ import {
   DEFAULT_FILTER_SELECT_HEIGHT,
   PRODUCT_CATEGORY_OPTIONS,
 } from "@/utils/constants";
-import type { ProductStatus } from "@/features/products/product.types";
-import type { ProductFilterValues } from "../../types";
+import type {
+  ProductFilterValues,
+  ProductStatus,
+} from "@/features/products/product.types";
 
 import styles from "../../ProductsPage.module.scss";
 

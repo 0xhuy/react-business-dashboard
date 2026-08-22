@@ -24,7 +24,8 @@ import {
   ORDER_STATUS_OPTIONS,
 } from "@/utils/constants/orders.constants";
 import { orderFormSchema } from "./OrdersForm.schema";
-import type { OrderFormModalProps, OrderFormValues } from "./types";
+import type { OrderFormValues } from "@/features/orders/order.types";
+import type { OrderFormModalProps } from "./types";
 import { useProducts } from "@/redux/hooks";
 
 // ===== Styles =====

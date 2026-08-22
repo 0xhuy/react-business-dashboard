@@ -17,7 +17,8 @@ import {
   USER_STATUS_OPTIONS,
 } from "@/utils/constants/user.constants";
 import { createUserFormSchema } from "./UsersForm.schema";
-import type { UserFormModalProps, UserFormValues } from "./types";
+import type { UserFormValues } from "@/features/users/user.types";
+import type { UserFormModalProps } from "./types";
 
 // ===== Styles =====
 import styles from "./UsersFormModal.module.scss";

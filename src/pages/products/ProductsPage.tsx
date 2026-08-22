@@ -17,7 +17,6 @@ import { InputTypeEnum } from "@/utils/enum/input.enum";
 
 import ProductFormModal from "./components/ProductFormModal/ProductFormModal";
 import ProductFilters from "./components/ProductFilters/ProductFilters";
-import type { ProductFormValues } from "./components/ProductFormModal/types";
 import { useProductColumns } from "./hooks/useProductColumns";
 import {
   DEFAULT_PRODUCT_FILTER_VALUES,
@@ -25,7 +24,11 @@ import {
   PRODUCT_PAGE_SIZE,
 } from "@/utils/constants";
 import { filterProducts } from "./helpers";
-import type { ProductRow } from "@/features/products/product.types";
+import type {
+  ProductFilterValues,
+  ProductFormValues,
+  ProductRow,
+} from "@/features/products/product.types";
 import { useAppDispatch, useProducts } from "@/redux/hooks";
 import {
   createProductThunk,
@@ -36,7 +39,6 @@ import {
 
 // ===== Styles =====
 import styles from "./ProductsPage.module.scss";
-import type { ProductFilterValues } from "./types";
 
 const cx = classNames.bind(styles);
 

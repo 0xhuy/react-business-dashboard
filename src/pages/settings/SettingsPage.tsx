@@ -36,8 +36,8 @@ import { getSettingsSectionFromHash } from "./helpers";
 import type {
   NotificationSettingKey,
   PasswordSettingsValues,
-  SettingsSection,
 } from "./types";
+import type { SettingsSection } from "@/features/settings/settings.types";
 
 // ===== Styles =====
 import styles from "./SettingsPage.module.scss";

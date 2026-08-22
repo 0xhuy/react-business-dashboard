@@ -38,7 +38,8 @@ const MenuItem = ({ menuItem, isCollapsed, onExpand }: Props) => {
   const currentIcon = isActive ? iconActive || icon : icon;
 
   // ===== State =====
-  const [isOpenDropdown, setIsOpenDropdown] = useState(isActive && isSubmenu);
+  const [isOpenDropdownByUser, setIsOpenDropdownByUser] = useState(false);
+  const isOpenDropdown = isActive || isOpenDropdownByUser;
 
   if (!name) return null;
 
@@ -56,12 +57,12 @@ const MenuItem = ({ menuItem, isCollapsed, onExpand }: Props) => {
             title={isCollapsed ? t(name) : undefined}
             onClick={() => {
               if (isCollapsed) {
-                setIsOpenDropdown(true);
+                setIsOpenDropdownByUser(true);
                 onExpand();
                 return;
               }
 
-              setIsOpenDropdown((prevState) => !prevState);
+              setIsOpenDropdownByUser((currentValue) => !currentValue);
             }}
           >
             <div className={cx("labelGroup")}>

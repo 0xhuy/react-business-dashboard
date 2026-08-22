@@ -22,7 +22,8 @@ import {
   PRODUCT_CATEGORY_OPTIONS,
 } from "@/utils/constants";
 import { productFormSchema } from "./ProductForm.schema";
-import type { ProductFormModalProps, ProductFormValues } from "./types";
+import type { ProductFormValues } from "@/features/products/product.types";
+import type { ProductFormModalProps } from "./types";
 
 // ===== Styles =====
 import styles from "./ProductFormModal.module.scss";

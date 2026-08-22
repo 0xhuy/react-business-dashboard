@@ -17,3 +17,18 @@ export type UserMutationPayload = {
   role: UserRole;
   status: UserStatus;
 };
+
+export type UserFilterValues = {
+  role?: UserRole | "all" | "";
+  status?: UserStatus | "all" | "";
+};
+
+export type UserFormValues = UserMutationPayload & {
+  password: string;
+  confirmPassword: string;
+};
+
+export type UserFormInitialValues = Omit<
+  UserFormValues,
+  "password" | "confirmPassword"
+>;

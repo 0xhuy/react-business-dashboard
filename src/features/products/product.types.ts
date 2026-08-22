@@ -19,3 +19,10 @@ export type ProductMutationPayload = Omit<ProductRow, "id">;
 export type ProductDraft = ProductMutationPayload & {
   id?: string;
 };
+
+export type ProductFilterValues = {
+  category?: ProductRow["category"] | "all" | "";
+  status?: ProductStatus | "all" | "";
+};
+
+export type ProductFormValues = ProductMutationPayload;

@@ -1,6 +1,8 @@
+// ===== Types =====
+import type { PurchaseOrderItem } from "./order.types";
+
 // ===== Others =====
 import { getCurrencyFormatter } from "@/utils/helper";
-import type { PurchaseOrderItem } from "@/features/orders/order.types";
 
 // ===== Helpers =====
 export const purchaseOrderCurrencyFormatter = getCurrencyFormatter("en");

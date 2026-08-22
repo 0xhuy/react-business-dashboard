@@ -4,17 +4,12 @@
 
 // ===== Libs =====
 import type { ReactNode } from "react";
-import type { NotificationSettings } from "@/features/settings/settings.types";
-
-// ===== Others =====
 import type {
-  SETTINGS_SECTION,
-} from "@/utils/constants";
+  NotificationSettings,
+  SettingsSection,
+} from "@/features/settings/settings.types";
 
 // ===== Types =====
-export type SettingsSection =
-  (typeof SETTINGS_SECTION)[keyof typeof SETTINGS_SECTION];
-
 export type NotificationSettingKey = keyof NotificationSettings;
 
 export type PasswordSettingsValues = {

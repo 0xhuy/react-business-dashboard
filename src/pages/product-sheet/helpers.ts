@@ -6,11 +6,10 @@
 import { read, utils, writeFile, type WorkSheet } from "xlsx";
 import i18n from "i18next";
 
-// ===== Components =====
-import type { ProductSheetRow } from "@/pages/product-sheet/components/ProductSpreadsheet/types";
 import type {
   ProductSheetExcelOptions,
   ProductSheetImportValidationError,
+  ProductSheetRow,
 } from "./types";
 
 // ===== Others =====
@@ -30,6 +29,7 @@ import {
   isProductCategory,
   normalizeProductCategory,
 } from "@/utils/helper";
+import { getProductStatus } from "@/features/products/product.helpers";
 
 /**
  * Calculates inventory value from price and stock.
@@ -49,10 +49,8 @@ export const getProductSheetStatus = (
   stock: number,
 ): ProductSheetRow["status"] => {
   if (!Number.isFinite(stock)) return EMPTY_STRING;
-  if (stock === DEFAULT_NUMBER_ZERO) return "OutOfStock";
-  if (stock <= 20) return "LowStock";
 
-  return "InStock";
+  return getProductStatus(stock);
 };
 
 /**

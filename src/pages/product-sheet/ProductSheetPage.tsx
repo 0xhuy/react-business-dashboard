@@ -32,8 +32,10 @@ import {
   readProductSheetExcelFile,
   validateProductSheetRows,
 } from "./helpers";
-import type { ProductSheetRow } from "./components/ProductSpreadsheet/types";
-import type { ProductSheetImportValidationError } from "./types";
+import type {
+  ProductSheetImportValidationError,
+  ProductSheetRow,
+} from "./types";
 import type {
   ProductDraft,
   ProductRow,

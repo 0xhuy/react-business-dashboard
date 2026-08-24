@@ -31,3 +31,7 @@ export const useUsers = () => useAppSelector((state) => state.users);
 
 // ===== Settings =====
 export const useSettings = () => useAppSelector((state) => state.settings);
+
+// ===== Notifications =====
+export const useNotifications = () =>
+  useAppSelector((state) => state.notifications);

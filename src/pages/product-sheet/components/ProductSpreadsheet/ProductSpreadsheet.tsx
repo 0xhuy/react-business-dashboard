@@ -16,8 +16,10 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { Tooltip } from "react-tooltip";
 import { useTranslation } from "react-i18next";
+
+// ===== Components =====
+import { BaseTooltip } from "@/components";
 
 // ===== Others =====
 import {
@@ -265,11 +267,10 @@ const ProductSpreadsheet = (props: ProductSpreadsheetProps) => {
         enableRangeSelection
       />
 
-      <Tooltip
+      <BaseTooltip
         id="product-spreadsheet-tooltip"
         anchorSelect=".reactgrid-content .rg-pane .rg-cell:not(.rg-header-cell)"
         place="top"
-        className={cx("tooltip")}
         render={renderTooltipContent}
       />
     </div>

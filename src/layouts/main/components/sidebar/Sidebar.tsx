@@ -88,7 +88,7 @@ const Sidebar = () => {
         }
         onClick={handleToggleSidebar}
       >
-        <IconArrow width={18} height={18} strokePath={WHITE} />
+        <IconArrow width={14} height={14} strokePath={WHITE} />
       </button>
 
       <div className={cx("formLogo")}>

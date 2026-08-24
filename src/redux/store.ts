@@ -16,6 +16,7 @@ import productReducer from "@/redux/thunks/products/productSlice";
 import orderReducer from "@/redux/thunks/orders/orderSlice";
 import userReducer from "@/redux/thunks/users/userSlice";
 import settingsReducer from "@/redux/thunks/settings/settingsSlice";
+import notificationReducer from "@/redux/thunks/notifications/notificationSlice";
 
 // ============================================================
 // ROOT REDUCER
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   orders: orderReducer,
   users: userReducer,
   settings: settingsReducer,
+  notifications: notificationReducer,
 });
 
 // ============================================================

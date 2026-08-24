@@ -2,7 +2,6 @@
 import classNames from "classnames/bind";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Tooltip } from "react-tooltip";
 
 // ===== Others =====
 import {
@@ -17,6 +16,7 @@ import type { BaseTableProps } from "./type";
 
 // ===== Components =====
 import OverflowTooltip from "./component/OverflowTooltip";
+import BaseTooltip from "../tooltip/BaseTooltip";
 
 // ===== Styles =====
 import styles from "./BaseTable.module.scss";
@@ -144,7 +144,7 @@ const BaseTable = <T extends Record<string, unknown>>(
         </table>
       </div>
 
-      <Tooltip id="base-table-tooltip" place="top" className={cx("tooltip")} />
+      <BaseTooltip id="base-table-tooltip" place="top" />
     </>
   );
 };

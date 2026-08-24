@@ -38,7 +38,9 @@
 }
 
 .toggleButton {
-  @apply absolute -right-3.5 top-[72px] z-20 flex h-7 w-7 cursor-pointer items-center justify-center rounded-full border border-white/50 bg-indigo-400 shadow-md transition-colors;
+  @apply absolute -right-3 top-[72px] z-20 flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border border-white/40 bg-indigo-400 transition-all;
+
+  box-shadow: 0 3px 10px rgb(49 46 129 / 18%);
 
   transform: rotate(90deg);
 
@@ -52,7 +54,7 @@
 }
 
 .toggleButtonCollapsed {
-  @apply -right-3.5;
+  @apply -right-3;
 
   transform: rotate(-90deg);
 }

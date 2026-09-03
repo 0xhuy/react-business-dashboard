@@ -10,3 +10,4 @@ export { default as BaseTextarea } from "./textarea/BaseTextarea";
 export { default as BaseActionMenu } from "./action-menu/BaseActionMenu";
 export { default as BaseLoading } from "./loading/BaseLoading";
 export { default as BaseToast } from "./toast/BaseToast";
+export { default as BaseTooltip } from "./tooltip/BaseTooltip";

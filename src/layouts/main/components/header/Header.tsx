@@ -7,25 +7,24 @@ import classNames from "classnames/bind";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Tooltip } from "react-tooltip";
 
 // ===== Components, Images, Icons =====
 import { icons, IconNotification } from "@/assets";
+import { BaseTooltip } from "@/components";
 import NotificationPopover from "./notification-popover";
 import ProfileDropdown from "./profile-dropdown/ProfileDropdown";
 
 // ===== Others =====
 import {
   authRouteAbsolute,
-  DEFAULT_UNREAD_NOTIFICATION_COUNT,
   EMPTY_STRING,
   NOTIFICATION_BADGE_MAX_COUNT,
   SETTINGS_ROUTE_BY_ROLE,
   SETTINGS_SECTION,
 } from "@/utils/constants";
 import { logoutAuthThunk } from "@/redux/thunks/auth/authThunk";
-import { useAppDispatch, useAuth } from "@/redux/hooks";
-import { Role } from "@/utils/enum";
+import { useAppDispatch, useAuth, useNotifications } from "@/redux/hooks";
+import useNotificationSubscription from "@/features/notifications/hooks/useNotificationSubscription";
 import type { SettingsSection } from "@/features/settings/settings.types";
 
 // ===== Styles =====
@@ -38,26 +37,26 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { user, role } = useAuth();
+  const { notifications } = useNotifications();
   const { t } = useTranslation();
+  const canViewNotifications = useNotificationSubscription(user?.id, role);
 
   // ===== States =====
   const [isOpenProfileMenu, setIsOpenProfileMenu] = useState(false);
   const [isOpenNotification, setIsOpenNotification] = useState(false);
-  const [unreadNotificationCount, setUnreadNotificationCount] = useState(
-    DEFAULT_UNREAD_NOTIFICATION_COUNT,
-  );
   const notificationRef = useRef<HTMLDivElement>(null);
   const profileMenuRef = useRef<HTMLDivElement>(null);
 
   // ===== Effects =====
   useEffect(() => {
     const handlePointerDown = (event: MouseEvent) => {
-      if (
-        profileMenuRef.current &&
-        !profileMenuRef.current.contains(event.target as Node) &&
-        notificationRef.current &&
-        !notificationRef.current.contains(event.target as Node)
-      ) {
+      const target = event.target as Node;
+      const isOutsideProfileMenu =
+        !profileMenuRef.current?.contains(target);
+      const isOutsideNotification =
+        !notificationRef.current?.contains(target);
+
+      if (isOutsideProfileMenu && isOutsideNotification) {
         setIsOpenProfileMenu(false);
         setIsOpenNotification(false);
       }
@@ -98,7 +97,7 @@ const Header = () => {
   const handleOpenSettingsSection = (section: SettingsSection) => {
     if (!role) return;
 
-    const settingsRoute = SETTINGS_ROUTE_BY_ROLE[role as Role];
+    const settingsRoute = SETTINGS_ROUTE_BY_ROLE[role];
     if (!settingsRoute) return;
 
     setIsOpenProfileMenu(false);
@@ -121,6 +120,10 @@ const Header = () => {
     avatarLabel,
   };
 
+  const unreadNotificationCount = notifications.filter(
+    (notification) => !notification.isRead,
+  ).length;
+
   const notificationBadgeText =
     unreadNotificationCount > NOTIFICATION_BADGE_MAX_COUNT
       ? `${NOTIFICATION_BADGE_MAX_COUNT}+`
@@ -132,33 +135,40 @@ const Header = () => {
       <div className={cx("left")}></div>
 
       <div className={cx("right")}>
-        <div className={cx("notificationWrap")} ref={notificationRef}>
-          <button
-            type="button"
-            className={cx("iconButton")}
-            aria-label={t("settings.notifications_title")}
-            aria-expanded={isOpenNotification}
-            title={t("settings.notifications_title")}
-            onClick={handleToggleNotification}
-          >
-            <IconNotification />
-            {unreadNotificationCount > 0 && (
-              <span className={cx("notificationBadge")} aria-hidden="true">
-                {notificationBadgeText}
-              </span>
-            )}
-          </button>
+        {canViewNotifications && (
+          <div className={cx("notificationWrap")} ref={notificationRef}>
+            <button
+              type="button"
+              className={cx("iconButton")}
+              aria-label={t("settings.notifications_title")}
+              aria-expanded={isOpenNotification}
+              data-tooltip-id="header-action-tooltip"
+              data-tooltip-content={t("settings.notifications_title")}
+              onClick={handleToggleNotification}
+            >
+              <IconNotification />
+              {unreadNotificationCount > 0 && (
+                <span className={cx("notificationBadge")} aria-hidden="true">
+                  {notificationBadgeText}
+                </span>
+              )}
+            </button>
 
-          <NotificationPopover
-            isOpen={isOpenNotification}
-            onUnreadCountChange={setUnreadNotificationCount}
-          />
-        </div>
+            <NotificationPopover
+              isOpen={isOpenNotification}
+              onClose={() => setIsOpenNotification(false)}
+            />
+          </div>
+        )}
 
         <div className={cx("profileWrap")} ref={profileMenuRef}>
           <button
             type="button"
             className={cx("profileButton")}
+            aria-label={t("header.profile")}
+            aria-expanded={isOpenProfileMenu}
+            data-tooltip-id="header-action-tooltip"
+            data-tooltip-content={t("header.profile")}
             onClick={handleToggleProfileMenu}
           >
             <span className={cx("avatar")}>{avatarLabel}</span>
@@ -211,11 +221,17 @@ const Header = () => {
         </div>
       </div>
 
-      <Tooltip
+      <BaseTooltip
+        id="header-action-tooltip"
+        place="bottom"
+        delayShow={80}
+        isCompact
+      />
+
+      <BaseTooltip
         id="header-profile-tooltip"
         place="bottom"
         delayShow={250}
-        className={cx("profileTooltip")}
       />
     </header>
   );

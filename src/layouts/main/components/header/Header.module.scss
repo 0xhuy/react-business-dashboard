@@ -108,9 +108,3 @@
 .profileButton:hover .arrow {
   @apply text-primary;
 }
-
-.profileTooltip {
-  @apply z-[9999] max-w-[320px] rounded-lg bg-slate-900 px-3 py-2 text-xs leading-5 text-white shadow-lg;
-
-  overflow-wrap: anywhere;
-}

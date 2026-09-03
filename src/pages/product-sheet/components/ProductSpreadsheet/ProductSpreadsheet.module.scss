@@ -12,10 +12,6 @@
   @apply bg-stone-50 text-slate-700 !important;
 }
 
-.tooltip {
-  @apply max-w-[320px] whitespace-normal break-words z-[9999];
-}
-
 .dropdownOpenUpward {
   position: absolute;
 }

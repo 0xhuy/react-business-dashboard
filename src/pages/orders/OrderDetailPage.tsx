@@ -3,10 +3,14 @@ import classNames from "classnames/bind";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
-import { Tooltip } from "react-tooltip";
 
 // ===== Components =====
-import { BaseButton, BaseLoading, BaseModal } from "@/components";
+import {
+  BaseButton,
+  BaseLoading,
+  BaseModal,
+  BaseTooltip,
+} from "@/components";
 import OrdersFormModal from "./components/OrdersFormModal/OrdersFormModal";
 import type { OrderFormValues } from "@/features/orders/order.types";
 
@@ -63,7 +67,7 @@ const OrderDetailPage = () => {
 
   // ===== Memos =====
   const purchaseOrder = useMemo(() => {
-    return orders.find((order) => order.poNumber === id);
+    return orders.find((order) => order.id === id || order.poNumber === id);
   }, [id, orders]);
 
   const summary = useMemo(() => {
@@ -276,10 +280,9 @@ const OrderDetailPage = () => {
           </div>
         </div>
 
-        <Tooltip
+        <BaseTooltip
           id="order-detail-summary-tooltip"
           place="top"
-          className={cx("tooltip")}
         />
       </section>
 

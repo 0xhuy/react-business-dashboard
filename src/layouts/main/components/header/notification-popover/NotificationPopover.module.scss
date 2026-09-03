@@ -18,20 +18,44 @@
   @apply text-base font-semibold text-slate-900;
 }
 
-.summary {
-  @apply mt-0.5 text-xs text-slate-500;
-}
-
 .unreadCount {
   @apply rounded-full bg-primary/[0.06] px-3 py-1 text-xs font-semibold text-primary;
+}
+
+.tabs {
+  @apply flex gap-2 px-4 pb-2 pt-2;
+}
+
+.tab {
+  @apply rounded-full px-4 py-2 text-sm font-medium text-slate-600 transition-colors;
+
+  &:hover {
+    @apply bg-slate-100 text-slate-800;
+  }
+}
+
+.tabActive {
+  @apply bg-primary/[0.1] text-primary;
+
+  &:hover {
+    @apply bg-primary/[0.14] text-primary;
+  }
 }
 
 .list {
   @apply flex max-h-[360px] flex-col gap-3 overflow-y-auto p-3;
 }
 
+.notificationEntry {
+  @apply flex flex-col gap-2;
+}
+
+.dateGroupTitle {
+  @apply px-1 pb-1 pt-1 text-sm font-semibold text-slate-800;
+}
+
 .item {
-  @apply flex w-full gap-3 rounded-2xl border border-transparent p-3 text-left transition-all duration-200;
+  @apply relative flex w-full rounded-2xl border border-transparent transition-all duration-200;
 
   &:hover {
     @apply border-indigo-100/60 bg-indigo-50/40;
@@ -40,6 +64,10 @@
   &:focus-visible {
     @apply border-primary/20 bg-indigo-50/40 outline-none ring-2 ring-primary/15;
   }
+}
+
+.itemButton {
+  @apply flex min-w-0 flex-1 gap-3 rounded-2xl p-3 pr-10 text-left outline-none;
 }
 
 .unread {
@@ -91,7 +119,36 @@
 }
 
 .markAllButton {
-  @apply min-h-9 px-4 py-2 text-xs;
+  @apply h-8 min-h-0 px-3 py-1 text-xs;
+}
+
+.deleteButton {
+  @apply absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full text-slate-400 transition-colors;
+
+  &:hover {
+    @apply bg-rose-50 text-rose-500;
+  }
+
+  &:disabled {
+    @apply cursor-not-allowed opacity-40;
+  }
+}
+
+.loadMoreButton {
+  @apply mt-1 w-full rounded-xl bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-700 transition-colors;
+
+  &:hover {
+    @apply bg-slate-200 text-slate-900;
+  }
+}
+
+.loadingState,
+.emptyState {
+  @apply flex min-h-32 items-center justify-center px-5 text-center text-sm text-slate-500;
+}
+
+.errorMessage {
+  @apply border-t border-rose-100 bg-rose-50 px-5 py-2 text-xs text-rose-600;
 }
 
 @keyframes notificationPopoverReveal {

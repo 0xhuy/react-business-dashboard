@@ -33,3 +33,11 @@ export const UPDATE_USER = "users/updateUser";
 export const GET_SETTINGS = "settings/getSettings";
 export const UPDATE_SETTINGS = "settings/updateSettings";
 export const CHANGE_SETTINGS_PASSWORD = "settings/changePassword";
+
+// ============================================================
+// NOTIFICATIONS
+// ============================================================
+export const GET_NOTIFICATIONS = "notifications/getNotifications";
+export const MARK_NOTIFICATION_AS_READ = "notifications/markAsRead";
+export const MARK_ALL_NOTIFICATIONS_AS_READ = "notifications/markAllAsRead";
+export const DELETE_NOTIFICATION = "notifications/deleteNotification";

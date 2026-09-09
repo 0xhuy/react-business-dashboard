@@ -25,3 +25,23 @@
     @apply cursor-not-allowed opacity-40;
   }
 }
+
+@media (max-width: 1024px) {
+  .container {
+    @apply ml-0 min-w-0 flex-col items-stretch gap-2;
+
+    width: min(100%, 420px);
+  }
+
+  .searchInput {
+    @apply w-full;
+  }
+
+  .searchResultWrap {
+    @apply justify-start;
+  }
+
+  .searchResultText {
+    @apply min-w-0 text-left;
+  }
+}

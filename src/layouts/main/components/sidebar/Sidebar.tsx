@@ -1,7 +1,8 @@
 // ===== Libs =====
 import classNames from "classnames/bind";
-import { useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 // ===== Redux =====
 import { useAppSelector } from "@/redux/hooks";
@@ -12,6 +13,7 @@ import {
   privateStaffRouteGroups,
   privateViewerRouteGroups,
 } from "@/router/private.routes";
+import { getRedirectByRole } from "@/router/redirect";
 
 // ===== Enums =====
 import { Role } from "@/utils/enum";
@@ -21,7 +23,10 @@ import MenuItem from "./menu-item/MenuItem";
 
 // ===== Assets =====
 import { IconArrow, icons } from "@/assets";
-import { SIDEBAR_COLLAPSED_STORAGE_KEY } from "@/utils/constants";
+import {
+  SIDEBAR_COLLAPSED_STORAGE_KEY,
+  TABLET_VIEWPORT_QUERY,
+} from "@/utils/constants";
 import { WHITE } from "@/utils/constants/color";
 
 // ===== Styles =====
@@ -40,15 +45,52 @@ const routeGroupsByRole = {
 const Sidebar = () => {
   // ===== Hooks =====
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   // ===== Redux =====
   const role = useAppSelector((state) => state.auth.role);
 
   // ===== States =====
   const [isCollapsed, setIsCollapsed] = useState(
-    () =>
+    () => window.matchMedia(TABLET_VIEWPORT_QUERY).matches ||
       localStorage.getItem(SIDEBAR_COLLAPSED_STORAGE_KEY) === String(true),
   );
+  const [isMobile, setIsMobile] = useState(() =>
+    window.matchMedia(TABLET_VIEWPORT_QUERY).matches,
+  );
+
+  // ===== Effects =====
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(TABLET_VIEWPORT_QUERY);
+    const handleViewportChange = (event: MediaQueryListEvent) => {
+      setIsMobile(event.matches);
+
+      if (event.matches) setIsCollapsed(true);
+    };
+
+    mediaQuery.addEventListener("change", handleViewportChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleViewportChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isMobile || isCollapsed) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+
+      setIsCollapsed(true);
+      localStorage.setItem(SIDEBAR_COLLAPSED_STORAGE_KEY, String(true));
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isCollapsed, isMobile]);
 
   // ===== Derived =====
   const menuGroups = role ? routeGroupsByRole[role as Role] : [];
@@ -70,9 +112,33 @@ const Sidebar = () => {
     localStorage.setItem(SIDEBAR_COLLAPSED_STORAGE_KEY, String(false));
   };
 
+  const handleCollapseSidebar = () => {
+    if (!isMobile) return;
+
+    setIsCollapsed(true);
+    localStorage.setItem(SIDEBAR_COLLAPSED_STORAGE_KEY, String(true));
+  };
+
+  const handleLogoClick = () => {
+    if (!role) return;
+
+    navigate(getRedirectByRole(role as Role));
+    handleCollapseSidebar();
+  };
+
   // ===== Render =====
   return (
-    <aside className={cx("sidebar", { collapsed: isCollapsed })}>
+    <Fragment>
+      {isMobile && !isCollapsed && (
+        <button
+          type="button"
+          className={cx("backdrop")}
+          aria-label={t("common.sidebar_collapse")}
+          onClick={handleCollapseSidebar}
+        />
+      )}
+
+      <aside className={cx("sidebar", { collapsed: isCollapsed })}>
       <button
         type="button"
         className={cx("toggleButton", { toggleButtonCollapsed: isCollapsed })}
@@ -91,7 +157,12 @@ const Sidebar = () => {
         <IconArrow width={14} height={14} strokePath={WHITE} />
       </button>
 
-      <div className={cx("formLogo")}>
+      <button
+        type="button"
+        className={cx("formLogo")}
+        aria-label={t("sidebar.dashboard")}
+        onClick={handleLogoClick}
+      >
         <img
           className={cx("logoIcon")}
           src={icons.iconLogo}
@@ -101,7 +172,7 @@ const Sidebar = () => {
         {!isCollapsed && (
           <p className={cx("logoText")}>{t("auth.app_name")}</p>
         )}
-      </div>
+      </button>
 
       <nav className={cx("menu")}>
         {menuGroups.map((group) => {
@@ -116,6 +187,7 @@ const Sidebar = () => {
                     menuItem={menu}
                     isCollapsed={isCollapsed}
                     onExpand={handleExpandSidebar}
+                    onNavigate={handleCollapseSidebar}
                   />
                 );
               })}
@@ -123,7 +195,8 @@ const Sidebar = () => {
           );
         })}
       </nav>
-    </aside>
+      </aside>
+    </Fragment>
   );
 };
 

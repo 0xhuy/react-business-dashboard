@@ -88,3 +88,22 @@
   background: rgba(99, 102, 241, 0.035);
   border-bottom: 1px solid rgba(99, 102, 241, 0.1);
 }
+
+@media (max-width: 640px) {
+  .baseTableComponent {
+    @apply rounded-xl;
+
+    scrollbar-width: thin;
+    scrollbar-color: rgb(148 163 184) transparent;
+  }
+
+  .colTable,
+  .colTable.colorTable {
+    @apply px-3 py-2 text-[11px];
+  }
+
+  .colTableBody,
+  .colTableBody.colorTable {
+    @apply px-3 py-2 text-xs;
+  }
+}

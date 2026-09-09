@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 // ===== Components, Images, Icons =====
-import { icons, IconNotification } from "@/assets";
+import { IconDropdownHeader, IconNotification } from "@/assets";
 import { BaseTooltip } from "@/components";
 import NotificationPopover from "./notification-popover";
 import ProfileDropdown from "./profile-dropdown/ProfileDropdown";
@@ -198,10 +198,8 @@ const Header = () => {
             )}
 
             <span className={cx("arrow")}>
-              <img
+              <IconDropdownHeader
                 className={cx("iconDropdownHeader")}
-                src={icons.iconDropdownHeader}
-                alt={t("common.dropdown")}
               />
             </span>
           </button>

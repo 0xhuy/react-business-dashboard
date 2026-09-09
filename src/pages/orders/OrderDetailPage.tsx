@@ -308,11 +308,13 @@ const OrderDetailPage = () => {
               <div className={cx("detailTableBody")}>
                 {purchaseOrder.items.map((item) => (
                   <div className={cx("detailTableRow")} key={item.productSku}>
-                    <p>{item.productName}</p>
-                    <p>{item.productSku}</p>
-                    <p>{item.quantity}</p>
-                    <p>{currencyFormatter.format(item.unitPrice)}</p>
-                    <p>
+                    <p data-label={t("orders.product")}>{item.productName}</p>
+                    <p data-label={t("products.sku")}>{item.productSku}</p>
+                    <p data-label={t("orders.quantity")}>{item.quantity}</p>
+                    <p data-label={t("orders.unit_price")}>
+                      {currencyFormatter.format(item.unitPrice)}
+                    </p>
+                    <p data-label={t("orders.total")}>
                       {currencyFormatter.format(item.quantity * item.unitPrice)}
                     </p>
                   </div>

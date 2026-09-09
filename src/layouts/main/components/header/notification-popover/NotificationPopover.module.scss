@@ -162,3 +162,36 @@
     transform: translateY(0) scale(1);
   }
 }
+
+@media (max-width: 1024px) {
+  .popover {
+    @apply fixed bottom-auto left-auto right-2 top-16 flex flex-col rounded-xl;
+
+    width: min(420px, calc(100vw - 92px));
+    max-height: min(480px, calc(100dvh - 80px));
+
+    &::before {
+      @apply hidden;
+    }
+  }
+
+  .header {
+    @apply px-4 py-3;
+  }
+
+  .tabs {
+    @apply px-3;
+  }
+
+  .list {
+    @apply max-h-none min-h-0 flex-1;
+  }
+
+  .itemButton {
+    @apply gap-2 p-2 pr-9;
+  }
+
+  .icon {
+    @apply h-9 w-9;
+  }
+}

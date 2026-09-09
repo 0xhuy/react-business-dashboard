@@ -20,10 +20,6 @@
   @apply cursor-not-allowed opacity-50;
 }
 
-.threeDotStyle {
-  @apply cursor-default border-transparent bg-transparent text-slate-400 shadow-none;
-}
-
 .active {
   @apply bg-indigo-500 text-white;
 
@@ -84,4 +80,23 @@
   @apply text-slate-300;
 
   opacity: 1;
+}
+
+@media (max-width: 640px) {
+  .basePaginationContainer {
+    @apply gap-1;
+  }
+
+  .pageButton {
+    @apply h-8 min-w-8 rounded-lg px-2 text-xs;
+  }
+
+  .jumpForm,
+  .jumpInput {
+    @apply h-8;
+  }
+
+  .jumpInput {
+    @apply min-w-8 rounded-lg px-1 text-xs;
+  }
 }

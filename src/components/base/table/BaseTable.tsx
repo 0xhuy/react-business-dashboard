@@ -6,10 +6,8 @@ import { useTranslation } from "react-i18next";
 // ===== Others =====
 import {
   DEFAULT_NUMBER_ZERO,
-  MAX_COL_NUMBER,
   MAX_WIDTH_PERCENT,
   MIN_WIDTH_NUMBER,
-  PIXELS,
 } from "@/utils/constants";
 import { KeyTableEnum } from "@/utils/enum";
 import type { BaseTableProps } from "./type";
@@ -33,17 +31,11 @@ const BaseTable = <T extends Record<string, unknown>>(
   const { t } = useTranslation();
 
   // ===== Derived =====
-  const tableWidth = useMemo(() => {
-    return columns.length > MAX_COL_NUMBER
-      ? `${columns.length * MIN_WIDTH_NUMBER}${PIXELS}`
-      : MAX_WIDTH_PERCENT;
-  }, [columns]);
-
   const tableMinWidth = useMemo(() => {
     const columnWidths = columns.map((column) => column.width);
 
     if (!columnWidths.every((width) => typeof width === "number")) {
-      return undefined;
+      return columns.length * MIN_WIDTH_NUMBER;
     }
 
     return columnWidths.reduce<number>(
@@ -65,7 +57,7 @@ const BaseTable = <T extends Record<string, unknown>>(
       >
         <table
           style={{
-            width: tableWidth,
+            width: MAX_WIDTH_PERCENT,
             minWidth: tableMinWidth,
             tableLayout: "fixed",
           }}

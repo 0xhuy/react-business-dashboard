@@ -112,11 +112,18 @@
 }
 
 .barChart {
-  @apply flex h-64 items-end gap-3 rounded-[22px] px-5 pt-5;
+  @apply flex h-64 items-end gap-3 rounded-2xl border-b border-slate-100 px-5 pt-5;
+
+  background-image: linear-gradient(
+    to top,
+    rgba(148, 163, 184, 0.08) 1px,
+    transparent 1px
+  );
+  background-size: 100% 25%;
 }
 
 .chartItem {
-  @apply flex h-full flex-1 flex-col items-center justify-end gap-2;
+  @apply flex h-full min-w-0 flex-1 flex-col items-center justify-end gap-2;
 }
 
 .chartValue {
@@ -124,15 +131,20 @@
 }
 
 .chartBar {
-  @apply w-full rounded-t-[24px];
+  @apply w-full rounded-t-xl transition-transform duration-200;
 
+  max-width: 72px;
   min-height: 32px;
   background: linear-gradient(180deg, #7c7cff 0%, #6366f1 100%);
-  box-shadow: 0 14px 28px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 8px 18px rgba(99, 102, 241, 0.16);
+
+  &:hover {
+    transform: translateY(-2px);
+  }
 }
 
 .chartLabel {
-  @apply max-w-full truncate text-center text-xs font-medium text-slate-400;
+  @apply w-full max-w-full truncate text-center text-xs font-medium text-slate-400;
 }
 
 .tableList {
@@ -241,5 +253,45 @@
 
   .rowMeta {
     @apply text-left;
+  }
+}
+
+@media (max-width: 640px) {
+  .wrapper {
+    @apply gap-3 pb-4;
+  }
+
+  .heroSection,
+  .statCard,
+  .panelCard {
+    @apply rounded-2xl p-4;
+  }
+
+  .heroActions {
+    @apply flex-col items-start;
+  }
+
+  .heroActions > * {
+    @apply flex-none;
+  }
+
+  .barChart {
+    @apply h-52 gap-2 px-2;
+  }
+
+  .chartBar {
+    max-width: 52px;
+  }
+
+  .chartLabel {
+    display: -webkit-box;
+    min-height: 28px;
+    overflow: hidden;
+    font-size: 10px;
+    line-height: 14px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 }

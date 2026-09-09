@@ -8,7 +8,6 @@ import { useTranslation } from "react-i18next";
 
 // ===== Hooks =====
 import { useAppDispatch, useAuth } from "@/redux/hooks";
-import { LanguageEnum } from "@/utils/enum";
 
 // ===== Thunks =====
 import { getAuthThunk } from "@/redux/thunks/auth/authThunk";
@@ -45,7 +44,6 @@ export const AuthProvider = ({ children }: Props) => {
   useEffect(() => {
     if (!user?.id) {
       dispatch(settingsActions.resetSettings());
-      void i18n.changeLanguage(LanguageEnum.EN);
       return;
     }
 

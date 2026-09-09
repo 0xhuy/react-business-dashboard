@@ -58,15 +58,8 @@
   );
 }
 
-@media (max-width: 900px) {
-  .content {
-    grid-template-columns: 1fr;
-  }
-}
-
 @media (max-width: 640px) {
   .pageHeader {
-    @apply items-start;
+    @apply items-start rounded-2xl px-4 py-4;
   }
-
 }

@@ -141,7 +141,29 @@
 }
 
 @media (max-width: 640px) {
+  .card {
+    @apply rounded-2xl p-4;
+  }
+
+  .cardHeader {
+    @apply gap-3;
+  }
+
+  .cardIcon {
+    @apply size-9 rounded-xl;
+  }
+
   .formGrid {
     grid-template-columns: 1fr;
+  }
+
+  .settingRow,
+  .passwordAction,
+  .cardAction {
+    @apply items-stretch gap-3;
+  }
+
+  .passwordAction {
+    @apply flex-col;
   }
 }

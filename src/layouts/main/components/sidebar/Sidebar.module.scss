@@ -79,7 +79,11 @@
 }
 
 .formLogo {
-  @apply relative z-10 mb-10 flex items-center gap-2;
+  @apply relative z-10 mb-10 flex cursor-pointer items-center gap-2 text-left;
+
+  &:focus-visible {
+    @apply rounded-xl outline-none ring-2 ring-white/80;
+  }
 }
 
 .collapsed .formLogo {
@@ -92,4 +96,39 @@
 
 .logoText {
   @apply text-2xl font-semibold tracking-wide text-white;
+}
+
+.backdrop {
+  @apply hidden;
+}
+
+@media (max-width: 1024px) {
+  .backdrop {
+    @apply fixed inset-0 z-40 block cursor-default bg-slate-950/20 backdrop-blur-[1px];
+  }
+
+  .sidebar {
+    @apply fixed bottom-2 left-2 top-2 z-50 m-0 h-auto w-[260px] rounded-[24px] p-4;
+  }
+
+  .collapsed {
+    @apply w-14 px-2;
+  }
+
+  .toggleButton,
+  .toggleButtonCollapsed {
+    @apply -right-3 top-14;
+  }
+
+  .formLogo {
+    @apply mb-6;
+  }
+
+  .logoIcon {
+    @apply w-9;
+  }
+
+  .logoText {
+    @apply text-xl;
+  }
 }

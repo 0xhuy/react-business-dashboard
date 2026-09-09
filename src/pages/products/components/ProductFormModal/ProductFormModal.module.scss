@@ -5,3 +5,9 @@
 .twoColumns {
   @apply grid grid-cols-2 gap-5;
 }
+
+@media (max-width: 640px) {
+  .twoColumns {
+    @apply grid-cols-1 gap-3;
+  }
+}

@@ -27,14 +27,6 @@
   max-width: 560px;
 }
 
-.selectFilter {
-  @apply h-10 min-w-[140px] rounded-xl border border-slate-200 px-4 text-sm outline-none transition-all;
-
-  &:focus {
-    @apply border-indigo-500;
-  }
-}
-
 .addButton {
   @apply h-10 text-sm font-medium;
 }
@@ -100,11 +92,44 @@
 }
 
 @media (max-width: 1024px) {
+  .toolbarHeader {
+    @apply flex-col items-start;
+  }
+
   .toolbarActions {
-    @apply flex-wrap;
+    @apply w-full flex-wrap justify-start;
   }
 
   .searchInput {
-    min-width: 100%;
+    @apply flex-none;
+
+    width: min(100%, 420px);
+    min-width: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .wrapper {
+    @apply gap-3 pb-4;
+  }
+
+  .toolbarCard {
+    @apply rounded-2xl px-4 py-4;
+  }
+
+  .toolbarHeader {
+    @apply items-start;
+  }
+
+  .toolbarActions {
+    @apply max-w-none;
+  }
+
+  .searchInput {
+    @apply max-w-full;
+  }
+
+  .filterGroup {
+    grid-template-columns: 1fr;
   }
 }

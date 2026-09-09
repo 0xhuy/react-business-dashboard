@@ -55,29 +55,31 @@ const ProductSheetToolbar = (props: ProductSheetToolbarProps) => {
           onNextSearchResult={onNextSearchResult}
         />
 
-        <button
-          type="button"
-          disabled={!hasValidationErrors}
-          className={cx(
-            "headerErrorButton",
-            hasValidationErrors
-              ? "headerErrorButtonActive"
-              : "headerErrorButtonInactive",
-          )}
-          onClick={onOpenValidationErrors}
-        >
-          {t("product_sheet.error_count", { count: validationIssueCount })}
-        </button>
+        <div className={cx("toolbarControls")}>
+          <button
+            type="button"
+            disabled={!hasValidationErrors}
+            className={cx(
+              "headerErrorButton",
+              hasValidationErrors
+                ? "headerErrorButtonActive"
+                : "headerErrorButtonInactive",
+            )}
+            onClick={onOpenValidationErrors}
+          >
+            {t("product_sheet.error_count", { count: validationIssueCount })}
+          </button>
 
-        <BaseButton
-          isStatic
-          className={cx("saveButton")}
-          isDisabled={!isDirty || isLoading}
-          isLoading={isSaving}
-          onClick={onSave}
-        >
-          {t("common.btn_save")}
-        </BaseButton>
+          <BaseButton
+            isStatic
+            className={cx("saveButton")}
+            isDisabled={!isDirty || isLoading}
+            isLoading={isSaving}
+            onClick={onSave}
+          >
+            {t("common.btn_save")}
+          </BaseButton>
+        </div>
       </div>
     </div>
   );

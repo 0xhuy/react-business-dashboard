@@ -186,25 +186,107 @@
 }
 
 @media (max-width: 1280px) {
+  .wrapper {
+    @apply overflow-y-auto;
+  }
+
   .detailSummaryGrid {
     @apply grid-cols-3;
   }
 
   .detailContentGrid {
-    @apply grid-cols-1 overflow-auto;
+    @apply flex-none grid-cols-1 overflow-visible;
+  }
+
+  .detailMain {
+    @apply overflow-visible;
+
+    .detailCard {
+      @apply w-full overflow-visible;
+    }
   }
 
   .detailSidebar {
+    @apply grid items-start gap-4 overflow-visible pr-0;
+
+    grid-template-columns: minmax(0, 1fr) fit-content(40%);
+  }
+
+  .detailTable {
+    @apply flex-none;
+  }
+
+  .detailTableBody {
     @apply overflow-visible;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  .wrapper {
+    @apply pb-4;
+  }
+
+  .detailHeaderCard,
+  .detailCard {
+    @apply rounded-2xl px-4 py-4;
+  }
+
   .detailHeaderTop {
     @apply flex-col;
   }
 
+  .detailActions {
+    @apply w-full flex-wrap;
+  }
+
   .detailSummaryGrid {
     @apply grid-cols-2;
+  }
+
+  .detailTable {
+    @apply overflow-x-auto;
+  }
+
+  .detailTableHeader,
+  .detailTableRow {
+    min-width: 700px;
+  }
+}
+
+@media (max-width: 640px) {
+  .detailSummaryGrid {
+    @apply grid-cols-1;
+  }
+
+  .detailSidebar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .detailTable {
+    @apply overflow-visible border-0;
+  }
+
+  .detailTableHeader {
+    @apply hidden;
+  }
+
+  .detailTableBody {
+    @apply gap-3;
+  }
+
+  .detailTableRow {
+    @apply grid-cols-1 gap-2 rounded-xl border border-slate-200 p-3;
+
+    min-width: 0;
+
+    p {
+      @apply flex min-w-0 items-start justify-between gap-4 break-words text-right;
+
+      &::before {
+        @apply shrink-0 text-left text-xs font-semibold uppercase tracking-[0.04em] text-slate-500;
+
+        content: attr(data-label);
+      }
+    }
   }
 }

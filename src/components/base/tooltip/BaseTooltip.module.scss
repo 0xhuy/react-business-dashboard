@@ -27,3 +27,9 @@
   line-height: 12px !important;
   box-shadow: 0 4px 12px rgb(15 23 42 / 14%) !important;
 }
+
+@media (max-width: 1024px) {
+  .tooltip {
+    display: none !important;
+  }
+}

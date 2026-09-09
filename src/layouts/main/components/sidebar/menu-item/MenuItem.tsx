@@ -20,10 +20,16 @@ type Props = {
   menuItem: IRouteModel;
   isCollapsed: boolean;
   onExpand: () => void;
+  onNavigate: () => void;
 };
 
 // ===== Component =====
-const MenuItem = ({ menuItem, isCollapsed, onExpand }: Props) => {
+const MenuItem = ({
+  menuItem,
+  isCollapsed,
+  onExpand,
+  onNavigate,
+}: Props) => {
   // ===== Destructuring =====
   const { path, name, icon, iconActive, index, children } = menuItem;
 
@@ -104,6 +110,7 @@ const MenuItem = ({ menuItem, isCollapsed, onExpand }: Props) => {
                     key={submenuItem.path}
                     to={submenuItem.path}
                     end={submenuItem.index || submenuItem.path === ROOT_PATH}
+                    onClick={onNavigate}
                     className={cx("submenuLink", {
                       submenuLinkActive: hasActiveChild(
                         submenuItem,
@@ -141,6 +148,7 @@ const MenuItem = ({ menuItem, isCollapsed, onExpand }: Props) => {
         <NavLink
           to={path}
           end={index || path === ROOT_PATH}
+          onClick={onNavigate}
           className={cx("menuItem", {
             active: isActive,
           })}

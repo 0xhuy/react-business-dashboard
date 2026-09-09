@@ -84,3 +84,51 @@
     @apply text-base;
   }
 }
+
+@media (max-width: 640px) {
+  .form {
+    @apply gap-4;
+  }
+
+  .twoColumns {
+    @apply grid-cols-1 gap-3;
+  }
+
+  .sectionHeader {
+    @apply flex-col;
+  }
+
+  .itemsTable {
+    @apply overflow-visible rounded-none border-0;
+  }
+
+  .itemsHeader {
+    @apply hidden;
+  }
+
+  .itemsBody {
+    @apply gap-3;
+  }
+
+  .itemRow {
+    @apply grid-cols-2 gap-3 rounded-xl border border-slate-200 p-3;
+
+    min-width: 0;
+
+    &:last-child {
+      border-bottom-width: 1px;
+    }
+
+    > :first-child {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .itemTotal {
+    @apply h-10;
+  }
+
+  .deleteItemButton {
+    @apply mt-0 w-auto justify-self-end px-3;
+  }
+}

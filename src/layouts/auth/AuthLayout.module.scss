@@ -182,7 +182,9 @@
   }
 
   .container {
-    @apply px-4;
+    @apply items-start overflow-x-hidden overflow-y-auto px-4 py-4;
+
+    min-height: 100dvh;
   }
 
   .logoBadge {
@@ -199,7 +201,7 @@
   }
 
   .card {
-    @apply w-full max-w-[460px] min-h-0 rounded-lg flex-col;
+    @apply my-auto w-full max-w-[460px] min-h-0 rounded-lg flex-col;
   }
 
   .imagePanel {

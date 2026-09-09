@@ -50,10 +50,6 @@
   @apply mt-1 min-h-[18px] text-xs font-medium text-red-500;
 }
 
-.baseInputSuffixImg {
-  @apply h-5 w-5 cursor-pointer opacity-60 transition-all duration-200 hover:scale-105 hover:opacity-100;
-}
-
 .baseInputIcon {
   @apply flex h-4 w-4 items-center justify-center text-gray-400;
 }

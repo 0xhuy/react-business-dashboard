@@ -2,16 +2,6 @@
 // DASHBOARD HEADER
 // ============================================================
 
-// .header {
-//   @apply relative flex h-[68px] items-center justify-between overflow-visible px-6 bg-transparent;
-
-//   border-bottom: 1px solid rgba(148, 163, 184, 0.12);
-
-//   box-shadow:
-//     inset 0 -1px 0 rgba(255, 255, 255, 0.72),
-//     0 14px 24px -28px rgba(15, 23, 42, 0.22);
-// }
-
 .header {
   @apply relative z-40 flex h-[68px] items-center justify-between overflow-visible border-b border-white/70 px-6 bg-transparent;
   box-shadow: 0 10px 28px -24px rgb(99 102 241 / 0.28);
@@ -30,14 +20,6 @@
   @apply flex items-center gap-2;
 }
 
-.search {
-  @apply relative z-10 w-[300px] rounded-2xl border border-white/80 bg-white/70 px-4 py-2.5 text-sm text-slate-600 shadow-[0_10px_30px_rgba(15,23,42,0.06)] outline-none backdrop-blur-xl transition-all duration-200;
-
-  &:focus {
-    @apply border-indigo-200 bg-white shadow-[0_14px_40px_rgba(99,102,241,0.12)];
-  }
-}
-
 .iconButton,
 .profileButton {
   @apply transition-colors duration-200;
@@ -49,6 +31,10 @@
 
 .iconButton {
   @apply relative flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-slate-500 outline-none;
+
+  > svg {
+    @apply block translate-y-px;
+  }
 
   &:hover {
     @apply text-primary;
@@ -66,22 +52,22 @@
 }
 
 .profileWrap {
-  @apply relative;
+  @apply relative flex items-center;
 }
 
 .notificationWrap {
-  @apply relative;
+  @apply relative flex items-center;
 }
 
 .profileButton {
-  @apply flex h-9 cursor-pointer items-center gap-2.5 rounded-md px-2 transition-colors duration-200;
+  @apply flex h-9 cursor-pointer items-center gap-2.5 rounded-md px-2 text-slate-500 transition-colors duration-200;
 
   &:hover {
-    @apply bg-indigo-50/40;
+    @apply bg-indigo-50/40 text-primary;
   }
 
   &:focus-visible {
-    @apply bg-indigo-50/40 outline-none ring-2 ring-primary/20;
+    @apply bg-indigo-50/40 text-primary outline-none ring-2 ring-primary/20;
   }
 }
 
@@ -102,9 +88,28 @@
 }
 
 .iconDropdownHeader {
-  @apply h-[12px] w-[12px] object-contain opacity-70;
+  @apply h-[12px] w-[12px];
 }
 
 .profileButton:hover .arrow {
   @apply text-primary;
+}
+
+@media (max-width: 1024px) {
+  .header {
+    @apply h-14 px-2;
+  }
+
+  .right {
+    @apply gap-1;
+  }
+
+  .profileButton {
+    @apply px-1;
+  }
+
+  .userInfo,
+  .arrow {
+    @apply hidden;
+  }
 }

@@ -23,6 +23,12 @@
   @apply bg-primary text-white;
 
   box-shadow: 0 2px 8px rgb(99 102 241 / 0.16);
+
+  &:hover,
+  &:focus,
+  &:active {
+    @apply bg-primary text-white;
+  }
 }
 
 // ===== Tablet =====

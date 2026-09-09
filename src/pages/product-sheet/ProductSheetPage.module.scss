@@ -20,16 +20,14 @@
   @apply flex items-center justify-start gap-2;
 }
 
+.toolbarControls {
+  @apply flex shrink-0 items-center gap-3;
+}
+
 .pagination {
   @apply flex items-center justify-center;
 
   min-height: 64px;
-}
-
-.paginationText {
-  @apply text-sm font-medium text-slate-500;
-
-  white-space: nowrap;
 }
 
 .actionButton {
@@ -133,4 +131,34 @@
 
 .headerErrorButtonInactive {
   @apply cursor-default border-slate-200 bg-slate-50 text-slate-400;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    @apply gap-3 pb-4;
+  }
+
+  .toolbarCard {
+    @apply rounded-2xl px-4 py-4;
+  }
+
+  .toolbarHeader {
+    @apply flex-col items-start gap-3;
+  }
+
+  .pageTitle {
+    @apply w-full;
+  }
+
+  .toolbarActions {
+    @apply flex-wrap;
+  }
+
+  .actionButton {
+    @apply flex-none;
+  }
+
+  .body {
+    @apply rounded-2xl;
+  }
 }

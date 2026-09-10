@@ -23,6 +23,7 @@ import {
   INITIAL_CREATE_NEW_PASSWORD_FORM,
   type CreateNewPasswordFormData,
 } from "./CreateNewPassword.schema";
+import { getErrorMessage } from "@/utils/errors";
 
 // ===== Styles, Images, Icons =====
 import { icons } from "@/assets";
@@ -80,14 +81,14 @@ const CreateNewPassword = () => {
 
       if (error) {
         console.error(error.message);
-        setErrorMessage(t("auth.errors.password_update_failed"));
+        setErrorMessage(getErrorMessage(error, t));
         return;
       }
 
       setIsSubmitted(true);
     } catch (error) {
       console.error(error);
-      setErrorMessage(t("auth.errors.password_update_failed"));
+      setErrorMessage(getErrorMessage(error, t));
     } finally {
       setIsLoading(false);
     }

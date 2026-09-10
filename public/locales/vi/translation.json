@@ -5,6 +5,37 @@
     "description": "Trang bạn đang tìm kiếm không tồn tại hoặc có thể đã được di chuyển.",
     "back_home": "Về trang chính"
   },
+  "errors": {
+    "unknown": "Đã xảy ra lỗi. Vui lòng thử lại.",
+    "network": "Không thể kết nối. Vui lòng kiểm tra mạng và thử lại.",
+    "bad_request": "Yêu cầu không hợp lệ. Vui lòng kiểm tra thông tin.",
+    "forbidden": "Bạn không có quyền thực hiện thao tác này.",
+    "not_found": "Không tìm thấy dữ liệu được yêu cầu.",
+    "conflict": "Thay đổi này xung đột với dữ liệu hiện có.",
+    "validation": "Một số thông tin chưa hợp lệ. Vui lòng kiểm tra lại.",
+    "rate_limited": "Có quá nhiều yêu cầu. Vui lòng chờ và thử lại.",
+    "server": "Dịch vụ đang tạm thời gián đoạn. Vui lòng thử lại sau.",
+    "auth": {
+      "invalid_credentials": "Email hoặc mật khẩu không chính xác.",
+      "email_not_confirmed": "Vui lòng xác nhận email trước khi đăng nhập.",
+      "user_already_exists": "Đã tồn tại tài khoản sử dụng email này.",
+      "weak_password": "Mật khẩu chưa đáp ứng yêu cầu bảo mật.",
+      "same_password": "Mật khẩu mới phải khác mật khẩu hiện tại.",
+      "current_password_incorrect": "Mật khẩu hiện tại không chính xác.",
+      "session_expired": "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại."
+    },
+    "database": {
+      "duplicate": "Dữ liệu này đã tồn tại.",
+      "referenced_record": "Dữ liệu này đang được sử dụng và không thể thay đổi.",
+      "required_value": "Thiếu thông tin bắt buộc.",
+      "invalid_value": "Một trong các giá trị được cung cấp không hợp lệ."
+    },
+    "boundary": {
+      "title": "Đã xảy ra lỗi",
+      "description": "Đã xảy ra lỗi ngoài dự kiến khi hiển thị trang này.",
+      "reload": "Tải lại trang"
+    }
+  },
   "auth": {
     "app_name": "Dashly",
     "login": {

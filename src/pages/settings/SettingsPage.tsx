@@ -38,6 +38,7 @@ import type {
   PasswordSettingsValues,
 } from "./types";
 import type { SettingsSection } from "@/features/settings/settings.types";
+import { getErrorMessage } from "@/utils/errors";
 
 // ===== Styles =====
 import styles from "./SettingsPage.module.scss";
@@ -273,11 +274,7 @@ const SettingsPage = () => {
       setPasswordValues(DEFAULT_PASSWORD_SETTINGS_VALUES);
       setIsPasswordUpdated(true);
     } catch (error) {
-      setPasswordError(
-        error === "CURRENT_PASSWORD_INCORRECT"
-          ? t("settings.current_password_incorrect")
-          : t("settings.password_update_error"),
-      );
+      setPasswordError(getErrorMessage(error, t));
     }
   };
 

@@ -49,6 +49,7 @@ import {
   updatePurchaseOrderThunk,
 } from "@/redux/thunks/orders/orderThunk";
 import { getProductsThunk } from "@/redux/thunks/products/productThunk";
+import { getErrorMessage } from "@/utils/errors";
 
 // ===== Styles =====
 import styles from "./OrdersPage.module.scss";
@@ -86,7 +87,7 @@ const OrdersPage = () => {
       dispatch(getProductsThunk()).unwrap(),
     ]).catch((error) => {
       console.error("Unable to load purchase orders:", error);
-      setApiError(t("orders.api.load_error"));
+      setApiError(getErrorMessage(error, t));
     });
   }, [dispatch, t]);
 
@@ -163,7 +164,7 @@ const OrdersPage = () => {
         handleCloseOrderModal();
       } catch (error) {
         console.error("Unable to save purchase order:", error);
-        setApiError(t("orders.api.save_error"));
+        setApiError(getErrorMessage(error, t));
       }
     },
     [dispatch, handleCloseOrderModal, selectedOrder, t],
@@ -193,7 +194,7 @@ const OrdersPage = () => {
       handleCloseDeleteModal();
     } catch (error) {
       console.error("Unable to delete purchase order:", error);
-      setApiError(t("orders.api.delete_error"));
+      setApiError(getErrorMessage(error, t));
     }
   }, [dispatch, handleCloseDeleteModal, selectedDeleteOrder, t]);
 

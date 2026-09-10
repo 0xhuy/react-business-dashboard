@@ -13,6 +13,7 @@ import { supabase } from "@/services/supabase";
 import { GET_AUTH, LOGOUT_AUTH } from "@/utils/constants";
 import authApi from "@/features/auth/auth.api";
 import { ProfileStatusEnum, Role } from "@/utils/enum";
+import { getErrorTranslationKey } from "@/utils/errors";
 
 type AuthProfile = {
   role: Role;
@@ -70,7 +71,7 @@ export const getAuthThunk = createAsyncThunk(
 
       return { session, role: profile.role, isInactive: false };
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );
@@ -82,12 +83,12 @@ export const logoutAuthThunk = createAsyncThunk(
       const { error } = await authApi.logout();
 
       if (error) {
-        return rejectWithValue(error);
+        return rejectWithValue(getErrorTranslationKey(error));
       }
 
       return true;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );

@@ -14,6 +14,8 @@ import type {
   SettingsData,
   UpdateSettingsPayload,
 } from "./settings.types";
+import { ERROR_CODE } from "@/utils/constants";
+import { createDomainError } from "@/utils/errors";
 
 // ===== Types =====
 type ProfileRecord = {
@@ -120,7 +122,9 @@ const changePassword = async ({
     password: currentPassword,
   });
 
-  if (loginError) throw new Error("CURRENT_PASSWORD_INCORRECT");
+  if (loginError) {
+    throw createDomainError(ERROR_CODE.CURRENT_PASSWORD_INCORRECT);
+  }
 
   const { error: updateError } =
     await authApi.createNewPassword(newPassword);

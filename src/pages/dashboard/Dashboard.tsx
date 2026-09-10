@@ -57,14 +57,16 @@ const DashboardPage = () => {
   const [hasLoadError, setHasLoadError] = useState(false);
 
   const dashboardConfig = role ? DASHBOARD_CONFIG_BY_ROLE[role] : null;
-  const canViewPurchaseOrders =
-    dashboardConfig?.canViewPurchaseOrders ?? false;
+  const canViewPurchaseOrders = dashboardConfig?.canViewPurchaseOrders ?? false;
   const canViewUsers = dashboardConfig?.canViewUsers ?? false;
 
   const language = getLanguage(i18n.language);
   const locale =
     language === "vi" ? LanguageLocaleEnum.VI : LanguageLocaleEnum.EN;
-  const numberFormatter = useMemo(() => new Intl.NumberFormat(locale), [locale]);
+  const numberFormatter = useMemo(
+    () => new Intl.NumberFormat(locale),
+    [locale],
+  );
   const currencyFormatter = useMemo(
     () => getCurrencyFormatter(language),
     [language],

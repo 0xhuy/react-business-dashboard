@@ -16,10 +16,7 @@ import {
   GET_SETTINGS,
   UPDATE_SETTINGS,
 } from "@/utils/constants";
-
-// ===== Helpers =====
-const getErrorMessage = (error: unknown): string =>
-  error instanceof Error ? error.message : String(error);
+import { getErrorTranslationKey } from "@/utils/errors";
 
 // ===== Thunks =====
 export const getSettingsThunk = createAsyncThunk(
@@ -28,7 +25,7 @@ export const getSettingsThunk = createAsyncThunk(
     try {
       return await settingsApi.getSettings(userId);
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );
@@ -39,7 +36,7 @@ export const updateSettingsThunk = createAsyncThunk(
     try {
       return await settingsApi.updateSettings(payload);
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );
@@ -50,7 +47,7 @@ export const changeSettingsPasswordThunk = createAsyncThunk(
     try {
       await settingsApi.changePassword(payload);
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );

@@ -5,6 +5,37 @@
     "description": "The page you are looking for does not exist or may have been moved.",
     "back_home": "Back to home"
   },
+  "errors": {
+    "unknown": "Something went wrong. Please try again.",
+    "network": "Unable to connect. Check your internet connection and try again.",
+    "bad_request": "The request is invalid. Check the information and try again.",
+    "forbidden": "You do not have permission to perform this action.",
+    "not_found": "The requested data could not be found.",
+    "conflict": "This change conflicts with existing data.",
+    "validation": "Some information is invalid. Check it and try again.",
+    "rate_limited": "Too many requests. Please wait and try again.",
+    "server": "The service is temporarily unavailable. Please try again later.",
+    "auth": {
+      "invalid_credentials": "Incorrect email or password.",
+      "email_not_confirmed": "Confirm your email before signing in.",
+      "user_already_exists": "An account with this email already exists.",
+      "weak_password": "The password does not meet the security requirements.",
+      "same_password": "The new password must be different from the current password.",
+      "current_password_incorrect": "The current password is incorrect.",
+      "session_expired": "Your session has expired. Please sign in again."
+    },
+    "database": {
+      "duplicate": "This record already exists.",
+      "referenced_record": "This record is being used and cannot be changed.",
+      "required_value": "A required value is missing.",
+      "invalid_value": "One of the provided values is invalid."
+    },
+    "boundary": {
+      "title": "Something went wrong",
+      "description": "An unexpected error occurred while displaying this page.",
+      "reload": "Reload page"
+    }
+  },
   "auth": {
     "app_name": "Dashly",
     "login": {

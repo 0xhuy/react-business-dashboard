@@ -41,6 +41,7 @@ import { getUsersThunk, updateUserThunk } from "@/redux/thunks/users/userThunk";
 
 // ===== Styles =====
 import styles from "./UsersPage.module.scss";
+import { getErrorMessage } from "@/utils/errors";
 
 const cx = classNames.bind(styles);
 
@@ -70,7 +71,7 @@ const UsersPage = () => {
       .unwrap()
       .catch((error) => {
         console.error("Unable to load users:", error);
-        setApiError(t("users.api.load_error"));
+        setApiError(getErrorMessage(error, t));
       });
   }, [dispatch, t]);
 
@@ -120,7 +121,7 @@ const UsersPage = () => {
         handleCloseUserModal();
       } catch (error) {
         console.error("Unable to save user:", error);
-        setApiError(t("users.api.save_error"));
+        setApiError(getErrorMessage(error, t));
       }
     },
     [currentUser?.id, dispatch, handleCloseUserModal, selectedUser, t],
@@ -150,7 +151,7 @@ const UsersPage = () => {
         setApiMessage(t("users.api.status_success"));
       } catch (error) {
         console.error("Unable to update user status:", error);
-        setApiError(t("users.api.status_error"));
+        setApiError(getErrorMessage(error, t));
       }
     },
     [currentUser?.id, dispatch, t],
@@ -161,11 +162,7 @@ const UsersPage = () => {
     const normalizedSearchValue = searchValue.trim().toLowerCase();
 
     return users.filter((user) => {
-      const searchableText = [
-        user.id,
-        user.fullName,
-        user.email,
-      ]
+      const searchableText = [user.id, user.fullName, user.email]
         .join(" ")
         .toLocaleLowerCase();
 
@@ -409,11 +406,7 @@ const UsersPage = () => {
               )}
             </BaseFilter>
 
-            <BaseButton
-              isStatic
-              isDisabled
-              className={cx("addButton")}
-            >
+            <BaseButton isStatic isDisabled className={cx("addButton")}>
               {t("users.add_user")}
             </BaseButton>
           </div>

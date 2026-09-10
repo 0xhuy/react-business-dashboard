@@ -36,6 +36,7 @@ import {
   getProductsThunk,
   updateProductThunk,
 } from "@/redux/thunks/products/productThunk";
+import { getErrorMessage } from "@/utils/errors";
 
 // ===== Styles =====
 import styles from "./ProductsPage.module.scss";
@@ -67,7 +68,7 @@ const ProductsPage = () => {
       .unwrap()
       .catch((error) => {
         console.error("Unable to load products:", error);
-        setApiError(t("products.api.load_error"));
+        setApiError(getErrorMessage(error, t));
       });
   }, [dispatch, t]);
 
@@ -114,7 +115,7 @@ const ProductsPage = () => {
       setCurrentPage(1);
     } catch (error) {
       console.error("Unable to save product:", error);
-      setApiError(t("products.api.save_error"));
+      setApiError(getErrorMessage(error, t));
     }
   };
 
@@ -150,7 +151,7 @@ const ProductsPage = () => {
       setCurrentPage(1);
     } catch (error) {
       console.error("Unable to delete product:", error);
-      setApiError(t("products.api.delete_error"));
+      setApiError(getErrorMessage(error, t));
     }
   };
 

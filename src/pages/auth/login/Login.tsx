@@ -26,6 +26,7 @@ import {
 import authApi from "@/features/auth/auth.api";
 import { useAppDispatch } from "@/redux/hooks";
 import { getAuthThunk } from "@/redux/thunks/auth/authThunk";
+import { getErrorMessage } from "@/utils/errors";
 
 // ===== Styles, Images, Icons =====
 import { icons } from "@/assets";
@@ -96,7 +97,7 @@ const Login = () => {
 
       if (error) {
         console.error(error.message);
-        setErrorMessage(t("auth.errors.login_failed"));
+        setErrorMessage(getErrorMessage(error, t));
         return;
       }
 
@@ -114,7 +115,7 @@ const Login = () => {
       navigate(getRedirectByRole(role));
     } catch (error) {
       console.error(error);
-      setErrorMessage(t("auth.errors.login_failed"));
+      setErrorMessage(getErrorMessage(error, t));
     } finally {
       setIsLoading(false);
     }

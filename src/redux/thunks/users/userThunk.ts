@@ -2,9 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import userApi from "@/features/users/user.api";
 import { GET_USERS, UPDATE_USER } from "@/utils/constants";
 import type { UpdateUserPayload } from "./user.types";
-
-const getErrorMessage = (error: unknown): string =>
-  error instanceof Error ? error.message : String(error);
+import { getErrorTranslationKey } from "@/utils/errors";
 
 export const getUsersThunk = createAsyncThunk(
   GET_USERS,
@@ -12,7 +10,7 @@ export const getUsersThunk = createAsyncThunk(
     try {
       return await userApi.getUsers();
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );
@@ -23,7 +21,7 @@ export const updateUserThunk = createAsyncThunk(
     try {
       return await userApi.updateUser(id, user);
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );

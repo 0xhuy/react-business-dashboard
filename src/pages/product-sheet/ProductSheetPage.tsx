@@ -50,6 +50,7 @@ import {
 
 // ===== Styles =====
 import styles from "./ProductSheetPage.module.scss";
+import { getErrorMessage } from "@/utils/errors";
 
 const cx = classNames.bind(styles);
 
@@ -117,7 +118,7 @@ const ProductSheetPage = () => {
       })
       .catch((error) => {
         console.error("Unable to load product spreadsheet:", error);
-        setApiError(t("product_sheet.api.load_error"));
+        setApiError(getErrorMessage(error, t));
       });
   }, [dispatch, t]);
 
@@ -466,7 +467,7 @@ const ProductSheetPage = () => {
       setApiMessage(t("product_sheet.api.save_success"));
     } catch (error) {
       console.error("Unable to save product spreadsheet:", error);
-      setApiError(t("product_sheet.api.save_error"));
+      setApiError(getErrorMessage(error, t));
     }
   }, [
     clearValidationErrors,

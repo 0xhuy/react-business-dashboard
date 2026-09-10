@@ -27,6 +27,7 @@ import {
 // ===== Styles, Images, Icons =====
 import { icons } from "@/assets";
 import styles from "./Register.module.scss";
+import { getErrorMessage } from "@/utils/errors";
 
 const cx = classNames.bind(styles);
 
@@ -93,7 +94,7 @@ const Register = () => {
 
       if (error) {
         console.error(error.message);
-        setErrorMessage(t("auth.errors.register_failed"));
+        setErrorMessage(getErrorMessage(error, t));
         return;
       }
 
@@ -102,7 +103,7 @@ const Register = () => {
       });
     } catch (error) {
       console.error(error);
-      setErrorMessage(t("auth.errors.register_failed"));
+      setErrorMessage(getErrorMessage(error, t));
     } finally {
       setIsLoading(false);
     }

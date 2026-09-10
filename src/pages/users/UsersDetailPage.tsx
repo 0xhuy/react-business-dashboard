@@ -20,10 +20,10 @@ import { getUsersThunk, updateUserThunk } from "@/redux/thunks/users/userThunk";
 
 // ===== Styles =====
 import styles from "./UsersDetailPage.module.scss";
+import { getErrorMessage } from "@/utils/errors";
 
 const cx = classNames.bind(styles);
 
-// ===== Component =====
 const UsersDetailPage = () => {
   // ===== Hooks =====
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ const UsersDetailPage = () => {
       .unwrap()
       .catch((error) => {
         console.error("Unable to load users:", error);
-        setApiError(t("users.api.load_error"));
+        setApiError(getErrorMessage(error, t));
       });
   }, [dispatch, t, users.length]);
 
@@ -101,7 +101,7 @@ const UsersDetailPage = () => {
         handleCloseUserModal();
       } catch (error) {
         console.error("Unable to update user:", error);
-        setApiError(t("users.api.save_error"));
+        setApiError(getErrorMessage(error, t));
       }
     },
     [dispatch, handleCloseUserModal, isCurrentUser, t, user],

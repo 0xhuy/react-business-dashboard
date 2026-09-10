@@ -23,6 +23,7 @@ import {
   INITIAL_FORGOT_PASSWORD_FORM,
   type ForgotPasswordFormData,
 } from "./ForgotPassword.schema";
+import { getErrorMessage } from "@/utils/errors";
 
 // ===== Styles, Images, Icons =====
 import styles from "./ForgotPassword.module.scss";
@@ -82,14 +83,14 @@ const ForgotPassword = () => {
 
       if (error) {
         console.error(error.message);
-        setErrorMessage(t("auth.errors.reset_email_failed"));
+        setErrorMessage(getErrorMessage(error, t));
         return;
       }
 
       setIsSubmitted(true);
     } catch (error) {
       console.error(error);
-      setErrorMessage(t("auth.errors.reset_email_failed"));
+      setErrorMessage(getErrorMessage(error, t));
     } finally {
       setIsLoading(false);
     }

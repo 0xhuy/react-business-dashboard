@@ -22,6 +22,7 @@ import { Role } from "@/utils/enum/role.enum";
 import { RoleGuard } from "./role-guard";
 import type { IRouteModel } from "@/utils/interfaces";
 import { NotFoundPage } from "@/pages";
+import { ErrorFallback } from "@/components/providers/ErrorFallback";
 
 const createPrivateRoutes = (
   routes: IRouteModel[],
@@ -42,36 +43,41 @@ const createPrivateRoutes = (
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Navigate to="/login" replace />,
-  },
-  {
-    element: <PublicRoute />,
-    children: publicRoutes.map((route) => {
-      const Page = route.component;
-
-      return {
-        path: route.path,
-        element: <Page />,
-      };
-    }),
-  },
-  {
-    element: <ProtectedRoute />,
+    errorElement: <ErrorFallback />,
     children: [
       {
-        element: <MainLayout />,
+        path: "/",
+        element: <Navigate to="/login" replace />,
+      },
+      {
+        element: <PublicRoute />,
+        children: publicRoutes.map((route) => {
+          const Page = route.component;
+
+          return {
+            path: route.path,
+            element: <Page />,
+          };
+        }),
+      },
+      {
+        element: <ProtectedRoute />,
         children: [
-          ...createPrivateRoutes(privateAdminRoutes, [Role.ADMIN]),
-          ...createPrivateRoutes(privateStaffRoutes, [Role.STAFF]),
-          ...createPrivateRoutes(privateViewerRoutes, [Role.VIEWER]),
+          {
+            element: <MainLayout />,
+            children: [
+              ...createPrivateRoutes(privateAdminRoutes, [Role.ADMIN]),
+              ...createPrivateRoutes(privateStaffRoutes, [Role.STAFF]),
+              ...createPrivateRoutes(privateViewerRoutes, [Role.VIEWER]),
+            ],
+          },
         ],
       },
+      {
+        path: "*",
+        element: <NotFoundPage />,
+      },
     ],
-  },
-  {
-    path: "*",
-    element: <NotFoundPage />,
   },
 ]);
 

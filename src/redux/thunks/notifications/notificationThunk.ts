@@ -10,9 +10,7 @@ import {
   MARK_ALL_NOTIFICATIONS_AS_READ,
   MARK_NOTIFICATION_AS_READ,
 } from "@/utils/constants";
-
-const getErrorMessage = (error: unknown): string =>
-  error instanceof Error ? error.message : String(error);
+import { getErrorTranslationKey } from "@/utils/errors";
 
 export const getNotificationsThunk = createAsyncThunk(
   GET_NOTIFICATIONS,
@@ -20,7 +18,7 @@ export const getNotificationsThunk = createAsyncThunk(
     try {
       return await notificationApi.getNotifications(userId);
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );
@@ -37,7 +35,7 @@ export const markNotificationAsReadThunk = createAsyncThunk(
         userId,
       );
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );
@@ -48,7 +46,7 @@ export const markAllNotificationsAsReadThunk = createAsyncThunk(
     try {
       await notificationApi.markAllNotificationsAsRead(userId);
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );
@@ -62,7 +60,7 @@ export const deleteNotificationThunk = createAsyncThunk(
     try {
       return await notificationApi.deleteNotification(notificationId, userId);
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );

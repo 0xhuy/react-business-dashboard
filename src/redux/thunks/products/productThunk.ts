@@ -10,9 +10,7 @@ import {
   UPDATE_PRODUCT,
 } from "@/utils/constants";
 import type { SaveProductsPayload, UpdateProductPayload } from "./product.type";
-
-const getErrorMessage = (error: unknown): string =>
-  error instanceof Error ? error.message : String(error);
+import { getErrorTranslationKey } from "@/utils/errors";
 
 export const getProductsThunk = createAsyncThunk(
   GET_PRODUCTS,
@@ -20,7 +18,7 @@ export const getProductsThunk = createAsyncThunk(
     try {
       return await productApi.getProducts();
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );
@@ -31,7 +29,7 @@ export const createProductThunk = createAsyncThunk(
     try {
       return await productApi.createProduct(product);
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );
@@ -42,7 +40,7 @@ export const updateProductThunk = createAsyncThunk(
     try {
       return await productApi.updateProduct(id, product);
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );
@@ -54,7 +52,7 @@ export const deleteProductThunk = createAsyncThunk(
       await productApi.deleteProduct(id);
       return id;
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );
@@ -68,7 +66,7 @@ export const saveProductsThunk = createAsyncThunk(
     try {
       return await productApi.saveProducts(products, deletedIds);
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );

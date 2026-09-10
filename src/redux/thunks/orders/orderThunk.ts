@@ -9,9 +9,7 @@ import {
   UPDATE_PURCHASE_ORDER,
 } from "@/utils/constants";
 import type { UpdatePurchaseOrderPayload } from "./order.types";
-
-const getErrorMessage = (error: unknown): string =>
-  error instanceof Error ? error.message : String(error);
+import { getErrorTranslationKey } from "@/utils/errors";
 
 export const getPurchaseOrdersThunk = createAsyncThunk(
   GET_PURCHASE_ORDERS,
@@ -19,7 +17,7 @@ export const getPurchaseOrdersThunk = createAsyncThunk(
     try {
       return await orderApi.getPurchaseOrders();
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );
@@ -30,7 +28,7 @@ export const createPurchaseOrderThunk = createAsyncThunk(
     try {
       return await orderApi.createPurchaseOrder(order);
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );
@@ -41,7 +39,7 @@ export const updatePurchaseOrderThunk = createAsyncThunk(
     try {
       return await orderApi.updatePurchaseOrder(id, order);
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );
@@ -52,7 +50,7 @@ export const deletePurchaseOrderThunk = createAsyncThunk(
     try {
       return await orderApi.deletePurchaseOrder(id);
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      return rejectWithValue(getErrorTranslationKey(error));
     }
   },
 );

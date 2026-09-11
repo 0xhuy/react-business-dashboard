@@ -7,7 +7,6 @@ import classNames from "classnames/bind";
 import { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // ===== Components, Layouts, Pages =====
@@ -16,7 +15,12 @@ import AuthLayout from "../../../layouts/auth/AuthLayout";
 
 // ===== Others =====
 import authApi from "@/features/auth/auth.api";
-import { authRouteAbsolute, EMPTY_STRING } from "@/utils/constants";
+import {
+  authRouteAbsolute,
+  EMPTY_STRING,
+  PASSWORD_RECOVERY_INVALID_STORAGE_KEY,
+  PASSWORD_RECOVERY_PENDING_STORAGE_KEY,
+} from "@/utils/constants";
 import { InputTypeEnum } from "@/utils/enum";
 import {
   createNewPasswordSchema,
@@ -31,10 +35,23 @@ import styles from "./CreateNewPassword.module.scss";
 
 const cx = classNames.bind(styles);
 
+// ===== Helpers =====
+const hasInvalidRecoveryLink = () => {
+  const hashParams = new URLSearchParams(window.location.hash.slice(1));
+  const errorCode = hashParams.get("error_code");
+
+  return (
+    sessionStorage.getItem(PASSWORD_RECOVERY_INVALID_STORAGE_KEY) === "true" ||
+    hashParams.get("error") === "access_denied" ||
+    errorCode === "otp_expired" ||
+    errorCode === "otp_already_used" ||
+    errorCode === "token_not_found"
+  );
+};
+
 // ===== Component =====
 const CreateNewPassword = () => {
   // ===== Hooks =====
-  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const createPasswordSchema = useMemo(() => createNewPasswordSchema(t), [t]);
 
@@ -42,6 +59,9 @@ const CreateNewPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState(EMPTY_STRING);
+
+  // ===== Derived =====
+  const isInvalidRecoveryLink = useMemo(hasInvalidRecoveryLink, []);
 
   // ===== Form =====
   const {
@@ -59,6 +79,20 @@ const CreateNewPassword = () => {
   const isDisabled = isLoading || !isValid;
 
   // ===== Effects =====
+  useEffect(() => {
+    if (isInvalidRecoveryLink) {
+      sessionStorage.setItem(PASSWORD_RECOVERY_INVALID_STORAGE_KEY, "true");
+    } else {
+      sessionStorage.removeItem(PASSWORD_RECOVERY_INVALID_STORAGE_KEY);
+      sessionStorage.setItem(PASSWORD_RECOVERY_PENDING_STORAGE_KEY, "true");
+    }
+
+    if (isInvalidRecoveryLink) {
+      // Remove Supabase error details from the address bar after reading them.
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+  }, [isInvalidRecoveryLink]);
+
   useEffect(() => {
     const errorFieldNames = Object.keys(errors) as Array<
       keyof CreateNewPasswordFormData
@@ -94,8 +128,24 @@ const CreateNewPassword = () => {
     }
   };
 
-  const handleRedirectLogin = () => {
-    navigate(authRouteAbsolute.login);
+  const handleRedirectLogin = async () => {
+    try {
+      await authApi.logout();
+    } finally {
+      sessionStorage.removeItem(PASSWORD_RECOVERY_INVALID_STORAGE_KEY);
+      sessionStorage.removeItem(PASSWORD_RECOVERY_PENDING_STORAGE_KEY);
+      window.location.replace(authRouteAbsolute.login);
+    }
+  };
+
+  const handleRequestNewLink = async () => {
+    try {
+      await authApi.logout();
+    } finally {
+      sessionStorage.removeItem(PASSWORD_RECOVERY_INVALID_STORAGE_KEY);
+      sessionStorage.removeItem(PASSWORD_RECOVERY_PENDING_STORAGE_KEY);
+      window.location.replace(authRouteAbsolute.forgotPassword);
+    }
   };
 
   // ===== Render =====
@@ -104,16 +154,35 @@ const CreateNewPassword = () => {
       <div className={cx("formContent")}>
         <div className={cx("formHeader")}>
           <h2 className={cx("formTitle")}>
-            {t("auth.create_new_password.title")}
+            {isInvalidRecoveryLink
+              ? t("auth.create_new_password.invalid_link_title")
+              : t("auth.create_new_password.title")}
           </h2>
           <p className={cx("subtitle")}>
-            {isSubmitted
+            {isInvalidRecoveryLink
+              ? t("auth.create_new_password.invalid_link_description")
+              : isSubmitted
               ? t("auth.create_new_password.success_message")
               : t("auth.create_new_password.subtitle")}
           </p>
         </div>
 
-        {!isSubmitted ? (
+        {isInvalidRecoveryLink ? (
+          <div className={cx("invalidLinkBox")} role="alert">
+            <div className={cx("invalidLinkIcon")}>!</div>
+            <p className={cx("invalidLinkText")}>
+              {t("auth.create_new_password.invalid_link_help")}
+            </p>
+            <BaseButton
+              type="button"
+              variant="primary"
+              isFullWidth
+              onClick={handleRequestNewLink}
+            >
+              {t("auth.create_new_password.request_new_link")}
+            </BaseButton>
+          </div>
+        ) : !isSubmitted ? (
           <form
             className={cx("formBody")}
             onSubmit={handleSubmit(handleCreateNewPassword)}

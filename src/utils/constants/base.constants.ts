@@ -57,3 +57,5 @@ export const DEFAULT_TOAST_DURATION = 3500;
 // SIDEBAR
 // ============================================================
 export const SIDEBAR_COLLAPSED_STORAGE_KEY = "sidebar-collapsed";
+export const PASSWORD_RECOVERY_PENDING_STORAGE_KEY = "password-recovery-pending";
+export const PASSWORD_RECOVERY_INVALID_STORAGE_KEY = "password-recovery-invalid";

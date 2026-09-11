@@ -3,7 +3,7 @@
 // ============================================================
 
 // ===== Libs =====
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
 // ===== Hooks =====
@@ -15,6 +15,7 @@ import { authActions } from "@/redux/thunks/auth/authSlice";
 import { settingsActions } from "@/redux/thunks/settings/settingsSlice";
 import { getSettingsThunk } from "@/redux/thunks/settings/settingsThunk";
 import { supabase } from "@/services/supabase";
+import { authRouteAbsolute } from "@/utils/constants";
 
 // ===== Types =====
 type Props = {
@@ -27,6 +28,8 @@ export const AuthProvider = ({ children }: Props) => {
   const dispatch = useAppDispatch();
   const { user } = useAuth();
   const { i18n } = useTranslation();
+  // Used to preserve a language selected before the recovery session is ready.
+  const initialLanguageRef = useRef(i18n.language);
 
   // ===== Effects =====
   useEffect(() => {
@@ -48,11 +51,20 @@ export const AuthProvider = ({ children }: Props) => {
     }
 
     let isActive = true;
+    const languageBeforeFetch = i18n.language;
+    const isCreateNewPasswordRoute =
+      window.location.pathname === authRouteAbsolute.createNewPassword;
 
     void dispatch(getSettingsThunk(user.id))
       .unwrap()
       .then(({ language }) => {
-        if (isActive) void i18n.changeLanguage(language);
+        const hasSelectedLanguage =
+          i18n.language !== languageBeforeFetch ||
+          i18n.language !== initialLanguageRef.current;
+
+        if (isActive && !hasSelectedLanguage && !isCreateNewPasswordRoute) {
+          void i18n.changeLanguage(language);
+        }
       })
       .catch(() => undefined);
 

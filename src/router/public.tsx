@@ -3,6 +3,7 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAppSelector } from "@/redux/hooks";
 
 // ===== Others =====
+import { authRouteAbsolute } from "@/utils/constants";
 import { Role } from "@/utils/enum/role.enum";
 import { getRedirectByRole } from "./redirect";
 
@@ -21,7 +22,10 @@ export const PublicRoute = () => {
     return null;
   }
 
-  if (session && role) {
+  const isCreateNewPasswordRoute =
+    location.pathname === authRouteAbsolute.createNewPassword;
+
+  if (session && role && !isCreateNewPasswordRoute) {
     return <Navigate to={redirectPath || getRedirectByRole(role)} replace />;
   }
 

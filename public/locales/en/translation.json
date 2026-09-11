@@ -104,6 +104,10 @@
       "back_to_login": "Back to Login",
       "success_message": "Password updated successfully",
       "success_description": "Your password has been updated. You can now sign in with your new password.",
+      "invalid_link_title": "Reset link expired",
+      "invalid_link_description": "This password reset link has expired or has already been used.",
+      "invalid_link_help": "Request a new link to create your password.",
+      "request_new_link": "Request new link",
       "show_password": "Show password",
       "hide_password": "Hide password"
     },

@@ -5,7 +5,10 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAppSelector } from "@/redux/hooks";
 
 // ===== Others =====
-import { authRouteAbsolute } from "@/utils/constants";
+import {
+  authRouteAbsolute,
+  PASSWORD_RECOVERY_PENDING_STORAGE_KEY,
+} from "@/utils/constants";
 import { Role } from "@/utils/enum";
 import { BaseLoading } from "@/components";
 
@@ -31,6 +34,13 @@ export const ProtectedRoute = () => {
         replace
       />
     );
+  }
+
+  const isPasswordRecoveryPending =
+    sessionStorage.getItem(PASSWORD_RECOVERY_PENDING_STORAGE_KEY) === "true";
+
+  if (isPasswordRecoveryPending) {
+    return <Navigate to={authRouteAbsolute.createNewPassword} replace />;
   }
 
   return <Outlet />;

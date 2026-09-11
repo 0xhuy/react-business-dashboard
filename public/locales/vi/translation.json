@@ -104,6 +104,10 @@
       "back_to_login": "Quay lại đăng nhập",
       "success_message": "Cập nhật mật khẩu thành công",
       "success_description": "Mật khẩu của bạn đã được cập nhật. Bây giờ bạn có thể đăng nhập bằng mật khẩu mới.",
+      "invalid_link_title": "Liên kết đặt lại đã hết hạn",
+      "invalid_link_description": "Liên kết đặt lại mật khẩu đã hết hạn hoặc đã được sử dụng.",
+      "invalid_link_help": "Hãy yêu cầu một liên kết mới để tạo mật khẩu.",
+      "request_new_link": "Yêu cầu liên kết mới",
       "show_password": "Hiện mật khẩu",
       "hide_password": "Ẩn mật khẩu"
     },

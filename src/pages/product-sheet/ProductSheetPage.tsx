@@ -1,12 +1,19 @@
 // ===== Libs =====
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import classNames from "classnames/bind";
 
 // ===== Components =====
 import { BaseLoading, BasePagination, BaseToast } from "@/components";
 import BaseConfirmModal from "@/components/base/confirm-modal/BaseConfirmModal";
-import ProductSpreadsheet from "./components/ProductSpreadsheet/ProductSpreadsheet";
 import ProductSheetToolbar from "./components/ProductSheetToolbar/ProductSheetToolbar";
 import ProductSheetActions from "./components/ProductSheetActions/ProductSheetActions";
 import ProductSheetValidationModal from "./components/ProductSheetValidationModal/ProductSheetValidationModal";
@@ -53,6 +60,10 @@ import styles from "./ProductSheetPage.module.scss";
 import { getErrorMessage } from "@/utils/errors";
 
 const cx = classNames.bind(styles);
+
+const ProductSpreadsheet = lazy(
+  () => import("./components/ProductSpreadsheet/ProductSpreadsheet"),
+);
 
 const mapProductToSheetRow = (product: ProductRow): ProductSheetRow => ({
   id: product.id,
@@ -510,15 +521,24 @@ const ProductSheetPage = () => {
           <>
             <div ref={sheetScrollRef} className={cx("bodyScroll")}>
               <div className={cx("section")}>
-                <ProductSpreadsheet
-                  dataSource={visibleProductSheetData}
-                  onChange={handleProductSheetChange}
-                  onDeleteRows={handleDeleteRows}
-                  onInsertRows={handleInsertRows}
-                  rowOffset={startRowIndex}
-                  highlightedRowIndex={highlightedRowIndex}
-                  highlightedRowVariant={highlightedRowVariant}
-                />
+                <Suspense
+                  fallback={
+                    <BaseLoading
+                      className={cx("sheetLoading")}
+                      variant="section"
+                    />
+                  }
+                >
+                  <ProductSpreadsheet
+                    dataSource={visibleProductSheetData}
+                    onChange={handleProductSheetChange}
+                    onDeleteRows={handleDeleteRows}
+                    onInsertRows={handleInsertRows}
+                    rowOffset={startRowIndex}
+                    highlightedRowIndex={highlightedRowIndex}
+                    highlightedRowVariant={highlightedRowVariant}
+                  />
+                </Suspense>
               </div>
             </div>
 

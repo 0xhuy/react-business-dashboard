@@ -1,4 +1,10 @@
-import { Login, Register, ForgotPassword, CreateNewPassword } from "@/pages";
+// ===== Lazy Pages =====
+import {
+  Login,
+  Register,
+  ForgotPassword,
+  CreateNewPassword,
+} from "./lazy-pages";
 
 export const publicRoutes = [
   {

@@ -1,4 +1,5 @@
 // ===== Libs =====
+import { Suspense, type ElementType } from "react";
 import {
   Navigate,
   RouterProvider,
@@ -8,6 +9,9 @@ import {
 
 // ===== Layouts =====
 import { MainLayout } from "@/layouts";
+
+// ===== Components =====
+import { BaseLoading } from "@/components";
 
 // ===== Others =====
 import { publicRoutes } from "./public.routes";
@@ -24,6 +28,12 @@ import type { IRouteModel } from "@/utils/interfaces";
 import { NotFoundPage } from "@/pages";
 import { ErrorFallback } from "@/components/providers/ErrorFallback";
 
+const renderLazyPage = (Page: ElementType) => (
+  <Suspense fallback={<BaseLoading variant="page" size="lg" />}>
+    <Page />
+  </Suspense>
+);
+
 const createPrivateRoutes = (
   routes: IRouteModel[],
   allow: Role[],
@@ -35,7 +45,7 @@ const createPrivateRoutes = (
       path: route.path,
       element: (
         <RoleGuard allow={allow}>
-          <Page />
+          {renderLazyPage(Page)}
         </RoleGuard>
       ),
     };
@@ -56,7 +66,7 @@ const router = createBrowserRouter([
 
           return {
             path: route.path,
-            element: <Page />,
+            element: renderLazyPage(Page),
           };
         }),
       },
@@ -75,7 +85,7 @@ const router = createBrowserRouter([
       },
       {
         path: "*",
-        element: <NotFoundPage />,
+        element: renderLazyPage(NotFoundPage),
       },
     ],
   },

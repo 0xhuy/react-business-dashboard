@@ -1,4 +1,4 @@
-// ===== Pages =====
+// ===== Lazy Pages =====
 import {
   DashboardPage,
   ProductsPage,
@@ -8,7 +8,7 @@ import {
   UsersPage,
   UsersDetailPage,
   SettingsPage,
-} from "@/pages";
+} from "./lazy-pages";
 
 // ===== Others =====
 import {

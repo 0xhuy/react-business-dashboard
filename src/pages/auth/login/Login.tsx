@@ -44,8 +44,10 @@ const Login = () => {
   const loginSchema = useMemo(() => createLoginSchema(t), [t]);
 
   // ===== State =====
-  const [rememberMe, setRememberMe] = useState(false);
+  // Remember me is temporarily disabled until session-only persistence is implemented.
+  // const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(EMPTY_STRING);
   const [successMessage, setSuccessMessage] = useState(EMPTY_STRING);
 
@@ -62,7 +64,8 @@ const Login = () => {
   });
 
   // ===== Derived =====
-  const isDisabled = isLoading || !isValid;
+  const isLoginLoading = isLoading || isGoogleLoading;
+  const isDisabled = isLoginLoading || !isValid;
 
   // ===== Effects =====
   useEffect(() => {
@@ -123,6 +126,27 @@ const Login = () => {
 
   const handleRedirectRegister = () => {
     navigate(authRouteAbsolute.register);
+  };
+
+  const handleGoogleLogin = async () => {
+    if (isLoginLoading) return;
+
+    try {
+      setIsGoogleLoading(true);
+      setErrorMessage(EMPTY_STRING);
+
+      const { error } = await authApi.loginWithGoogle();
+
+      if (error) {
+        console.error(error.message);
+        setErrorMessage(getErrorMessage(error, t));
+      }
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(getErrorMessage(error, t));
+    } finally {
+      setIsGoogleLoading(false);
+    }
   };
 
   return (
@@ -194,18 +218,22 @@ const Login = () => {
           </div>
 
           <div className={cx("formOptions")}>
-            <label className={cx("rememberMe")}>
-              <input
-                type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
-                className={cx("checkbox")}
-              />
-              <span className={cx("checkboxCustom")} />
-              <span className={cx("rememberText")}>
-                {t("auth.login.remember_me")}
-              </span>
-            </label>
+            {/*
+              Remember me is temporarily disabled until session-only persistence
+              is implemented. Keep this markup for a future re-enable.
+              <label className={cx("rememberMe")}>
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className={cx("checkbox")}
+                />
+                <span className={cx("checkboxCustom")} />
+                <span className={cx("rememberText")}>
+                  {t("auth.login.remember_me")}
+                </span>
+              </label>
+            */}
 
             <button
               type="button"
@@ -235,6 +263,9 @@ const Login = () => {
               className={cx("socialBtn")}
               type="button"
               aria-label={t("auth.login.google_login")}
+              aria-busy={isGoogleLoading}
+              disabled={isLoginLoading}
+              onClick={handleGoogleLogin}
             >
               <img
                 className={cx("iconGoogleLogin")}

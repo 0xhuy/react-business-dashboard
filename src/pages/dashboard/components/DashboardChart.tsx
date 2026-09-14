@@ -3,12 +3,12 @@ import classNames from "classnames/bind";
 import { useTranslation } from "react-i18next";
 
 // ===== Types =====
-import type { DashboardChartItem } from "../types";
+import type { DashboardChartItem } from "../dashboard.types";
 
 // ===== Styles =====
 import styles from "../Dashboard.module.scss";
 
-type Props = {
+type DashboardChartProps = {
   title: string;
   description: string;
   data: DashboardChartItem[];
@@ -16,7 +16,11 @@ type Props = {
 
 const cx = classNames.bind(styles);
 
-const DashboardChart = ({ title, description, data }: Props) => {
+const DashboardChart = ({
+  title,
+  description,
+  data,
+}: DashboardChartProps) => {
   const { t } = useTranslation();
   const highestValue = Math.max(...data.map((item) => item.value), 1);
 

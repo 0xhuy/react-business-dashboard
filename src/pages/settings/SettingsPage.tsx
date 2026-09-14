@@ -32,13 +32,14 @@ import {
   SETTINGS_SCROLL_FADE_THRESHOLD,
   SETTINGS_SECTION,
 } from "@/utils/constants";
+import type { SettingsSection } from "@/utils/constants";
 import { getSettingsSectionFromHash } from "./helpers";
 import type {
   NotificationSettingKey,
   PasswordSettingsValues,
-} from "./types";
-import type { SettingsSection } from "@/features/settings/settings.types";
+} from "./settings.types";
 import { getErrorMessage } from "@/utils/errors";
+import { getLanguage } from "@/utils/helper";
 
 // ===== Styles =====
 import styles from "./SettingsPage.module.scss";
@@ -65,7 +66,7 @@ const SettingsPage = () => {
   );
   const [fullName, setFullName] = useState(EMPTY_STRING);
   const [language, setLanguage] = useState(
-    i18n.resolvedLanguage ?? DEFAULT_SETTINGS_LANGUAGE,
+    getLanguage(i18n.resolvedLanguage ?? DEFAULT_SETTINGS_LANGUAGE),
   );
   const [notifications, setNotifications] = useState(
     DEFAULT_NOTIFICATION_SETTINGS,

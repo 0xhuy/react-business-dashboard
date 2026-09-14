@@ -21,9 +21,9 @@ import {
 import BaseConfirmModal from "@/components/base/confirm-modal/BaseConfirmModal";
 
 // ===== Others =====
-import type { ColumnType } from "@/utils/interfaces";
+import type { BaseTableColumn } from "@/components/base";
 import { InputTypeEnum } from "@/utils/enum/input.enum";
-import { KeyTableEnum } from "@/utils/enum";
+import { KeyTableEnum, OrderStatusEnum } from "@/utils/enum";
 import { icons } from "@/assets";
 import {
   getPurchaseOrderTotalAmount,
@@ -31,7 +31,7 @@ import {
   purchaseOrderCurrencyFormatter,
 } from "@/features/orders/order.helpers";
 import type {
-  OrderFormValues,
+  PurchaseOrderMutationPayload,
   PurchaseOrderFilterValues,
   PurchaseOrderRow,
 } from "@/features/orders/order.types";
@@ -146,7 +146,7 @@ const OrdersPage = () => {
   }, []);
 
   const handleSubmitOrder = useCallback(
-    async (data: OrderFormValues) => {
+    async (data: PurchaseOrderMutationPayload) => {
       setApiError(EMPTY_STRING);
       setApiMessage(EMPTY_STRING);
 
@@ -243,7 +243,9 @@ const OrdersPage = () => {
     });
   }, [filterValues, purchaseOrders, searchValue]);
 
-  const orderFormInitialValues = useMemo<OrderFormValues | undefined>(() => {
+  const orderFormInitialValues = useMemo<
+    PurchaseOrderMutationPayload | undefined
+  >(() => {
     if (!selectedOrder) return undefined;
 
     return {
@@ -267,21 +269,21 @@ const OrdersPage = () => {
       },
       {
         label: t("orders.status_pending"),
-        value: "Pending",
+        value: OrderStatusEnum.PENDING,
       },
       {
         label: t("orders.status_received"),
-        value: "Received",
+        value: OrderStatusEnum.RECEIVED,
       },
       {
         label: t("orders.status_cancelled"),
-        value: "Cancelled",
+        value: OrderStatusEnum.CANCELLED,
       },
-    ],
+    ] as const,
     [t],
   );
 
-  const purchaseOrderColumns = useMemo((): ColumnType<PurchaseOrderRow>[] => {
+  const purchaseOrderColumns = useMemo((): BaseTableColumn<PurchaseOrderRow>[] => {
     return [
       {
         title: t("orders.po_number"),
@@ -330,9 +332,9 @@ const OrdersPage = () => {
         render: (_, record) => (
           <span
             className={cx("status", {
-              statusPending: record.status === "Pending",
-              statusReceived: record.status === "Received",
-              statusCancelled: record.status === "Cancelled",
+              statusPending: record.status === OrderStatusEnum.PENDING,
+              statusReceived: record.status === OrderStatusEnum.RECEIVED,
+              statusCancelled: record.status === OrderStatusEnum.CANCELLED,
             })}
           >
             {t(`orders.status_${record.status.toLowerCase()}`)}
@@ -412,14 +414,13 @@ const OrdersPage = () => {
                     {isChecked?.status && (
                       <div className={cx("contentFilterWrap")}>
                         <BaseSelect
-                          name="status"
                           options={purchaseOrderStatusOptions}
                           height={DEFAULT_FILTER_SELECT_HEIGHT}
                           value={valueFilter.status}
                           placeholder={t("orders.status")}
-                          onChange={({ value }, name) => {
+                          onChange={({ value }) => {
                             onChange({
-                              name: name as keyof PurchaseOrderFilterValues,
+                              name: "status",
                               value,
                             });
                           }}

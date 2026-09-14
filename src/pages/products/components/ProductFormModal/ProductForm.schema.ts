@@ -39,6 +39,3 @@ export const productFormSchema = (t: TFunction) =>
 
     description: z.string().trim(),
   });
-
-// ===== Types =====
-export type ProductFormSchema = z.infer<ReturnType<typeof productFormSchema>>;

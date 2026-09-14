@@ -7,11 +7,12 @@ import type { ProductRow } from "@/features/products/product.types";
 import type {
   DashboardChartItem,
   DashboardLowStockProduct,
-} from "./types";
+} from "./dashboard.types";
 
 // ===== Others =====
 import { getProductStatus } from "@/features/products/product.helpers";
-import { PRODUCT_CATEGORY_OPTIONS } from "@/utils/constants";
+import { PRODUCT_CATEGORY_OPTIONS, PRODUCT_STATUS } from "@/utils/constants";
+import { OrderStatusEnum } from "@/utils/enum";
 import {
   DASHBOARD_LOW_STOCK_LIMIT,
   DASHBOARD_PRODUCT_CHART_LIMIT,
@@ -19,16 +20,16 @@ import {
 } from "./constants";
 
 const PURCHASE_ORDER_STATUSES: PurchaseOrderStatus[] = [
-  "Pending",
-  "Received",
-  "Cancelled",
+  OrderStatusEnum.PENDING,
+  OrderStatusEnum.RECEIVED,
+  OrderStatusEnum.CANCELLED,
 ];
 
 export const getStockAlertProducts = (
   products: ProductRow[],
 ): ProductRow[] => {
   return products.filter(
-    (product) => getProductStatus(product.stock) !== "InStock",
+    (product) => getProductStatus(product.stock) !== PRODUCT_STATUS.IN_STOCK,
   );
 };
 

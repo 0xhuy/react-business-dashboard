@@ -1,4 +1,4 @@
-const modules = import.meta.glob(
+const modules = import.meta.glob<string>(
   "@/assets/images/**/*.{png,jpg,jpeg,webp,svg}",
   {
     eager: true,
@@ -22,4 +22,4 @@ const images = Object.fromEntries(
   }),
 );
 
-export default images as Record<string, string>;
+export default images;

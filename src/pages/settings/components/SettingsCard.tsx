@@ -4,17 +4,29 @@
 
 // ===== Libs =====
 import classNames from "classnames/bind";
+import type { ReactNode } from "react";
 
 // ===== Components, Images, Icons =====
 import { IconArrow } from "@/assets";
 
 // ===== Others =====
-import type { SettingsCardProps } from "../types";
+import type { SettingsSection } from "@/utils/constants";
 
 // ===== Styles =====
 import styles from "./SettingsCard.module.scss";
 
 const cx = classNames.bind(styles);
+
+type SettingsCardProps = {
+  section: SettingsSection;
+  contentId: string;
+  icon: string;
+  title: string;
+  description: string;
+  isOpen: boolean;
+  children: ReactNode;
+  onToggle: (section: SettingsSection) => void;
+};
 
 // ===== Component =====
 const SettingsCard = ({

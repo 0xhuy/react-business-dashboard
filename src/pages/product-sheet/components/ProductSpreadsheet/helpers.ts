@@ -20,8 +20,11 @@ import {
 } from "@/pages/product-sheet/helpers";
 import type {
   BuildProductSheetRowsParams,
-} from "./types";
-import type { ProductSheetColumn, ProductSheetRow } from "../../types";
+} from "./ProductSpreadsheet.types";
+import type {
+  ProductSheetColumn,
+  ProductSheetRow,
+} from "../../product-sheet.types";
 
 /**
  * Marks a ReactGrid cell as read-only.

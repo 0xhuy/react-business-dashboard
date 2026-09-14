@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { Tooltip } from "react-tooltip";
 
 // ===== Types =====
-import type { BaseTooltipProps } from "./types";
+import type { BaseTooltipProps } from "./BaseTooltip.types";
 
 // ===== Styles =====
 import styles from "./BaseTooltip.module.scss";

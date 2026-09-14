@@ -6,8 +6,6 @@
 import {
   configureStore,
   combineReducers,
-  type Action,
-  type ThunkAction,
 } from "@reduxjs/toolkit";
 
 // ===== Reducers =====
@@ -52,12 +50,5 @@ const store = makeStore();
 export type AppDispatch = typeof store.dispatch;
 
 export type RootState = ReturnType<typeof store.getState>;
-
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->;
 
 export default store;

@@ -22,10 +22,10 @@ import {
   SETTINGS_ROUTE_BY_ROLE,
   SETTINGS_SECTION,
 } from "@/utils/constants";
+import type { SettingsSection } from "@/utils/constants";
 import { logoutAuthThunk } from "@/redux/thunks/auth/authThunk";
 import { useAppDispatch, useAuth, useNotifications } from "@/redux/hooks";
 import useNotificationSubscription from "@/features/notifications/hooks/useNotificationSubscription";
-import type { SettingsSection } from "@/features/settings/settings.types";
 
 // ===== Styles =====
 import styles from "./Header.module.scss";

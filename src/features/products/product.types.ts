@@ -2,7 +2,10 @@
 // PRODUCT TYPES
 // ============================================================
 
-export type ProductStatus = "InStock" | "LowStock" | "OutOfStock";
+import { PRODUCT_STATUS } from "@/utils/constants/product.constants";
+
+export type ProductStatus =
+  (typeof PRODUCT_STATUS)[keyof typeof PRODUCT_STATUS];
 
 export type ProductRow = {
   id: string;
@@ -24,5 +27,3 @@ export type ProductFilterValues = {
   category?: ProductRow["category"] | "all" | "";
   status?: ProductStatus | "all" | "";
 };
-
-export type ProductFormValues = ProductMutationPayload;

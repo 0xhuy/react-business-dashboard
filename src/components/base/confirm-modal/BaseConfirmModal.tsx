@@ -6,7 +6,7 @@ import classNames from "classnames/bind";
 import { BaseButton, BaseModal } from "@/components";
 
 // ===== Others =====
-import type { BaseConfirmModalProps } from "./types";
+import type { BaseConfirmModalProps } from "./BaseConfirmModal.types";
 import styles from "./BaseConfirmModal.module.scss";
 
 const cx = classNames.bind(styles);

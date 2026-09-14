@@ -1,13 +1,13 @@
 // Others
 import { WHITE_OPACITY_50 } from "@/utils/constants/color";
 
-type Props = {
+type IconArrowProps = {
   strokePath?: string;
   width?: number | string;
   height?: number | string;
 };
 
-const IconArrow = (props: Props) => {
+const IconArrow = (props: IconArrowProps) => {
   // ===== Destructuring =====
   const { strokePath = WHITE_OPACITY_50, width = 24, height = 24 } = props;
 

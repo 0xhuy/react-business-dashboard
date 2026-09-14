@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 
 // ===== Types =====
-import type { BaseLoadingProps } from "./types";
+import type { BaseLoadingProps } from "./BaseLoading.types";
 
 // ===== Styles =====
 import styles from "./BaseLoading.module.scss";

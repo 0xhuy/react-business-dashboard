@@ -4,7 +4,6 @@ import { useAppSelector } from "@/redux/hooks";
 
 // ===== Others =====
 import { authRouteAbsolute } from "@/utils/constants";
-import { Role } from "@/utils/enum/role.enum";
 import { getRedirectByRole } from "./redirect";
 
 // ===== Component =====
@@ -14,7 +13,7 @@ export const PublicRoute = () => {
   const redirectPath = location.state?.from?.pathname;
   // ===== Selectors =====
   const session = useAppSelector((state) => state.auth.session);
-  const role = useAppSelector((state) => state.auth.role) as Role | null;
+  const role = useAppSelector((state) => state.auth.role);
   const loading = useAppSelector((state) => state.auth.loading);
 
   // ===== Render =====

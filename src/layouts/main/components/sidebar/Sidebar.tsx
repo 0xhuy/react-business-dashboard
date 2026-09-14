@@ -93,7 +93,7 @@ const Sidebar = () => {
   }, [isCollapsed, isMobile]);
 
   // ===== Derived =====
-  const menuGroups = role ? routeGroupsByRole[role as Role] : [];
+  const menuGroups = role ? routeGroupsByRole[role] : [];
 
   // ===== Handlers =====
   const handleToggleSidebar = () => {
@@ -122,7 +122,7 @@ const Sidebar = () => {
   const handleLogoClick = () => {
     if (!role) return;
 
-    navigate(getRedirectByRole(role as Role));
+    navigate(getRedirectByRole(role));
     handleCollapseSidebar();
   };
 

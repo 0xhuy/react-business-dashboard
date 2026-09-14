@@ -1,3 +1,9 @@
+export const PRODUCT_STATUS = {
+  IN_STOCK: "InStock",
+  LOW_STOCK: "LowStock",
+  OUT_OF_STOCK: "OutOfStock",
+} as const;
+
 export const PRODUCT_CATEGORY_OPTIONS = [
   {
     label: "products.category_electronics",

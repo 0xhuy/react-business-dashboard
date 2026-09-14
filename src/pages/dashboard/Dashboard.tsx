@@ -37,7 +37,8 @@ import {
 import { DASHBOARD_CONFIG_BY_ROLE } from "./constants";
 
 // ===== Types =====
-import type { DashboardStatisticCard } from "./types";
+import type { DashboardStatisticCard } from "./dashboard.types";
+import { UserStatusEnum } from "@/utils/enum";
 
 // ===== Styles =====
 import styles from "./Dashboard.module.scss";
@@ -152,7 +153,7 @@ const DashboardPage = () => {
       cards.push({
         title: t("dashboard.users"),
         value: numberFormatter.format(
-          users.filter((user) => user.status === "Active").length,
+          users.filter((user) => user.status === UserStatusEnum.ACTIVE).length,
         ),
         description: t("dashboard.active_users"),
       });

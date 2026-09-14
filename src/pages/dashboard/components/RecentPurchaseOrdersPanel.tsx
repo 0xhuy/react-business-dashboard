@@ -9,14 +9,17 @@ import type { PurchaseOrderRow } from "@/features/orders/order.types";
 // ===== Styles =====
 import styles from "../Dashboard.module.scss";
 
-type Props = {
+type RecentPurchaseOrdersPanelProps = {
   orders: PurchaseOrderRow[];
   formatCurrency: (value: number) => string;
 };
 
 const cx = classNames.bind(styles);
 
-const RecentPurchaseOrdersPanel = ({ orders, formatCurrency }: Props) => {
+const RecentPurchaseOrdersPanel = ({
+  orders,
+  formatCurrency,
+}: RecentPurchaseOrdersPanelProps) => {
   const { t } = useTranslation();
 
   return (

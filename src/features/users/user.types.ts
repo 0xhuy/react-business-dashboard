@@ -1,6 +1,8 @@
-export type UserRole = "Admin" | "Staff" | "Viewer";
+import type { UserRoleEnum, UserStatusEnum } from "@/utils/enum";
 
-export type UserStatus = "Active" | "Inactive";
+export type UserRole = UserRoleEnum;
+
+export type UserStatus = UserStatusEnum;
 
 export type UserRow = {
   id: string;
@@ -22,13 +24,3 @@ export type UserFilterValues = {
   role?: UserRole | "all" | "";
   status?: UserStatus | "all" | "";
 };
-
-export type UserFormValues = UserMutationPayload & {
-  password: string;
-  confirmPassword: string;
-};
-
-export type UserFormInitialValues = Omit<
-  UserFormValues,
-  "password" | "confirmPassword"
->;

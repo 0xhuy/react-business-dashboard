@@ -16,6 +16,7 @@ import type {
 } from "./settings.types";
 import { ERROR_CODE } from "@/utils/constants";
 import { createDomainError } from "@/utils/errors";
+import { getLanguage } from "@/utils/helper";
 
 // ===== Types =====
 type ProfileRecord = {
@@ -35,7 +36,7 @@ const mapSettings = (
   settings: UserSettingsRecord | null,
 ): SettingsData => ({
   fullName: profile.full_name,
-  language: settings?.language ?? DEFAULT_SETTINGS_LANGUAGE,
+  language: getLanguage(settings?.language ?? DEFAULT_SETTINGS_LANGUAGE),
   notifications: {
     emailNotifications:
       settings?.email_notifications ??

@@ -10,7 +10,7 @@ import {
   MIN_WIDTH_NUMBER,
 } from "@/utils/constants";
 import { KeyTableEnum } from "@/utils/enum";
-import type { BaseTableProps } from "./type";
+import type { BaseTableProps } from "./BaseTable.types";
 
 // ===== Components =====
 import OverflowTooltip from "./component/OverflowTooltip";
@@ -21,9 +21,7 @@ import styles from "./BaseTable.module.scss";
 
 const cx = classNames.bind(styles);
 
-const BaseTable = <T extends Record<string, unknown>>(
-  props: BaseTableProps<T>,
-) => {
+const BaseTable = <T extends object>(props: BaseTableProps<T>) => {
   // ===== Props =====
   const { dataSource = [], columns, typeStyle, onClickRow } = props;
 

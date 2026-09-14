@@ -16,12 +16,27 @@ import {
   SETTINGS_SECTION_CONTENT_ID,
   SETTINGS_SECTION_ICON,
 } from "@/utils/constants";
-import type { ProfileSettingsCardProps } from "../types";
+import type { SettingsSection } from "@/utils/constants";
 
 // ===== Styles =====
 import styles from "./SettingsCard.module.scss";
 
 const cx = classNames.bind(styles);
+
+type ProfileSettingsCardProps = {
+  fullName: string;
+  email: string;
+  isOpen: boolean;
+  isFullNameTouched: boolean;
+  isValid: boolean;
+  hasChanges: boolean;
+  isSaving: boolean;
+  isSaved: boolean;
+  onToggle: (section: SettingsSection) => void;
+  onFullNameBlur: () => void;
+  onFullNameChange: (value: string) => void;
+  onSave: () => void;
+};
 
 // ===== Component =====
 const ProfileSettingsCard = ({

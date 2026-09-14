@@ -6,18 +6,18 @@ import { useTranslation } from "react-i18next";
 import { getProductStatus } from "@/features/products/product.helpers";
 
 // ===== Types =====
-import type { DashboardLowStockProduct } from "../types";
+import type { DashboardLowStockProduct } from "../dashboard.types";
 
 // ===== Styles =====
 import styles from "../Dashboard.module.scss";
 
-type Props = {
+type LowStockPanelProps = {
   products: DashboardLowStockProduct[];
 };
 
 const cx = classNames.bind(styles);
 
-const LowStockPanel = ({ products }: Props) => {
+const LowStockPanel = ({ products }: LowStockPanelProps) => {
   const { t } = useTranslation();
 
   return (

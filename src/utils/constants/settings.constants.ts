@@ -17,7 +17,11 @@ export const SETTINGS_SECTION = {
   NOTIFICATIONS: "notifications",
 } as const;
 
-export const SETTINGS_SECTIONS = Object.values(SETTINGS_SECTION);
+export type SettingsSection =
+  (typeof SETTINGS_SECTION)[keyof typeof SETTINGS_SECTION];
+
+export const SETTINGS_SECTIONS: readonly SettingsSection[] =
+  Object.values(SETTINGS_SECTION);
 
 export const SETTINGS_SECTION_CONTENT_ID = {
   PROFILE: `${SETTINGS_SECTION.PROFILE}-content`,
@@ -58,4 +62,4 @@ export const SETTINGS_LANGUAGE_OPTIONS = [
     label: "settings.language_vietnamese",
     value: LanguageEnum.VI,
   },
-];
+] as const;

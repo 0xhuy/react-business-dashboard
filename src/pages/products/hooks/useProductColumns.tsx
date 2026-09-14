@@ -8,7 +8,7 @@ import { getProductStatus } from "@/features/products/product.helpers";
 import type { ProductRow } from "@/features/products/product.types";
 import { KeyTableEnum } from "@/utils/enum";
 import { getCurrencyFormatter } from "@/utils/helper";
-import type { ColumnType } from "@/utils/interfaces";
+import type { BaseTableColumn } from "@/components/base";
 
 import styles from "../ProductsPage.module.scss";
 
@@ -17,7 +17,7 @@ const cx = classNames.bind(styles);
 export const useProductColumns = (
   onEdit: (product: ProductRow) => void,
   onDelete: (product: ProductRow) => void,
-): ColumnType<ProductRow>[] => {
+): BaseTableColumn<ProductRow>[] => {
   const { t, i18n } = useTranslation();
 
   return useMemo(() => {

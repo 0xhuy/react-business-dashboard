@@ -1,5 +1,6 @@
 // ===== Libs =====
 import type { Column } from "@silevis/reactgrid";
+import type { ProductStatus } from "@/features/products/product.types";
 
 // ===== Others =====
 import { PRODUCT_SHEET_EXCEL_COLUMN_KEYS } from "@/utils/constants";
@@ -11,7 +12,7 @@ export type ProductSheetRow = {
   category: string;
   price: number;
   stock: number;
-  status: "InStock" | "LowStock" | "OutOfStock" | "";
+  status: ProductStatus | "";
   inventoryValue: number;
   description: string;
 };

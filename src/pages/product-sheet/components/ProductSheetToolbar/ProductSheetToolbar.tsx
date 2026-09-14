@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 
 import { BaseButton } from "@/components";
 import ProductSheetSearch from "../ProductSheetSearch/ProductSheetSearch";
-import type { ProductSheetSearchProps } from "../ProductSheetSearch/types";
+import type { ProductSheetSearchProps } from "../ProductSheetSearch/ProductSheetSearch.types";
 
 import styles from "../../ProductSheetPage.module.scss";
 

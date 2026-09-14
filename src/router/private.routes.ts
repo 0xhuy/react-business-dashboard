@@ -19,12 +19,12 @@ import {
 import { icons } from "@/assets";
 
 // ===== Types =====
-import type { IRouteModel } from "@/utils/interfaces";
+import type { RouteConfig } from "./router.types";
 
 // ============================================================
 // ADMIN ROUTES
 // ============================================================
-const privateAdminRouteMenus: IRouteModel[] = [
+const privateAdminRouteMenus: RouteConfig[] = [
   {
     path: adminRouteAbsolute.dashboard,
     component: DashboardPage,
@@ -95,7 +95,7 @@ export const privateAdminRouteGroups = [
   },
 ];
 
-export const privateAdminRoutes: IRouteModel[] = [
+export const privateAdminRoutes: RouteConfig[] = [
   {
     path: adminRouteAbsolute.dashboard,
     component: DashboardPage,
@@ -137,7 +137,7 @@ export const privateAdminRoutes: IRouteModel[] = [
 // ============================================================
 // STAFF ROUTES
 // ============================================================
-const privateStaffRouteMenus: IRouteModel[] = [
+const privateStaffRouteMenus: RouteConfig[] = [
   {
     path: staffRouteAbsolute.dashboard,
     component: DashboardPage,
@@ -187,7 +187,7 @@ export const privateStaffRouteGroups = [
   },
 ];
 
-export const privateStaffRoutes: IRouteModel[] = [
+export const privateStaffRoutes: RouteConfig[] = [
   {
     path: staffRouteAbsolute.dashboard,
     component: DashboardPage,
@@ -221,7 +221,7 @@ export const privateStaffRoutes: IRouteModel[] = [
 // ============================================================
 // VIEWER ROUTES
 // ============================================================
-const privateViewerRouteMenus: IRouteModel[] = [
+const privateViewerRouteMenus: RouteConfig[] = [
   {
     path: viewerRouteAbsolute.dashboard,
     component: DashboardPage,
@@ -257,7 +257,7 @@ export const privateViewerRouteGroups = [
   },
 ];
 
-export const privateViewerRoutes: IRouteModel[] = [
+export const privateViewerRoutes: RouteConfig[] = [
   {
     path: viewerRouteAbsolute.dashboard,
     component: DashboardPage,

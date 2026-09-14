@@ -1,8 +1,8 @@
-type Props = {
+type IconDropdownHeaderProps = {
   className?: string;
 };
 
-const IconDropdownHeader = ({ className }: Props) => (
+const IconDropdownHeader = ({ className }: IconDropdownHeaderProps) => (
   <svg
     className={className}
     viewBox="0 0 18 18"

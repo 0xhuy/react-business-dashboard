@@ -3,14 +3,14 @@ import { DEFAULT_ICON_SIZE } from "@/utils/constants";
 import { SLATE500 } from "@/utils/constants/color";
 
 // ===== Types =====
-type Props = {
+type IconCloseProps = {
   strokePath?: string;
   width?: number | string;
   height?: number | string;
   className?: string;
 };
 
-const IconClose = (props: Props) => {
+const IconClose = (props: IconCloseProps) => {
   // ===== Props =====
   const {
     strokePath = SLATE500,

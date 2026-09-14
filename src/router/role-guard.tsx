@@ -4,22 +4,22 @@ import type { ReactNode } from "react";
 
 // ===== Others =====
 import { useAppSelector } from "@/redux/hooks";
-import { Role } from "@/utils/enum/role.enum";
+import type { Role } from "@/utils/enum/role.enum";
 import { getRedirectByRole } from "./redirect";
 
 // ===== Types =====
-type Props = {
+type RoleGuardProps = {
   allow: Role[];
   children: ReactNode;
 };
 
 // ===== Component =====
-export const RoleGuard = (props: Props) => {
+export const RoleGuard = (props: RoleGuardProps) => {
   // ===== Props =====
   const { allow, children } = props;
 
   // ===== Selectors =====
-  const role = useAppSelector((state) => state.auth.role) as Role | null;
+  const role = useAppSelector((state) => state.auth.role);
 
   if (!role) {
     return null;

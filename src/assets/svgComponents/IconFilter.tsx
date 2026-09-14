@@ -1,11 +1,11 @@
-type Props = {
+type IconFilterProps = {
   strokePath?: string;
   width?: number | string;
   height?: number | string;
   className?: string;
 };
 
-const IconFilter = (props: Props) => {
+const IconFilter = (props: IconFilterProps) => {
   // ===== Props =====
   const {
     strokePath = "currentColor",

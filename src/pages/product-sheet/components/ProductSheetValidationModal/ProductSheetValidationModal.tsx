@@ -5,7 +5,7 @@ import { BaseModal } from "@/components";
 import type {
   ProductSheetColumnLabels,
   ProductSheetImportValidationError,
-} from "../../types";
+} from "../../product-sheet.types";
 
 import styles from "../../ProductSheetPage.module.scss";
 

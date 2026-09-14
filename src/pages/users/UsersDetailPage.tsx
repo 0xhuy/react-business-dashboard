@@ -12,7 +12,7 @@ import UsersFormModal from "./components/UsersFormModal/UsersFormModal";
 import type {
   UserFormInitialValues,
   UserFormValues,
-} from "@/features/users/user.types";
+} from "./components/UsersFormModal/UsersFormModal.types";
 import { EMPTY_STRING } from "@/utils/constants";
 import { IconArrow } from "@/assets";
 import { useAppDispatch, useAuth, useUsers } from "@/redux/hooks";
@@ -21,6 +21,7 @@ import { getUsersThunk, updateUserThunk } from "@/redux/thunks/users/userThunk";
 // ===== Styles =====
 import styles from "./UsersDetailPage.module.scss";
 import { getErrorMessage } from "@/utils/errors";
+import { UserStatusEnum } from "@/utils/enum";
 
 const cx = classNames.bind(styles);
 
@@ -175,8 +176,8 @@ const UsersDetailPage = () => {
 
               <span
                 className={cx("status", {
-                  statusActive: user.status === "Active",
-                  statusInactive: user.status === "Inactive",
+                  statusActive: user.status === UserStatusEnum.ACTIVE,
+                  statusInactive: user.status === UserStatusEnum.INACTIVE,
                 })}
               >
                 {t(`users.status_${user.status.toLowerCase()}`)}
@@ -255,8 +256,8 @@ const UsersDetailPage = () => {
                     <span>{t("users.status")}</span>
                     <p
                       className={cx("status", {
-                        statusActive: user.status === "Active",
-                        statusInactive: user.status === "Inactive",
+                        statusActive: user.status === UserStatusEnum.ACTIVE,
+                        statusInactive: user.status === UserStatusEnum.INACTIVE,
                       })}
                     >
                       {t(`users.status_${user.status.toLowerCase()}`)}

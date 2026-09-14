@@ -2,14 +2,14 @@
 import { DEFAULT_ICON_SIZE } from "@/utils/constants";
 import { WHITE } from "@/utils/constants/color";
 
-type Props = {
+type IconCheckProps = {
   strokePath?: string;
   width?: number | string;
   height?: number | string;
   className?: string;
 };
 
-const IconCheck = (props: Props) => {
+const IconCheck = (props: IconCheckProps) => {
   // ===== Props =====
   const {
     strokePath = WHITE,

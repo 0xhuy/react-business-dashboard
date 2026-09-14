@@ -9,7 +9,7 @@ import { searchProductSheetRows } from "../helpers";
 import type {
   ProductSheetHighlightedRowVariant,
   ProductSheetRow,
-} from "../types";
+} from "../product-sheet.types";
 
 export const useProductSheetSearch = (
   rows: ProductSheetRow[],

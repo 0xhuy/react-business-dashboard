@@ -9,7 +9,6 @@ import {
   authRouteAbsolute,
   PASSWORD_RECOVERY_PENDING_STORAGE_KEY,
 } from "@/utils/constants";
-import { Role } from "@/utils/enum";
 import { BaseLoading } from "@/components";
 
 // ===== Component =====
@@ -18,7 +17,7 @@ export const ProtectedRoute = () => {
   const location = useLocation();
   // ===== Selectors =====
   const session = useAppSelector((state) => state.auth.session);
-  const role = useAppSelector((state) => state.auth.role) as Role | null;
+  const role = useAppSelector((state) => state.auth.role);
   const loading = useAppSelector((state) => state.auth.loading);
 
   // ===== Render =====

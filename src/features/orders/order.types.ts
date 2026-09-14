@@ -1,4 +1,6 @@
-export type PurchaseOrderStatus = "Pending" | "Received" | "Cancelled";
+import type { OrderStatusEnum } from "@/utils/enum";
+
+export type PurchaseOrderStatus = OrderStatusEnum;
 
 export type PurchaseOrderItem = {
   id?: string;
@@ -28,22 +30,8 @@ export type PurchaseOrderMutationPayload = {
 };
 
 export type PurchaseOrderFilterValues = {
-  status?: string;
+  status?: PurchaseOrderStatus | "all" | "";
   orderDate?: boolean;
   fromDate?: string;
   toDate?: string;
-};
-
-export type OrderItemFormValues = {
-  productSku: string;
-  quantity: number;
-  unitPrice: number;
-};
-
-export type OrderFormValues = {
-  supplier: string;
-  orderDate: string;
-  status: PurchaseOrderStatus;
-  note: string;
-  items: OrderItemFormValues[];
 };

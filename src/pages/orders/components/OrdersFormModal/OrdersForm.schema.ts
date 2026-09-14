@@ -22,6 +22,3 @@ export const orderFormSchema = (t: TFunction) =>
       )
       .min(1, t("common.required")),
   });
-
-// ===== Types =====
-export type OrderFormSchema = z.infer<ReturnType<typeof orderFormSchema>>;

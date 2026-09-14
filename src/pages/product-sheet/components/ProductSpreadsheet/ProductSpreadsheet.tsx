@@ -29,7 +29,7 @@ import {
   PRODUCT_SHEET_HEADER_ROW_OFFSET,
 } from "@/utils/constants";
 import { applyProductSheetChanges, buildProductSheetRows } from "./helpers";
-import type { ProductSpreadsheetProps } from "./types";
+import type { ProductSpreadsheetProps } from "./ProductSpreadsheet.types";
 
 // ===== Styles =====
 import "@silevis/reactgrid/styles.css";

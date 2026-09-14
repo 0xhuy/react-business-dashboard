@@ -1,14 +1,19 @@
 // ===== Libs =====
 import type { ReactNode } from "react";
 
-// ===== Others =====
-import type { IFilterValueChange } from "@/utils/interfaces";
-
 // ===== Types =====
+export type FilterValueChange<T> = {
+  [K in keyof T]: {
+    index?: number;
+    name: K;
+    value: T[K];
+  };
+}[keyof T];
+
 export type BaseFilterChildrenActions<T> = {
   isChecked?: { [K in keyof T]?: boolean };
   valueFilter: T;
-  onChange: (data: IFilterValueChange<T>) => void;
+  onChange: (data: FilterValueChange<T>) => void;
   onCheckboxChange: (key: keyof T, checked: boolean) => void;
 };
 

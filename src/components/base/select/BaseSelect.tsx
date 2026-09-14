@@ -13,10 +13,16 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 // ===== Others =====
-import { DEFAULT_SELECT_HEIGHT, MAX_WIDTH_PERCENT } from "@/utils/constants";
-import { ASTERISK_SYMBOL, EMPTY_STRING } from "@/utils/constants";
-import type { IBaseOption } from "@/utils/interfaces";
-import type { BaseSelectProps } from "./types";
+import {
+  ASTERISK_SYMBOL,
+  DEFAULT_SELECT_HEIGHT,
+  EMPTY_STRING,
+  MAX_WIDTH_PERCENT,
+} from "@/utils/constants";
+import type {
+  BaseSelectOption,
+  BaseSelectProps,
+} from "./BaseSelect.types";
 import { SLATE500 } from "@/utils/constants/color";
 
 // ===== Styles, images, icons =====
@@ -25,7 +31,9 @@ import { IconArrow } from "@/assets";
 
 const cx = classNames.bind(styles);
 
-const BaseSelect = (props: BaseSelectProps) => {
+const BaseSelect = <Value extends string = string,>(
+  props: BaseSelectProps<Value>,
+) => {
   // ===== Props =====
   const {
     width = MAX_WIDTH_PERCENT,
@@ -35,7 +43,6 @@ const BaseSelect = (props: BaseSelectProps) => {
     placeholder,
     errorMessage,
     options,
-    name,
     value,
     disabled = false,
     onChange,
@@ -46,7 +53,7 @@ const BaseSelect = (props: BaseSelectProps) => {
   const { t } = useTranslation();
 
   // ===== Derived =====
-  const selectOption = useMemo<IBaseOption | undefined>(() => {
+  const selectOption = useMemo<BaseSelectOption<Value> | undefined>(() => {
     if (!value) {
       return undefined;
     }
@@ -55,8 +62,8 @@ const BaseSelect = (props: BaseSelectProps) => {
   }, [value, options]);
 
   // ===== Handlers =====
-  const handleOptionChange = (option: IBaseOption) => {
-    onChange?.(option, name ?? EMPTY_STRING);
+  const handleOptionChange = (option: BaseSelectOption<Value>) => {
+    onChange?.(option);
   };
 
   return (

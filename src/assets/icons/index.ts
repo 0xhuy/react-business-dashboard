@@ -16,10 +16,8 @@ const icons = Object.fromEntries(
     return [name, mod];
   }),
 );
-const typedIcons = icons as Record<string, string>;
+export type IconName = keyof typeof icons;
 
-export type IconName = keyof typeof typedIcons;
+export const getIcon = (name: IconName): string => icons[name];
 
-export const getIcon = (name: IconName): string => typedIcons[name];
-
-export default typedIcons;
+export default icons;

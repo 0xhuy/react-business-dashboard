@@ -2,6 +2,8 @@
 // SETTINGS TYPES
 // ============================================================
 
+import type { LanguageEnum } from "@/utils/enum";
+
 // ===== Types =====
 export type NotificationSettings = {
   emailNotifications: boolean;
@@ -11,14 +13,14 @@ export type NotificationSettings = {
 
 export type SettingsData = {
   fullName: string;
-  language: string;
+  language: LanguageEnum;
   notifications: NotificationSettings;
 };
 
 export type UpdateSettingsPayload = {
   userId: string;
   fullName?: string;
-  language?: string;
+  language?: LanguageEnum;
   notifications?: NotificationSettings;
 };
 
@@ -27,9 +29,3 @@ export type ChangePasswordPayload = {
   currentPassword: string;
   newPassword: string;
 };
-
-export type SettingsSection =
-  | "profile"
-  | "security"
-  | "preferences"
-  | "notifications";

@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 import type { MouseEvent } from "react";
 
 // ===== Others =====
-import type { BaseButtonProps } from "./types";
+import type { BaseButtonProps } from "./BaseButton.types";
 import {
   DEFAULT_BUTTON_SIZE,
   DEFAULT_BUTTON_TYPE,

@@ -17,12 +17,25 @@ import {
   SETTINGS_SECTION_CONTENT_ID,
   SETTINGS_SECTION_ICON,
 } from "@/utils/constants";
-import type { PreferencesSettingsCardProps } from "../types";
+import type { SettingsSection } from "@/utils/constants";
+import type { LanguageEnum } from "@/utils/enum";
+import { getLanguage } from "@/utils/helper";
 
 // ===== Styles =====
 import styles from "./SettingsCard.module.scss";
 
 const cx = classNames.bind(styles);
+
+type PreferencesSettingsCardProps = {
+  language: LanguageEnum;
+  isOpen: boolean;
+  hasChanges: boolean;
+  isSaving: boolean;
+  isSaved: boolean;
+  onToggle: (section: SettingsSection) => void;
+  onLanguageChange: (value: LanguageEnum) => void;
+  onSave: () => void;
+};
 
 // ===== Component =====
 const PreferencesSettingsCard = ({
@@ -49,11 +62,10 @@ const PreferencesSettingsCard = ({
     >
       <div className={cx("selectField")}>
         <BaseSelect
-          name="language"
           label={t("settings.language")}
           value={language}
           options={SETTINGS_LANGUAGE_OPTIONS}
-          onChange={(option) => onLanguageChange(String(option.value))}
+          onChange={(option) => onLanguageChange(getLanguage(option.value))}
         />
       </div>
 

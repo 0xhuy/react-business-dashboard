@@ -8,7 +8,7 @@ import { IconCheck } from "@/assets";
 
 // ===== Styles, images, icons =====
 import styles from "./BaseCheckbox.module.scss";
-import type { BaseCheckboxProps } from "./types";
+import type { BaseCheckboxProps } from "./BaseCheckbox.types";
 
 const cx = classNames.bind(styles);
 

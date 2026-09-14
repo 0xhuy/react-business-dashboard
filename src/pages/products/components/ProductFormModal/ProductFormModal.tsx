@@ -22,8 +22,8 @@ import {
   PRODUCT_CATEGORY_OPTIONS,
 } from "@/utils/constants";
 import { productFormSchema } from "./ProductForm.schema";
-import type { ProductFormValues } from "@/features/products/product.types";
-import type { ProductFormModalProps } from "./types";
+import type { ProductMutationPayload } from "@/features/products/product.types";
+import type { ProductFormModalProps } from "./ProductFormModal.types";
 
 // ===== Styles =====
 import styles from "./ProductFormModal.module.scss";
@@ -45,9 +45,9 @@ const ProductFormModal = (props: ProductFormModalProps) => {
     handleSubmit,
     reset,
     formState: { errors, isValid },
-  } = useForm<ProductFormValues>({
+  } = useForm<ProductMutationPayload>({
     mode: "onChange",
-    resolver: zodResolver(schema) as Resolver<ProductFormValues>,
+    resolver: zodResolver(schema) as Resolver<ProductMutationPayload>,
     defaultValues: initialValues || DEFAULT_PRODUCT_FORM_VALUES,
   });
 
@@ -64,7 +64,7 @@ const ProductFormModal = (props: ProductFormModalProps) => {
     onClose();
   };
 
-  const handleSubmitForm = (values: ProductFormValues) => {
+  const handleSubmitForm = (values: ProductMutationPayload) => {
     onSubmit(values);
   };
 
@@ -141,7 +141,6 @@ const ProductFormModal = (props: ProductFormModalProps) => {
             control={control}
             render={({ field }) => (
               <BaseSelect
-                name={field.name}
                 label={t("products.category")}
                 value={field.value}
                 options={PRODUCT_CATEGORY_OPTIONS}
@@ -194,7 +193,7 @@ const ProductFormModal = (props: ProductFormModalProps) => {
               label={t("products.description")}
               value={field.value}
               placeholder={t("products.placeholder_description")}
-              onTextareaChange={field.onChange}
+              onChange={field.onChange}
               errorMessage={errors.description?.message}
               height={120}
             />

@@ -6,7 +6,7 @@ import { IconClose } from "@/assets/svgComponents";
 
 // ===== Others =====
 import { DEFAULT_MODAL_WIDTH, EMPTY_STRING } from "@/utils/constants";
-import type { BaseModalProps } from "./types";
+import type { BaseModalProps } from "./BaseModal.types";
 
 // ===== Styles, Images, Icons =====
 import styles from "./BaseModal.module.scss";

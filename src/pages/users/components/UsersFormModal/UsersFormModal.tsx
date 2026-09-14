@@ -17,8 +17,10 @@ import {
   USER_STATUS_OPTIONS,
 } from "@/utils/constants/user.constants";
 import { createUserFormSchema } from "./UsersForm.schema";
-import type { UserFormValues } from "@/features/users/user.types";
-import type { UserFormModalProps } from "./types";
+import type {
+  UserFormModalProps,
+  UserFormValues,
+} from "./UsersFormModal.types";
 
 // ===== Styles =====
 import styles from "./UsersFormModal.module.scss";
@@ -148,7 +150,6 @@ const UsersFormModal = (props: UserFormModalProps) => {
               control={control}
               render={({ field }) => (
                 <BaseSelect
-                  name={field.name}
                   disabled={isCurrentUser}
                   label={t("users.role")}
                   value={field.value}
@@ -158,7 +159,7 @@ const UsersFormModal = (props: UserFormModalProps) => {
                   placeholder={t("users.select_role")}
                   errorMessage={errors.role?.message}
                   onChange={({ value }) => {
-                    field.onChange(value as UserFormValues["role"]);
+                    field.onChange(value);
                   }}
                 />
               )}
@@ -169,7 +170,6 @@ const UsersFormModal = (props: UserFormModalProps) => {
               control={control}
               render={({ field }) => (
                 <BaseSelect
-                  name={field.name}
                   disabled={isCurrentUser}
                   label={t("users.status")}
                   value={field.value}
@@ -179,7 +179,7 @@ const UsersFormModal = (props: UserFormModalProps) => {
                   placeholder={t("users.select_status")}
                   errorMessage={errors.status?.message}
                   onChange={({ value }) => {
-                    field.onChange(value as UserFormValues["status"]);
+                    field.onChange(value);
                   }}
                 />
               )}

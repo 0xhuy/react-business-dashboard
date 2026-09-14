@@ -1,14 +1,15 @@
 // ===== Libs =====
 import classNames from "classnames/bind";
-import { useRef } from "react";
-
-// ===== Others =====
-import type { OverflowTooltipProps } from "@/utils/interfaces/tooltip.interface";
+import { useRef, type ReactNode } from "react";
 
 // ===== Styles =====
 import styles from "./OverflowTooltip.module.scss";
 
 const cx = classNames.bind(styles);
+
+type OverflowTooltipProps = {
+  children: ReactNode;
+};
 
 const OverflowTooltip = ({ children }: OverflowTooltipProps) => {
   const ref = useRef<HTMLDivElement>(null);

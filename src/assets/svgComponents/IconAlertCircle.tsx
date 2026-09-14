@@ -1,13 +1,13 @@
 import { DEFAULT_ICON_SIZE } from "@/utils/constants";
 
-type Props = {
+type IconAlertCircleProps = {
   strokePath?: string;
   width?: number | string;
   height?: number | string;
   className?: string;
 };
 
-const IconAlertCircle = (props: Props) => {
+const IconAlertCircle = (props: IconAlertCircleProps) => {
   const {
     strokePath = "currentColor",
     width = DEFAULT_ICON_SIZE,

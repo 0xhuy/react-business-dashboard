@@ -14,6 +14,7 @@ import { GET_AUTH, LOGOUT_AUTH } from "@/utils/constants";
 import authApi from "@/features/auth/auth.api";
 import { ProfileStatusEnum, Role } from "@/utils/enum";
 import { getErrorTranslationKey } from "@/utils/errors";
+import { isObjectValue } from "@/utils/helper";
 
 type AuthProfile = {
   role: Role;
@@ -29,9 +30,7 @@ const getAuthProfile = async (userId: string): Promise<AuthProfile> => {
 
   if (error) throw error;
 
-  const role = Object.values(Role).includes(data?.role as Role)
-    ? (data?.role as Role)
-    : Role.VIEWER;
+  const role = isObjectValue(Role, data?.role) ? data.role : Role.VIEWER;
 
   return {
     role,

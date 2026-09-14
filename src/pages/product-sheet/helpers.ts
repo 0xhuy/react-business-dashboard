@@ -10,7 +10,7 @@ import type {
   ProductSheetExcelOptions,
   ProductSheetImportValidationError,
   ProductSheetRow,
-} from "./types";
+} from "./product-sheet.types";
 
 // ===== Others =====
 import {

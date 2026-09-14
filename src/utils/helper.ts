@@ -5,8 +5,20 @@ import {
   LanguageEnum,
   LanguageLocaleEnum,
 } from "./enum/language.enum";
-import type { IRouteModel } from "./interfaces";
+import type { RouteConfig } from "@/router/router.types";
 import { PRODUCT_CATEGORY_OPTIONS } from "./constants/product.constants";
+
+// ============================================================
+// TYPE GUARDS
+// ============================================================
+
+export const isObjectValue = <
+  const TObject extends Readonly<Record<string, string | number>>,
+>(
+  object: TObject,
+  value: unknown,
+): value is TObject[keyof TObject] =>
+  Object.values(object).some((item) => item === value);
 
 // ============================================================
 // ROUTE
@@ -34,7 +46,7 @@ export const isNestedRoute = (
  * @returns True when route or child route is active.
  */
 export const hasActiveChild = (
-  route: IRouteModel,
+  route: RouteConfig,
   locationPathname: string,
 ): boolean => {
   const isCurrentRoute = Boolean(

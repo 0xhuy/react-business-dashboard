@@ -1,4 +1,4 @@
-import type { DashboardConfig } from "./types";
+import type { DashboardConfig } from "./dashboard.types";
 import { Role } from "@/utils/enum";
 import {
   adminRouteAbsolute,

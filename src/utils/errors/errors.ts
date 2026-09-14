@@ -18,7 +18,16 @@ import {
 } from "@/utils/constants";
 
 // ===== Types =====
-import type { AppError, DomainError } from "@/types/error.types";
+type AppError = {
+  code: string;
+  translationKey: string;
+  status?: number;
+  retryable: boolean;
+};
+
+type DomainError = Error & {
+  code: string;
+};
 
 type ErrorLike = {
   code?: unknown;

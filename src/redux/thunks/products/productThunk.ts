@@ -9,7 +9,7 @@ import {
   SAVE_PRODUCTS,
   UPDATE_PRODUCT,
 } from "@/utils/constants";
-import type { SaveProductsPayload, UpdateProductPayload } from "./product.type";
+import type { SaveProductsPayload, UpdateProductPayload } from "./product.types";
 import { getErrorTranslationKey } from "@/utils/errors";
 
 export const getProductsThunk = createAsyncThunk(

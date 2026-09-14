@@ -24,8 +24,8 @@ import {
   ORDER_STATUS_OPTIONS,
 } from "@/utils/constants/orders.constants";
 import { orderFormSchema } from "./OrdersForm.schema";
-import type { OrderFormValues } from "@/features/orders/order.types";
-import type { OrderFormModalProps } from "./types";
+import type { PurchaseOrderMutationPayload } from "@/features/orders/order.types";
+import type { OrderFormModalProps } from "./OrdersFormModal.types";
 import { useProducts } from "@/redux/hooks";
 
 // ===== Styles =====
@@ -50,9 +50,9 @@ const OrdersFormModal = (props: OrderFormModalProps) => {
     reset,
     setValue,
     formState: { errors, isValid },
-  } = useForm<OrderFormValues>({
+  } = useForm<PurchaseOrderMutationPayload>({
     mode: "onChange",
-    resolver: zodResolver(schema) as Resolver<OrderFormValues>,
+    resolver: zodResolver(schema) as Resolver<PurchaseOrderMutationPayload>,
     defaultValues: initialValues || DEFAULT_ORDER_FORM_VALUES,
   });
 
@@ -116,7 +116,7 @@ const OrdersFormModal = (props: OrderFormModalProps) => {
   }, [append]);
 
   const handleSubmitForm = useCallback(
-    (values: OrderFormValues) => {
+    (values: PurchaseOrderMutationPayload) => {
       onSubmit(values);
     },
     [onSubmit],
@@ -201,7 +201,6 @@ const OrdersFormModal = (props: OrderFormModalProps) => {
               control={control}
               render={({ field }) => (
                 <BaseSelect
-                  name={field.name}
                   label={t("orders.status")}
                   value={field.value}
                   options={ORDER_STATUS_OPTIONS}
@@ -223,7 +222,7 @@ const OrdersFormModal = (props: OrderFormModalProps) => {
                 label={t("orders.note")}
                 value={field.value}
                 placeholder={t("orders.placeholder_note")}
-                onTextareaChange={field.onChange}
+                onChange={field.onChange}
                 errorMessage={errors.note?.message}
                 height={100}
               />
@@ -275,7 +274,6 @@ const OrdersFormModal = (props: OrderFormModalProps) => {
                       control={control}
                       render={({ field }) => (
                         <BaseSelect
-                          name={field.name}
                           value={field.value}
                           options={productOptions}
                           placeholder={t("orders.select_product")}

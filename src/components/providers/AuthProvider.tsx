@@ -18,12 +18,12 @@ import { supabase } from "@/services/supabase";
 import { authRouteAbsolute } from "@/utils/constants";
 
 // ===== Types =====
-type Props = {
+type AuthProviderProps = {
   children: React.ReactNode;
 };
 
 // ===== Component =====
-export const AuthProvider = ({ children }: Props) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   // ===== Hooks =====
   const dispatch = useAppDispatch();
   const { user } = useAuth();

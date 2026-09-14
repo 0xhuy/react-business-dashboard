@@ -12,14 +12,11 @@ export type BaseTextareaProps = {
   height?: number | string;
   borderRadius?: number | string;
   maxLength?: number;
-  messageError?: string;
   errorMessage?: string;
   className?: string;
   disabled?: boolean;
   isRequired?: boolean;
-  required?: boolean;
   onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
-  onTextareaChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
   onBlur?: FocusEventHandler<HTMLTextAreaElement>;
   onFocus?: FocusEventHandler<HTMLTextAreaElement>;
 };

@@ -11,6 +11,7 @@ import {
 import { MainLayout } from "@/layouts";
 
 // ===== Components =====
+import { ErrorFallback } from "@/components/providers/ErrorFallback";
 import { BaseLoading } from "@/components";
 
 // ===== Others =====
@@ -24,9 +25,8 @@ import { ProtectedRoute } from "./protected";
 import { PublicRoute } from "./public";
 import { Role } from "@/utils/enum/role.enum";
 import { RoleGuard } from "./role-guard";
-import type { IRouteModel } from "@/utils/interfaces";
+import type { RouteConfig } from "./router.types";
 import { NotFoundPage } from "@/pages";
-import { ErrorFallback } from "@/components/providers/ErrorFallback";
 
 const renderLazyPage = (Page: ElementType) => (
   <Suspense fallback={<BaseLoading variant="page" size="lg" />}>
@@ -35,7 +35,7 @@ const renderLazyPage = (Page: ElementType) => (
 );
 
 const createPrivateRoutes = (
-  routes: IRouteModel[],
+  routes: RouteConfig[],
   allow: Role[],
 ): RouteObject[] =>
   routes.map((route) => {
@@ -43,11 +43,7 @@ const createPrivateRoutes = (
 
     return {
       path: route.path,
-      element: (
-        <RoleGuard allow={allow}>
-          {renderLazyPage(Page)}
-        </RoleGuard>
-      ),
+      element: <RoleGuard allow={allow}>{renderLazyPage(Page)}</RoleGuard>,
     };
   });
 

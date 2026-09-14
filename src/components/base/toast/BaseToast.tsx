@@ -11,7 +11,7 @@ import { IconAlertCircle, IconCheck, IconClose } from "@/assets";
 import { DEFAULT_TOAST_DURATION } from "@/utils/constants";
 
 // ===== Types =====
-import type { BaseToastProps } from "./types";
+import type { BaseToastProps } from "./BaseToast.types";
 
 // ===== Styles =====
 import styles from "./BaseToast.module.scss";

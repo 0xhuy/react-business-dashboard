@@ -18,7 +18,7 @@ import {
   PAGINATION_JUMP_INPUT_PATTERN,
   SYMBOL_THREE_DOTS,
 } from "@/utils/constants";
-import type { BasePaginationProps } from "./type";
+import type { BasePaginationProps } from "./BasePagination.types";
 
 // ===== Styles, images, icons =====
 import styles from "./BasePagination.module.scss";

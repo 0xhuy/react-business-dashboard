@@ -1,8 +1,5 @@
 // ===== Others =====
-import type {
-  UserFilterValues,
-  UserFormValues,
-} from "@/features/users/user.types";
+import type { UserFilterValues } from "@/features/users/user.types";
 import {
   ProfileStatusEnum,
   Role,
@@ -54,16 +51,16 @@ export const USER_ROLE_OPTIONS = [
     label: UserRoleEnum.VIEWER,
     value: UserRoleEnum.VIEWER,
   },
-];
+] as const;
 
-export const DEFAULT_USER_FORM_VALUES: UserFormValues = {
+export const DEFAULT_USER_FORM_VALUES = {
   fullName: "",
   email: "",
   role: UserRoleEnum.STAFF,
   status: UserStatusEnum.ACTIVE,
   password: "",
   confirmPassword: "",
-};
+} as const;
 
 export const USER_STATUS_OPTIONS = [
   {
@@ -78,4 +75,4 @@ export const USER_STATUS_OPTIONS = [
     label: UserStatusEnum.INACTIVE,
     value: UserStatusEnum.INACTIVE,
   },
-];
+] as const;

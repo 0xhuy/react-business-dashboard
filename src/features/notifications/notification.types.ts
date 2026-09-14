@@ -1,6 +1,17 @@
-export type NotificationType = "order" | "stock" | "system";
-export type NotificationFilter = "all" | "unread";
-export type NotificationDateGroup = "today" | "yesterday" | "earlier";
+import type {
+  NOTIFICATION_DATE_GROUP,
+  NOTIFICATION_FILTER,
+  NOTIFICATION_TYPE,
+} from "@/utils/constants/notification.constants";
+
+export type NotificationType =
+  (typeof NOTIFICATION_TYPE)[keyof typeof NOTIFICATION_TYPE];
+
+export type NotificationFilter =
+  (typeof NOTIFICATION_FILTER)[keyof typeof NOTIFICATION_FILTER];
+
+export type NotificationDateGroup =
+  (typeof NOTIFICATION_DATE_GROUP)[keyof typeof NOTIFICATION_DATE_GROUP];
 
 export type NotificationItem = {
   id: string;

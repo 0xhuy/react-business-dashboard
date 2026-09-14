@@ -17,12 +17,25 @@ import {
   SETTINGS_SECTION_CONTENT_ID,
   SETTINGS_SECTION_ICON,
 } from "@/utils/constants";
-import type { NotificationsSettingsCardProps } from "../types";
+import type { SettingsSection } from "@/utils/constants";
+import type { NotificationSettings } from "@/features/settings/settings.types";
+import type { NotificationSettingKey } from "../settings.types";
 
 // ===== Styles =====
 import styles from "./SettingsCard.module.scss";
 
 const cx = classNames.bind(styles);
+
+type NotificationsSettingsCardProps = {
+  notifications: NotificationSettings;
+  isOpen: boolean;
+  hasChanges: boolean;
+  isSaving: boolean;
+  isSaved: boolean;
+  onToggle: (section: SettingsSection) => void;
+  onNotificationToggle: (key: NotificationSettingKey) => void;
+  onSave: () => void;
+};
 
 // ===== Component =====
 const NotificationsSettingsCard = ({

@@ -13,12 +13,12 @@ import type { Role } from "@/utils/enum";
 // ============================================================
 // AUTH STATE
 // ============================================================
-export interface AuthState {
+type AuthState = {
   session: Session | null;
   user: User | null;
   role: Role | null;
   loading: boolean;
-}
+};
 
 // ============================================================
 // INITIAL STATE

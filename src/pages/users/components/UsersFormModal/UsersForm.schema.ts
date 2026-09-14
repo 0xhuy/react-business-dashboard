@@ -47,6 +47,3 @@ export const createUserFormSchema = (t: TFunction, isEdit = false) =>
         message: t("common.password_not_match"),
       },
     );
-
-// ===== Types =====
-export type UserFormSchema = z.infer<ReturnType<typeof createUserFormSchema>>;

@@ -1,6 +1,5 @@
 // ===== Libs =====
 import classNames from "classnames/bind";
-import type { ChangeEvent } from "react";
 
 // ===== Others =====
 import {
@@ -8,7 +7,7 @@ import {
   EMPTY_STRING,
   MAX_WIDTH_PERCENT,
 } from "@/utils/constants";
-import type { BaseTextareaProps } from "./types";
+import type { BaseTextareaProps } from "./BaseTextarea.types";
 
 // ===== Styles, images, icons =====
 import styles from "./BaseTextarea.module.scss";
@@ -28,28 +27,17 @@ const BaseTextarea = (props: BaseTextareaProps) => {
     height = 120,
     borderRadius,
     maxLength,
-    messageError,
     errorMessage,
     className,
     disabled = false,
     isRequired = false,
-    required = false,
     onChange,
-    onTextareaChange,
     onBlur,
     onFocus,
   } = props;
 
   // ===== Derived =====
-  const errorText = messageError || errorMessage;
-  const isRequiredField = isRequired || required;
-  const errorId = errorText && id ? `${id}-error` : undefined;
-
-  // ===== Handlers =====
-  const handleTextareaChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    onChange?.(event);
-    onTextareaChange?.(event);
-  };
+  const errorId = errorMessage && id ? `${id}-error` : undefined;
 
   // ===== Render =====
   return (
@@ -57,7 +45,7 @@ const BaseTextarea = (props: BaseTextareaProps) => {
       {label && (
         <label className={cx("textareaLabel")} htmlFor={id}>
           {label}
-          {isRequiredField && (
+          {isRequired && (
             <span className={cx("required")}>{ASTERISK_SYMBOL}</span>
           )}
         </label>
@@ -72,17 +60,17 @@ const BaseTextarea = (props: BaseTextareaProps) => {
           value={value}
           maxLength={maxLength}
           disabled={disabled}
-          aria-invalid={!!errorText}
+          aria-invalid={!!errorMessage}
           aria-describedby={errorId}
-          onChange={handleTextareaChange}
+          onChange={onChange}
           onBlur={onBlur}
           onFocus={onFocus}
         />
       </div>
 
-      {errorText && (
+      {errorMessage && (
         <p id={errorId} className={cx("errorMessage")}>
-          {errorText}
+          {errorMessage}
         </p>
       )}
     </div>

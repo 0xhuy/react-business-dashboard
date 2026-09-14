@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { NavLink, useLocation } from "react-router-dom";
 
 // ===== Types =====
-import type { IRouteModel } from "@/utils/interfaces";
+import type { RouteConfig } from "@/router/router.types";
 import { hasActiveChild, toggleMarquee } from "@/utils/helper";
 import { WHITE, WHITE_OPACITY_50 } from "@/utils/constants/color";
 import { ROOT_PATH } from "@/utils/constants/common";
@@ -16,8 +16,8 @@ import { IconArrow } from "@/assets";
 
 const cx = classNames.bind(styles);
 
-type Props = {
-  menuItem: IRouteModel;
+type MenuItemProps = {
+  menuItem: RouteConfig;
   isCollapsed: boolean;
   onExpand: () => void;
   onNavigate: () => void;
@@ -29,7 +29,7 @@ const MenuItem = ({
   isCollapsed,
   onExpand,
   onNavigate,
-}: Props) => {
+}: MenuItemProps) => {
   // ===== Destructuring =====
   const { path, name, icon, iconActive, index, children } = menuItem;
 

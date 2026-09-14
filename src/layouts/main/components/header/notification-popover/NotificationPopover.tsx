@@ -34,12 +34,16 @@ import {
   NOTIFICATION_TIME_REFRESH_INTERVAL,
   NOTIFICATION_TYPE,
 } from "@/utils/constants";
-import type { NotificationPopoverProps } from "./types";
 
 // ===== Styles =====
 import styles from "./NotificationPopover.module.scss";
 
 const cx = classNames.bind(styles);
+
+type NotificationPopoverProps = {
+  isOpen: boolean;
+  onClose: () => void;
+};
 
 // ===== Component =====
 const NotificationPopover = ({

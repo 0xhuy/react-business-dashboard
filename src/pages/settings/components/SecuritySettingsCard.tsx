@@ -17,13 +17,30 @@ import {
   SETTINGS_SECTION_CONTENT_ID,
   SETTINGS_SECTION_ICON,
 } from "@/utils/constants";
+import type { SettingsSection } from "@/utils/constants";
 import { InputTypeEnum } from "@/utils/enum";
-import type { SecuritySettingsCardProps } from "../types";
+import type { PasswordSettingsValues } from "../settings.types";
 
 // ===== Styles =====
 import styles from "./SettingsCard.module.scss";
 
 const cx = classNames.bind(styles);
+
+type SecuritySettingsCardProps = {
+  values: PasswordSettingsValues;
+  validationMessages: {
+    newPassword: string;
+    confirmPassword: string;
+  };
+  requestError: string;
+  isOpen: boolean;
+  isValid: boolean;
+  isLoading: boolean;
+  isUpdated: boolean;
+  onToggle: (section: SettingsSection) => void;
+  onChange: (field: keyof PasswordSettingsValues, value: string) => void;
+  onSubmit: () => void;
+};
 
 // ===== Component =====
 const SecuritySettingsCard = ({

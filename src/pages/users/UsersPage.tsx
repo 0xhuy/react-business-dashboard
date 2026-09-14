@@ -19,15 +19,15 @@ import {
 } from "@/components";
 
 // ===== Others =====
-import type { ColumnType } from "@/utils/interfaces";
+import type { BaseTableColumn } from "@/components/base";
 import { InputTypeEnum } from "@/utils/enum/input.enum";
-import { KeyTableEnum } from "@/utils/enum";
+import { KeyTableEnum, UserStatusEnum } from "@/utils/enum";
 import { icons } from "@/assets";
 import type {
   UserFilterValues,
-  UserFormValues,
   UserRow,
 } from "@/features/users/user.types";
+import type { UserFormValues } from "./components/UsersFormModal/UsersFormModal.types";
 import {
   DEFAULT_FILTER_PANEL_WIDTH,
   DEFAULT_FILTER_SELECT_HEIGHT,
@@ -144,7 +144,10 @@ const UsersPage = () => {
               fullName: record.fullName,
               email: record.email,
               role: record.role,
-              status: record.status === "Active" ? "Inactive" : "Active",
+              status:
+                record.status === UserStatusEnum.ACTIVE
+                  ? UserStatusEnum.INACTIVE
+                  : UserStatusEnum.ACTIVE,
             },
           }),
         ).unwrap();
@@ -219,7 +222,7 @@ const UsersPage = () => {
     };
   }, [selectedUser]);
 
-  const userColumns = useMemo((): ColumnType<UserRow>[] => {
+  const userColumns = useMemo((): BaseTableColumn<UserRow>[] => {
     return [
       {
         title: t("users.full_name"),
@@ -248,8 +251,8 @@ const UsersPage = () => {
         render: (_, record) => (
           <span
             className={cx("status", {
-              statusActive: record.status === "Active",
-              statusInactive: record.status === "Inactive",
+              statusActive: record.status === UserStatusEnum.ACTIVE,
+              statusInactive: record.status === UserStatusEnum.INACTIVE,
             })}
           >
             {t(`users.status_${record.status.toLowerCase()}`)}
@@ -285,11 +288,11 @@ const UsersPage = () => {
                   : [
                       {
                         icon:
-                          record.status === "Active"
+                          record.status === UserStatusEnum.ACTIVE
                             ? icons.iconDeactivate
                             : icons.iconActivate,
                         label:
-                          record.status === "Active"
+                          record.status === UserStatusEnum.ACTIVE
                             ? t("users.deactivate")
                             : t("users.activate"),
                         onClick: () => handleToggleUserStatus(record),
@@ -358,15 +361,14 @@ const UsersPage = () => {
                     {isChecked?.role && (
                       <div className={cx("contentFilterWrap")}>
                         <BaseSelect
-                          name="role"
                           options={userRoleOptions}
                           height={DEFAULT_FILTER_SELECT_HEIGHT}
                           value={valueFilter.role}
                           placeholder={t("users.role")}
-                          onChange={({ value }, name) => {
+                          onChange={({ value }) => {
                             onChange({
-                              name: name as keyof UserFilterValues,
-                              value: value as UserFilterValues["role"],
+                              name: "role",
+                              value,
                             });
                           }}
                         />
@@ -387,15 +389,14 @@ const UsersPage = () => {
                     {isChecked?.status && (
                       <div className={cx("contentFilterWrap")}>
                         <BaseSelect
-                          name="status"
                           options={userStatusOptions}
                           height={DEFAULT_FILTER_SELECT_HEIGHT}
                           value={valueFilter.status}
                           placeholder={t("users.status")}
-                          onChange={({ value }, name) => {
+                          onChange={({ value }) => {
                             onChange({
-                              name: name as keyof UserFilterValues,
-                              value: value as UserFilterValues["status"],
+                              name: "status",
+                              value,
                             });
                           }}
                         />

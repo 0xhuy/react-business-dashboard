@@ -8,11 +8,9 @@ import {
   DEFAULT_FILTER_PANEL_WIDTH,
   DEFAULT_FILTER_SELECT_HEIGHT,
   PRODUCT_CATEGORY_OPTIONS,
+  PRODUCT_STATUS,
 } from "@/utils/constants";
-import type {
-  ProductFilterValues,
-  ProductStatus,
-} from "@/features/products/product.types";
+import type { ProductFilterValues } from "@/features/products/product.types";
 
 import styles from "../../ProductsPage.module.scss";
 
@@ -38,13 +36,13 @@ const ProductFilters = ({ value, onApply }: ProductFiltersProps) => {
   );
 
   const statusOptions = useMemo(
-    () =>
-      (["InStock", "LowStock", "OutOfStock"] as ProductStatus[]).map(
-        (status) => ({
-          label: t(`products.status_${status.toLowerCase()}`),
-          value: status,
-        }),
-      ),
+    () => [
+      { label: t("products.status_all"), value: "all" as const },
+      ...Object.values(PRODUCT_STATUS).map((status) => ({
+        label: t(`products.status_${status.toLowerCase()}`),
+        value: status,
+      })),
+    ],
     [t],
   );
 
@@ -68,7 +66,6 @@ const ProductFilters = ({ value, onApply }: ProductFiltersProps) => {
             {isChecked?.category && (
               <div className={cx("contentFilterWrap")}>
                 <BaseSelect
-                  name="category"
                   options={categoryOptions}
                   height={DEFAULT_FILTER_SELECT_HEIGHT}
                   value={valueFilter.category}
@@ -92,16 +89,15 @@ const ProductFilters = ({ value, onApply }: ProductFiltersProps) => {
             {isChecked?.status && (
               <div className={cx("contentFilterWrap")}>
                 <BaseSelect
-                  name="status"
-                  options={[
-                    { label: t("products.status_all"), value: "all" },
-                    ...statusOptions,
-                  ]}
+                  options={statusOptions}
                   height={DEFAULT_FILTER_SELECT_HEIGHT}
                   value={valueFilter.status}
                   placeholder={t("products.status")}
                   onChange={({ value: nextValue }) =>
-                    onChange({ name: "status", value: nextValue })
+                    onChange({
+                      name: "status",
+                      value: nextValue,
+                    })
                   }
                 />
               </div>

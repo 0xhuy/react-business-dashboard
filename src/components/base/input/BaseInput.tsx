@@ -10,7 +10,7 @@ import {
   DEFAULT_INPUT_HEIGHT,
   MAX_WIDTH_PERCENT,
 } from "@/utils/constants";
-import type { BaseInputProps } from "./types";
+import type { BaseInputProps } from "./BaseInput.types";
 
 // ===== Styles, Images, Icons =====
 import styles from "./BaseInput.module.scss";

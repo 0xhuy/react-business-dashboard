@@ -42,7 +42,7 @@ import {
 import type {
   ProductSheetImportValidationError,
   ProductSheetRow,
-} from "./types";
+} from "./product-sheet.types";
 import type {
   ProductDraft,
   ProductRow,

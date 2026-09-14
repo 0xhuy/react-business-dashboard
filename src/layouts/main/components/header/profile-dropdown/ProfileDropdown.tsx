@@ -9,27 +9,29 @@ import { useTranslation } from "react-i18next";
 // ===== Components, Images, Icons =====
 import { IconLock, IconLogout, IconProfile } from "@/assets";
 
-// ===== Others =====
-import type { IHeaderProfile } from "@/utils/interfaces";
-
 // ===== Styles =====
 import styles from "./ProfileDropdown.module.scss";
 
 const cx = classNames.bind(styles);
 
-interface Props {
-  profile: IHeaderProfile;
+type HeaderProfile = {
+  name?: string;
+  avatarLabel: string;
+};
+
+type ProfileDropdownProps = {
+  profile: HeaderProfile;
   onOpenProfile: () => void;
   onOpenChangePassword: () => void;
   onLogout: () => void;
-}
+};
 
 const ProfileDropdown = ({
   profile,
   onOpenProfile,
   onOpenChangePassword,
   onLogout,
-}: Props) => {
+}: ProfileDropdownProps) => {
   // ===== Hooks =====
   const { t } = useTranslation();
   const { name, avatarLabel } = profile;

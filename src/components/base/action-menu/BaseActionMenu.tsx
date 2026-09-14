@@ -9,7 +9,10 @@ import {
   DEFAULT_NUMBER_ZERO,
   SYMBOL_THREE_DOTS,
 } from "@/utils/constants";
-import type { ActionMenuItem, BaseActionMenuProps } from "./types";
+import type {
+  ActionMenuItem,
+  BaseActionMenuProps,
+} from "./BaseActionMenu.types";
 
 // ===== Styles, images, icons =====
 import styles from "./BaseActionMenu.module.scss";

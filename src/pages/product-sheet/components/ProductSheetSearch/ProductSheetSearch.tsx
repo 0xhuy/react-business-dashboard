@@ -8,7 +8,7 @@ import { BaseInput } from "@/components";
 // ===== Others =====
 import { DEFAULT_NUMBER_ZERO } from "@/utils/constants";
 import { InputTypeEnum } from "@/utils/enum/input.enum";
-import type { ProductSheetSearchProps } from "./types";
+import type { ProductSheetSearchProps } from "./ProductSheetSearch.types";
 
 // ===== Styles =====
 import styles from "./ProductSheetSearch.module.scss";

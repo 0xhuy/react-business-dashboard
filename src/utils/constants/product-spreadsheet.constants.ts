@@ -1,5 +1,5 @@
 // ===== Types =====
-import type { ProductSheetColumn } from "@/pages/product-sheet/types";
+import type { ProductSheetColumn } from "@/pages/product-sheet/product-sheet.types";
 
 // ===== Defaults =====
 export const DEFAULT_ROW_QUANTITY = 1;

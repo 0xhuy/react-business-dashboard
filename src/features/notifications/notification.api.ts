@@ -1,6 +1,8 @@
 // ===== Configs =====
 import { supabase } from "@/services/supabase";
-import { NOTIFICATION_LIST_LIMIT } from "@/utils/constants";
+import {
+  NOTIFICATION_LIST_LIMIT,
+} from "@/utils/constants";
 
 // ===== Types =====
 import type {

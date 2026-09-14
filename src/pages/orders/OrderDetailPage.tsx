@@ -12,7 +12,8 @@ import {
   BaseTooltip,
 } from "@/components";
 import OrdersFormModal from "./components/OrdersFormModal/OrdersFormModal";
-import type { OrderFormValues } from "@/features/orders/order.types";
+import type { PurchaseOrderMutationPayload } from "@/features/orders/order.types";
+import { OrderStatusEnum } from "@/utils/enum";
 
 // ===== Others =====
 import {
@@ -86,7 +87,9 @@ const OrderDetailPage = () => {
     };
   }, [purchaseOrder]);
 
-  const orderFormInitialValues = useMemo<OrderFormValues | undefined>(() => {
+  const orderFormInitialValues = useMemo<
+    PurchaseOrderMutationPayload | undefined
+  >(() => {
     if (!purchaseOrder) return undefined;
 
     return {
@@ -116,7 +119,7 @@ const OrderDetailPage = () => {
   }, []);
 
   const handleSubmitOrder = useCallback(
-    async (data: OrderFormValues) => {
+    async (data: PurchaseOrderMutationPayload) => {
       if (!purchaseOrder) return;
 
       try {
@@ -195,9 +198,12 @@ const OrderDetailPage = () => {
               <p className={cx("detailTitle")}>{purchaseOrder.poNumber}</p>
               <span
                 className={cx("status", {
-                  statusPending: purchaseOrder.status === "Pending",
-                  statusReceived: purchaseOrder.status === "Received",
-                  statusCancelled: purchaseOrder.status === "Cancelled",
+                  statusPending:
+                    purchaseOrder.status === OrderStatusEnum.PENDING,
+                  statusReceived:
+                    purchaseOrder.status === OrderStatusEnum.RECEIVED,
+                  statusCancelled:
+                    purchaseOrder.status === OrderStatusEnum.CANCELLED,
                 })}
               >
                 {t(`orders.status_${purchaseOrder.status.toLowerCase()}`)}

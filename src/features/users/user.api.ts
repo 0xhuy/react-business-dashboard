@@ -12,6 +12,7 @@ import {
   USER_STATUS_TO_PROFILE_STATUS,
 } from "@/utils/constants";
 import { ProfileStatusEnum, Role, UserRoleEnum, UserStatusEnum } from "@/utils/enum";
+import { isObjectValue } from "@/utils/helper";
 
 type ProfileRecord = {
   id: string;
@@ -25,11 +26,14 @@ type ProfileRecord = {
 const USER_COLUMNS = "id, full_name, email, role, status, created_at";
 
 const toUserRole = (role: string): UserRole =>
-  PROFILE_ROLE_TO_USER_ROLE[role as Role] ?? UserRoleEnum.VIEWER;
+  isObjectValue(Role, role)
+    ? PROFILE_ROLE_TO_USER_ROLE[role]
+    : UserRoleEnum.VIEWER;
 
 const toUserStatus = (status: string): UserStatus =>
-  PROFILE_STATUS_TO_USER_STATUS[status as ProfileStatusEnum] ??
-  UserStatusEnum.INACTIVE;
+  isObjectValue(ProfileStatusEnum, status)
+    ? PROFILE_STATUS_TO_USER_STATUS[status]
+    : UserStatusEnum.INACTIVE;
 
 const mapUser = (profile: ProfileRecord): UserRow => ({
   id: profile.id,

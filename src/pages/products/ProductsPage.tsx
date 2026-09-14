@@ -26,7 +26,7 @@ import {
 import { filterProducts } from "./helpers";
 import type {
   ProductFilterValues,
-  ProductFormValues,
+  ProductMutationPayload,
   ProductRow,
 } from "@/features/products/product.types";
 import { useAppDispatch, useProducts } from "@/redux/hooks";
@@ -96,7 +96,7 @@ const ProductsPage = () => {
     setIsOpenProductModal(false);
   }, []);
 
-  const handleSubmitProduct = async (data: ProductFormValues) => {
+  const handleSubmitProduct = async (data: ProductMutationPayload) => {
     setApiError(EMPTY_STRING);
     setApiMessage(EMPTY_STRING);
 

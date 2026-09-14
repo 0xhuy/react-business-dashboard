@@ -10,8 +10,10 @@ import {
   DEFAULT_FILTER_WIDTH_BTN,
   MAX_HEIGHT_PERCENT,
 } from "@/utils/constants";
-import type { IFilterValueChange } from "@/utils/interfaces";
-import type { BaseFilterProps } from "./types";
+import type {
+  BaseFilterProps,
+  FilterValueChange,
+} from "./BaseFilter.types";
 
 // ===== Styles, Images, Icons =====
 import styles from "./BaseFilter.module.scss";
@@ -88,7 +90,7 @@ const BaseFilter = <T extends object>(props: BaseFilterProps<T>) => {
     close();
   };
 
-  const onValueChange = (data: IFilterValueChange<T>) => {
+  const onValueChange = (data: FilterValueChange<T>) => {
     const { name, value } = data;
 
     setTempValueFilter((prev) => {

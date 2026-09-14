@@ -4,7 +4,7 @@ import type {
   ProductSheetColumn,
   ProductSheetHighlightedRowVariant,
   ProductSheetRow,
-} from "../../types";
+} from "../../product-sheet.types";
 
 // ===== Types =====
 export type BuildProductSheetRowsParams = {

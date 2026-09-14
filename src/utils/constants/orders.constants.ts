@@ -1,8 +1,9 @@
 // ===== Others =====
 import type {
   PurchaseOrderFilterValues,
-  OrderFormValues,
+  PurchaseOrderMutationPayload,
 } from "@/features/orders/order.types";
+import { OrderStatusEnum } from "@/utils/enum";
 
 // ===== Constants =====
 export const DEFAULT_PURCHASE_ORDER_FILTER_VALUES: PurchaseOrderFilterValues = {
@@ -19,37 +20,37 @@ export const PURCHASE_ORDER_STATUS_OPTIONS = [
   },
   {
     label: "Pending",
-    value: "Pending",
+    value: OrderStatusEnum.PENDING,
   },
   {
     label: "Received",
-    value: "Received",
+    value: OrderStatusEnum.RECEIVED,
   },
   {
     label: "Cancelled",
-    value: "Cancelled",
+    value: OrderStatusEnum.CANCELLED,
   },
 ] as const;
 
 export const ORDER_STATUS_OPTIONS = [
   {
     label: "orders.status_pending",
-    value: "Pending",
+    value: OrderStatusEnum.PENDING,
   },
   {
     label: "orders.status_received",
-    value: "Received",
+    value: OrderStatusEnum.RECEIVED,
   },
   {
     label: "orders.status_cancelled",
-    value: "Cancelled",
+    value: OrderStatusEnum.CANCELLED,
   },
-];
+] as const;
 
-export const DEFAULT_ORDER_FORM_VALUES: OrderFormValues = {
+export const DEFAULT_ORDER_FORM_VALUES: PurchaseOrderMutationPayload = {
   supplier: "",
   orderDate: "",
-  status: "Pending",
+  status: OrderStatusEnum.PENDING,
   note: "",
   items: [
     {

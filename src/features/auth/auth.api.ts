@@ -13,6 +13,15 @@ const authApi = {
     return supabase.auth.signInWithPassword(payload);
   },
 
+  loginWithGoogle() {
+    return supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}${authRouteAbsolute.login}`,
+      },
+    });
+  },
+
   register(payload: RegisterPayload) {
     const { fullName, email, password } = payload;
 

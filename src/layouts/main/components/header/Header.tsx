@@ -24,7 +24,12 @@ import {
 } from "@/utils/constants";
 import type { SettingsSection } from "@/utils/constants";
 import { logoutAuthThunk } from "@/redux/thunks/auth/authThunk";
-import { useAppDispatch, useAuth, useNotifications } from "@/redux/hooks";
+import {
+  useAppDispatch,
+  useAuth,
+  useNotifications,
+  useSettings,
+} from "@/redux/hooks";
 import useNotificationSubscription from "@/features/notifications/hooks/useNotificationSubscription";
 
 // ===== Styles =====
@@ -37,6 +42,7 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { user, role } = useAuth();
+  const { data: settings } = useSettings();
   const { notifications } = useNotifications();
   const { t } = useTranslation();
   const canViewNotifications = useNotificationSubscription(user?.id, role);
@@ -106,6 +112,7 @@ const Header = () => {
 
   // ===== Variables =====
   const userName =
+    settings?.fullName ||
     user?.user_metadata?.full_name ||
     user?.user_metadata?.name ||
     user?.email ||

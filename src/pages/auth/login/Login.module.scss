@@ -42,9 +42,11 @@
 
 // ===== Form Options =====
 .formOptions {
-  @apply flex items-center justify-between;
+  @apply flex items-center justify-end;
 }
 
+/* Remember me styles are kept for a future re-enable. */
+/*
 .rememberMe {
   @apply flex items-center gap-2.5 cursor-pointer select-none;
 }
@@ -88,6 +90,7 @@
 .rememberText {
   @apply text-sm font-medium text-slate-600;
 }
+*/
 
 .forgotLink {
   @apply text-sm font-semibold text-primary;

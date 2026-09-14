@@ -62,8 +62,8 @@ const BaseSelect = <Value extends string = string,>(
   }, [value, options]);
 
   // ===== Handlers =====
-  const handleOptionChange = (option: BaseSelectOption<Value>) => {
-    onChange?.(option);
+  const handleOptionChange = (option: BaseSelectOption<Value> | null) => {
+    if (option) onChange?.(option);
   };
 
   return (
@@ -77,7 +77,7 @@ const BaseSelect = <Value extends string = string,>(
         </Label>
       )}
 
-      <Listbox value={selectOption} onChange={handleOptionChange}>
+      <Listbox value={selectOption ?? null} onChange={handleOptionChange}>
         <ListboxButton
           className={cx("btnSelect")}
           style={{ height, borderRadius }}

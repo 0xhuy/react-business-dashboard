@@ -1,11 +1,14 @@
-const modules = import.meta.glob("@/assets/icons/**/*.svg", {
+const modules = import.meta.glob<string>("@/assets/icons/**/*.{svg,webp}", {
   eager: true,
   import: "default",
 });
 
 const icons = Object.fromEntries(
   Object.entries(modules).map(([path, mod]) => {
-    const fileName = path.split("/").pop()!.replace(".svg", "");
+    const fileName = path
+      .split("/")
+      .pop()!
+      .replace(/\.(svg|webp)$/, "");
 
     const name = fileName
       .toLowerCase()

@@ -1,0 +1,280 @@
+.wrapper {
+  @apply flex h-full flex-col gap-5 overflow-hidden pb-10;
+}
+
+.status {
+  @apply inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-medium;
+}
+
+.statusActive {
+  @apply bg-emerald-100 text-emerald-700;
+}
+
+.statusInactive {
+  @apply bg-rose-100 text-rose-700;
+}
+
+.detailHeaderCard {
+  @apply overflow-hidden rounded-3xl bg-white px-7 py-6 shadow-sm;
+
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.detailHeaderTop {
+  @apply flex items-start justify-between gap-5;
+}
+
+.backButton {
+  @apply flex flex-row justify-center items-center gap-1 text-sm font-medium text-slate-500 transition-colors;
+
+  &:hover {
+    @apply text-indigo-600;
+  }
+}
+
+.leftChevronIcon,
+.rightChevronIcon {
+  @apply flex items-center justify-center;
+}
+
+.leftChevronIcon {
+  transform: rotate(90deg);
+}
+
+.deleteButton {
+  @apply border-rose-200 text-rose-600;
+
+  &:hover {
+    @apply border-rose-500 bg-rose-50 text-rose-700;
+  }
+}
+
+.detailTitleWrap {
+  @apply mt-3 flex min-w-0 flex-wrap items-center gap-3;
+}
+
+.userAvatar {
+  @apply flex size-12 shrink-0 items-center justify-center rounded-2xl text-lg font-semibold text-white shadow-soft;
+
+  background: linear-gradient(135deg, #6366f1 0%, #06b6d4 100%);
+}
+
+.userIdentity {
+  @apply min-w-0;
+}
+
+.userEmail {
+  @apply mt-0.5 block max-w-[420px] truncate text-sm text-slate-500;
+}
+
+.detailTitle {
+  @apply min-w-0 break-words text-2xl font-semibold tracking-tight text-slate-950;
+}
+
+.detailActions {
+  @apply flex items-center gap-3;
+}
+
+.detailContentGrid {
+  @apply block overflow-visible;
+}
+
+.detailMain {
+  @apply block min-w-0;
+
+  .detailCard {
+    @apply block;
+  }
+}
+
+.detailCard {
+  @apply rounded-3xl bg-white p-6 shadow-sm;
+
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.detailInfoList {
+  @apply mt-4 flex flex-col gap-4;
+
+  span {
+    @apply text-xs font-semibold uppercase tracking-[0.04em] text-slate-800;
+  }
+
+  p {
+    @apply mt-1 break-words text-sm font-normal text-slate-500;
+
+    overflow-wrap: anywhere;
+  }
+}
+
+.informationSections {
+  @apply grid grid-cols-2 gap-8;
+}
+
+.informationSection {
+  @apply min-w-0 rounded-2xl border border-slate-100 p-5;
+}
+
+.informationSectionTitle {
+  @apply text-base font-semibold text-slate-900;
+}
+
+.informationRows {
+  @apply mt-5 flex flex-col gap-5;
+}
+
+.informationRow {
+  @apply flex min-w-0 items-center justify-between gap-6 border-b border-slate-100 pb-4 last:border-b-0 last:pb-0;
+
+  > span {
+    @apply shrink-0 text-sm text-slate-500;
+  }
+
+  > p:not(.status):not(.roleBadge) {
+    @apply min-w-0 break-words text-right text-sm font-medium text-slate-800;
+  }
+}
+
+.roleBadge {
+  @apply rounded-full bg-indigo-50 px-3 py-1 text-xs font-medium text-indigo-600;
+}
+
+.metadataBar {
+  @apply mt-6 grid grid-cols-[minmax(0,1fr)_220px] gap-6 rounded-2xl bg-slate-50 px-5 py-4;
+}
+
+.metadataItem {
+  @apply min-w-0;
+
+  > span {
+    @apply text-xs font-semibold uppercase tracking-[0.04em] text-slate-500;
+  }
+
+  > p,
+  > div p {
+    @apply mt-1 break-all text-sm text-slate-700;
+  }
+}
+
+.metadataUserId > div {
+  @apply flex items-start gap-3;
+
+  button {
+    @apply mt-1 shrink-0 text-sm font-medium text-indigo-600 transition-colors hover:text-indigo-700;
+  }
+}
+
+.detailSectionHeader {
+  @apply mb-4 flex items-center justify-between;
+
+  p {
+    @apply text-lg font-semibold text-slate-900;
+  }
+
+  span {
+    @apply mt-1 block text-sm text-slate-500;
+  }
+}
+
+.detailTable {
+  @apply flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-slate-200;
+}
+
+.detailTableHeader,
+.detailTableRow {
+  @apply grid grid-cols-[minmax(180px,1fr)_120px_110px_130px_130px] gap-4 px-4;
+}
+
+.detailTableHeader {
+  @apply bg-slate-50 py-3 text-xs font-semibold uppercase tracking-[0.04em] text-slate-500;
+}
+
+.detailTableBody {
+  @apply flex flex-col overflow-y-auto min-h-0 flex-1;
+}
+
+.detailTableRow {
+  @apply border-t border-slate-100 py-3 text-sm text-slate-700;
+}
+
+.detailNoteText {
+  @apply mt-3 text-sm leading-6 text-slate-700;
+}
+
+.actionButton {
+  @apply h-10;
+}
+
+@media (max-width: 1280px) {
+  .wrapper {
+    @apply overflow-y-auto;
+  }
+
+  .detailHeaderCard,
+  .detailContentGrid {
+    @apply shrink-0;
+  }
+
+  .detailContentGrid {
+    @apply overflow-visible;
+  }
+}
+
+@media (max-width: 1024px) {
+  .informationSections {
+    @apply grid-cols-1 gap-5;
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    @apply pb-4;
+  }
+
+  .detailHeaderCard,
+  .detailCard {
+    @apply rounded-2xl px-4 py-4;
+  }
+
+  .detailHeaderTop {
+    @apply flex-col;
+  }
+
+  .detailActions {
+    @apply w-full flex-wrap;
+  }
+
+  .metadataBar {
+    @apply grid-cols-1 gap-4;
+  }
+
+  .informationRow {
+    @apply flex-col items-start gap-2;
+
+    > p:not(.status):not(.roleBadge) {
+      @apply text-left;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .detailTitleWrap {
+    @apply flex-col items-start;
+  }
+
+  .userIdentity {
+    @apply w-full;
+  }
+
+  .userEmail {
+    @apply max-w-full;
+  }
+
+  .metadataUserId > div {
+    @apply flex-col gap-2;
+
+    button {
+      @apply mt-0;
+    }
+  }
+}

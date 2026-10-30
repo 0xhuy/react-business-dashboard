@@ -1,0 +1,54 @@
+// ============================================================
+// REDUX STORE
+// ============================================================
+
+// ===== Libs =====
+import {
+  configureStore,
+  combineReducers,
+} from "@reduxjs/toolkit";
+
+// ===== Reducers =====
+import authReducer from "@/redux/thunks/auth/authSlice";
+import productReducer from "@/redux/thunks/products/productSlice";
+import orderReducer from "@/redux/thunks/orders/orderSlice";
+import userReducer from "@/redux/thunks/users/userSlice";
+import settingsReducer from "@/redux/thunks/settings/settingsSlice";
+import notificationReducer from "@/redux/thunks/notifications/notificationSlice";
+
+// ============================================================
+// ROOT REDUCER
+// ============================================================
+const rootReducer = combineReducers({
+  auth: authReducer,
+  products: productReducer,
+  orders: orderReducer,
+  users: userReducer,
+  settings: settingsReducer,
+  notifications: notificationReducer,
+});
+
+// ============================================================
+// STORE
+// ============================================================
+export function makeStore() {
+  return configureStore({
+    reducer: rootReducer,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: false,
+      }),
+    devTools: import.meta.env.MODE !== "production",
+  });
+}
+
+const store = makeStore();
+
+// ============================================================
+// TYPES
+// ============================================================
+export type AppDispatch = typeof store.dispatch;
+
+export type RootState = ReturnType<typeof store.getState>;
+
+export default store;

@@ -1,0 +1,210 @@
+// ============================================================
+// LOGIN PAGE
+// ============================================================
+
+// ===== Form Content =====
+.formContent {
+  @apply w-full flex flex-col
+         gap-6
+         max-w-[390px];
+}
+
+.formHeader {
+  @apply flex flex-col items-start gap-2;
+}
+
+.formTitle {
+  @apply text-2xl font-bold tracking-tight
+         text-slate-800;
+}
+
+.subtitle {
+  @apply text-sm leading-6 text-slate-500;
+}
+
+// ===== Form Body =====
+.formBody {
+  @apply flex flex-col gap-4;
+}
+
+.inputGroup {
+  @apply flex flex-col gap-1;
+}
+
+.toggleIcon {
+  @apply w-5 h-5 opacity-40 cursor-pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    @apply opacity-70 scale-105;
+  }
+}
+
+// ===== Form Options =====
+.formOptions {
+  @apply flex items-center justify-end;
+}
+
+/* Remember me styles are kept for a future re-enable. */
+/*
+.rememberMe {
+  @apply flex items-center gap-2.5 cursor-pointer select-none;
+}
+
+.checkbox {
+  @apply hidden;
+}
+
+.checkboxCustom {
+  @apply relative flex-shrink-0
+         w-[18px] h-[18px]
+         rounded-md
+         bg-slate-50 border border-slate-300;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &::after {
+    content: "";
+    @apply absolute
+         top-[2px] left-[5px]
+         w-[5px] h-[9px]
+         border-r-2 border-b-2 border-white;
+    transform: rotate(45deg) scale(0);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .checkbox:checked + & {
+    @apply bg-gradient-to-r from-primary to-secondary
+           border-transparent;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+
+    &::after {
+      transform: rotate(45deg) scale(1);
+    }
+  }
+
+  .rememberMe:hover & {
+    @apply border-primary-light bg-indigo-50;
+  }
+}
+
+.rememberText {
+  @apply text-sm font-medium text-slate-600;
+}
+*/
+
+.forgotLink {
+  @apply text-sm font-semibold text-primary;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    @apply text-primary-dark underline underline-offset-2;
+  }
+}
+
+// ===== Divider =====
+.divider {
+  @apply relative flex items-center justify-center;
+
+  &::before,
+  &::after {
+    content: "";
+    @apply flex-1 h-px;
+  }
+
+  &::before {
+    @apply mr-[14px]
+         bg-gradient-to-r from-transparent to-slate-200;
+  }
+
+  &::after {
+    @apply ml-[14px]
+         bg-gradient-to-r from-slate-200 to-transparent;
+  }
+}
+
+.dividerText {
+  @apply text-xs font-medium whitespace-nowrap tracking-wider text-slate-400;
+}
+
+// ===== Social Row =====
+.socialRow {
+  @apply flex items-center justify-center gap-3;
+}
+
+.socialBtn {
+  @apply flex items-center justify-center
+         w-12 h-12 rounded-md
+         text-slate-600
+         bg-slate-50 border border-slate-200;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+
+  &:hover {
+    @apply text-primary bg-indigo-50 border-primary-light;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 18px rgba(99, 102, 241, 0.14);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  svg {
+    @apply flex-shrink-0;
+  }
+}
+
+.iconGoogleLogin {
+  @apply w-5 h-5;
+}
+
+// ===== Register =====
+.registerRow {
+  @apply mt-5 flex items-center justify-center gap-2;
+}
+
+.registerText {
+  @apply text-sm text-slate-500;
+}
+
+.registerLink {
+  @apply text-sm font-semibold text-primary
+         transition-colors duration-200;
+
+  &:hover {
+    @apply text-primary-dark underline underline-offset-2;
+  }
+}
+
+// ===== Responsive =====
+@media (max-width: 1024px) {
+  .formContent {
+    @apply max-w-full gap-5;
+  }
+
+  .formBody {
+    @apply gap-3.5;
+  }
+
+  .registerRow {
+    @apply mt-4;
+  }
+}
+
+@media (max-width: 640px) {
+  .formContent {
+    @apply gap-5;
+  }
+
+  .formBody {
+    @apply gap-3.5;
+  }
+
+  .formTitle {
+    @apply text-xl leading-tight text-slate-800;
+  }
+
+  .registeRow {
+    @apply mt-4 flex-wrap text-center;
+  }
+}

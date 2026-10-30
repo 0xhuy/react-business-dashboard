@@ -1,0 +1,109 @@
+.baseTableComponent {
+  @apply relative h-full w-full flex-1 overflow-auto rounded-2xl bg-white;
+
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.tableContainer {
+  @apply w-full table-auto border-collapse text-left;
+}
+
+.thead {
+  @apply bg-slate-50;
+}
+
+.colTable {
+  @apply sticky top-0 z-[2] bg-slate-50 px-5 py-3 text-left text-xs font-semibold uppercase tracking-[0.04em] text-slate-500;
+
+  border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+}
+
+.colTableBody {
+  @apply overflow-hidden px-5 py-2 text-sm align-middle whitespace-nowrap text-slate-700;
+
+  text-overflow: ellipsis;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+}
+
+.rowTableBody {
+  @apply transition-colors duration-200;
+
+  &:hover {
+    @apply bg-indigo-50/40;
+  }
+}
+
+.rowTableBody.rowClickable {
+  @apply cursor-pointer;
+}
+
+.cellContainer {
+  @apply flex min-w-0 items-center overflow-hidden;
+}
+
+.emptyRow {
+  @apply h-full;
+}
+
+.noDataAvailable {
+  @apply h-full min-h-[320px] p-0 text-center align-middle text-sm font-medium text-slate-400;
+}
+
+.emptyContent {
+  @apply flex h-full min-h-[320px] items-center justify-center;
+}
+
+// ===== Color Table =====
+.baseTableComponent.colorTable {
+  @apply overflow-auto;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    @apply cursor-pointer rounded-full bg-slate-400;
+  }
+
+  &::-webkit-scrollbar-track {
+    @apply rounded-full bg-transparent;
+  }
+}
+
+.thead.colorTable {
+  @apply border-b-0;
+}
+
+.colTable.colorTable {
+  @apply bg-indigo-50 px-5 py-3 text-xs font-semibold uppercase tracking-[0.04em] text-indigo-500;
+
+  border-bottom: 1px solid rgba(99, 102, 241, 0.16);
+}
+
+.colTableBody.colorTable {
+  @apply overflow-hidden px-5 py-2 text-sm align-middle whitespace-nowrap text-slate-700;
+
+  text-overflow: ellipsis;
+  background: rgba(99, 102, 241, 0.035);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+@media (max-width: 640px) {
+  .baseTableComponent {
+    @apply rounded-xl;
+
+    scrollbar-width: thin;
+    scrollbar-color: rgb(148 163 184) transparent;
+  }
+
+  .colTable,
+  .colTable.colorTable {
+    @apply px-3 py-2 text-[11px];
+  }
+
+  .colTableBody,
+  .colTableBody.colorTable {
+    @apply px-3 py-2 text-xs;
+  }
+}

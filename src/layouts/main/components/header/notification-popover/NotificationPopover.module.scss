@@ -1,0 +1,197 @@
+.popover {
+  @apply absolute right-0 top-[calc(100%+10px)] z-40 w-[420px] overflow-hidden rounded-2xl border border-slate-200/80 bg-white;
+
+  box-shadow: 0 20px 55px rgba(15, 23, 42, 0.16);
+  animation: notificationPopoverReveal 0.18s ease;
+
+  &::before {
+    content: "";
+    @apply absolute -top-2 right-[18px] h-4 w-4 rotate-45 border-l border-t border-slate-200/80 bg-white;
+  }
+}
+
+.header {
+  @apply relative flex items-center justify-between border-b border-slate-100 px-5 py-4;
+}
+
+.title {
+  @apply text-base font-semibold text-slate-900;
+}
+
+.unreadCount {
+  @apply rounded-full bg-primary/[0.06] px-3 py-1 text-xs font-semibold text-primary;
+}
+
+.tabs {
+  @apply flex gap-2 px-4 pb-2 pt-2;
+}
+
+.tab {
+  @apply rounded-full px-4 py-2 text-sm font-medium text-slate-600 transition-colors;
+
+  &:hover {
+    @apply bg-slate-100 text-slate-800;
+  }
+}
+
+.tabActive {
+  @apply bg-primary/[0.1] text-primary;
+
+  &:hover {
+    @apply bg-primary/[0.14] text-primary;
+  }
+}
+
+.list {
+  @apply flex max-h-[360px] flex-col gap-3 overflow-y-auto p-3;
+}
+
+.notificationEntry {
+  @apply flex flex-col gap-2;
+}
+
+.dateGroupTitle {
+  @apply px-1 pb-1 pt-1 text-sm font-semibold text-slate-800;
+}
+
+.item {
+  @apply relative flex w-full rounded-2xl border border-transparent transition-all duration-200;
+
+  &:hover {
+    @apply border-indigo-100/60 bg-indigo-50/40;
+  }
+
+  &:focus-visible {
+    @apply border-primary/20 bg-indigo-50/40 outline-none ring-2 ring-primary/15;
+  }
+}
+
+.itemButton {
+  @apply flex min-w-0 flex-1 gap-3 rounded-2xl p-3 pr-10 text-left outline-none;
+}
+
+.unread {
+  @apply bg-primary/[0.04];
+}
+
+.icon {
+  @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl;
+}
+
+.icon-order {
+  @apply bg-indigo-50 text-indigo-500;
+}
+
+.icon-stock {
+  @apply bg-amber-50 text-amber-500;
+}
+
+.icon-system {
+  @apply bg-cyan-50 text-cyan-500;
+}
+
+.content {
+  @apply flex min-w-0 flex-1 flex-col;
+}
+
+.itemHeader {
+  @apply flex items-center gap-2;
+}
+
+.itemTitle {
+  @apply truncate text-sm font-semibold text-slate-800;
+}
+
+.unreadDot {
+  @apply h-2 w-2 shrink-0 rounded-full bg-primary;
+}
+
+.description {
+  @apply mt-1 text-sm leading-5 text-slate-600;
+}
+
+.meta {
+  @apply mt-2 flex items-center gap-1.5 text-xs text-slate-400;
+}
+
+.footer {
+  @apply flex justify-end border-t border-slate-100 px-4 py-3;
+}
+
+.markAllButton {
+  @apply h-8 min-h-0 px-3 py-1 text-xs;
+}
+
+.deleteButton {
+  @apply absolute right-3 top-3 flex h-7 w-7 items-center justify-center rounded-full text-slate-400 transition-colors;
+
+  &:hover {
+    @apply bg-rose-50 text-rose-500;
+  }
+
+  &:disabled {
+    @apply cursor-not-allowed opacity-40;
+  }
+}
+
+.loadMoreButton {
+  @apply mt-1 w-full rounded-xl bg-slate-100 px-4 py-3 text-sm font-semibold text-slate-700 transition-colors;
+
+  &:hover {
+    @apply bg-slate-200 text-slate-900;
+  }
+}
+
+.loadingState,
+.emptyState {
+  @apply flex min-h-32 items-center justify-center px-5 text-center text-sm text-slate-500;
+}
+
+.errorMessage {
+  @apply border-t border-rose-100 bg-rose-50 px-5 py-2 text-xs text-rose-600;
+}
+
+@keyframes notificationPopoverReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 1024px) {
+  .popover {
+    @apply fixed bottom-auto left-auto right-2 top-16 flex flex-col rounded-xl;
+
+    width: min(420px, calc(100vw - 92px));
+    max-height: min(480px, calc(100dvh - 80px));
+
+    &::before {
+      @apply hidden;
+    }
+  }
+
+  .header {
+    @apply px-4 py-3;
+  }
+
+  .tabs {
+    @apply px-3;
+  }
+
+  .list {
+    @apply max-h-none min-h-0 flex-1;
+  }
+
+  .itemButton {
+    @apply gap-2 p-2 pr-9;
+  }
+
+  .icon {
+    @apply h-9 w-9;
+  }
+}

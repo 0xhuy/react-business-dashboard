@@ -1,0 +1,65 @@
+.baseInputContainer {
+  @apply flex w-full flex-col items-start;
+}
+
+.baseInputLabel {
+  @apply mb-1.5 block text-xs font-medium leading-5 text-slate-600 md:text-sm;
+}
+
+.baseInputLabelRequired {
+  @apply text-red-500;
+}
+
+.baseInputContent {
+  @apply flex w-full items-center rounded-lg bg-white px-4 py-2.5 transition-all duration-200;
+
+  border: 1px solid rgba(148, 163, 184, 0.28);
+}
+
+.baseInputContent:focus-within {
+  @apply border-primary shadow-soft;
+}
+
+.baseInputContentDisabled,
+.baseInputContentDisabled:focus-within {
+  @apply cursor-not-allowed border-slate-200 bg-slate-100 shadow-none;
+}
+
+.baseInputContentDisabled .baseInputPrefix,
+.baseInputContentDisabled .baseInputSuffix {
+  @apply pointer-events-none opacity-40;
+}
+
+.baseInputPrefix {
+  @apply mr-2 flex items-center;
+}
+
+.baseInputSuffix {
+  @apply ml-2 flex items-center;
+}
+
+.baseInputBase {
+  @apply flex-1 bg-transparent text-sm text-slate-900 outline-none placeholder:text-sm placeholder:text-slate-300;
+}
+
+.baseInputBase:disabled {
+  @apply cursor-not-allowed bg-transparent text-slate-400;
+}
+
+.baseInputMessageError {
+  @apply mt-1 min-h-[18px] text-xs font-medium text-red-500;
+}
+
+.baseInputIcon {
+  @apply flex h-4 w-4 items-center justify-center text-gray-400;
+}
+
+.baseInputIcon img {
+  @apply h-4 w-4;
+}
+
+/* ===== Remove number arrow ===== */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  @apply appearance-none;
+}

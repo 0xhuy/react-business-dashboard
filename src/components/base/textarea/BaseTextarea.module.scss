@@ -1,0 +1,31 @@
+.textareaContainer {
+  @apply flex w-full flex-col items-start;
+}
+
+.textareaLabel {
+  @apply mb-1.5 block text-xs font-medium leading-5 text-slate-600 md:text-sm;
+}
+
+.textareaWrap {
+  @apply relative flex w-full flex-col overflow-hidden rounded-lg bg-white px-4 py-2.5 transition-all duration-200;
+
+  border: 1px solid rgba(148, 163, 184, 0.28);
+}
+
+.textareaWrap:focus-within {
+  @apply border-primary shadow-soft;
+}
+
+.textarea {
+  @apply min-h-full flex-1 resize-none bg-transparent text-sm text-slate-900 outline-none md:text-base;
+  @apply disabled:cursor-not-allowed disabled:bg-transparent disabled:text-slate-400;
+  @apply placeholder:text-sm placeholder:text-slate-300;
+}
+
+.errorMessage {
+  @apply mt-1 min-h-[18px] text-xs font-medium text-red-500;
+}
+
+.required {
+  @apply ml-1 text-red-500;
+}

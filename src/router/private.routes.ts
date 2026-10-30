@@ -1,0 +1,281 @@
+// ===== Lazy Pages =====
+import {
+  DashboardPage,
+  ProductsPage,
+  ProductSheetPage,
+  OrdersPage,
+  OrderDetailPage,
+  UsersPage,
+  UsersDetailPage,
+  SettingsPage,
+} from "./lazy-pages";
+
+// ===== Others =====
+import {
+  adminRouteAbsolute,
+  staffRouteAbsolute,
+  viewerRouteAbsolute,
+} from "@/utils/constants";
+import { icons } from "@/assets";
+
+// ===== Types =====
+import type { RouteConfig } from "./router.types";
+
+// ============================================================
+// ADMIN ROUTES
+// ============================================================
+const privateAdminRouteMenus: RouteConfig[] = [
+  {
+    path: adminRouteAbsolute.dashboard,
+    component: DashboardPage,
+    name: "sidebar.dashboard",
+    icon: icons.iconOverviewInactive,
+    iconActive: icons.iconOverviewActive,
+  },
+  {
+    path: adminRouteAbsolute.products,
+    component: ProductsPage,
+    name: "sidebar.products",
+    icon: icons.iconProductInactive,
+    iconActive: icons.iconProductActive,
+    children: [
+      {
+        path: adminRouteAbsolute.productList,
+        component: ProductsPage,
+        name: "sidebar.product_list",
+      },
+      {
+        path: adminRouteAbsolute.productSheet,
+        component: ProductSheetPage,
+        name: "sidebar.product_sheet",
+      },
+    ],
+  },
+  {
+    path: adminRouteAbsolute.orders,
+    component: OrdersPage,
+    name: "sidebar.orders",
+    icon: icons.iconOrderInactive,
+    iconActive: icons.iconOrderActive,
+    children: [
+      {
+        path: adminRouteAbsolute.orderDetail,
+        component: OrderDetailPage,
+        hidden: true,
+      },
+    ],
+  },
+  {
+    path: adminRouteAbsolute.users,
+    component: UsersPage,
+    name: "sidebar.users",
+    icon: icons.iconUsersInactive,
+    iconActive: icons.iconUsersActive,
+    children: [
+      {
+        path: adminRouteAbsolute.userDetail,
+        component: UsersDetailPage,
+        hidden: true,
+      },
+    ],
+  },
+  {
+    path: adminRouteAbsolute.settings,
+    component: SettingsPage,
+    name: "sidebar.settings",
+    icon: icons.iconSettingInactive,
+    iconActive: icons.iconSettingActive,
+  },
+];
+
+export const privateAdminRouteGroups = [
+  {
+    name: "admin_main",
+    menu: privateAdminRouteMenus,
+  },
+];
+
+export const privateAdminRoutes: RouteConfig[] = [
+  {
+    path: adminRouteAbsolute.dashboard,
+    component: DashboardPage,
+  },
+  {
+    path: adminRouteAbsolute.products,
+    component: ProductsPage,
+  },
+  {
+    path: adminRouteAbsolute.productList,
+    component: ProductsPage,
+  },
+  {
+    path: adminRouteAbsolute.productSheet,
+    component: ProductSheetPage,
+  },
+  {
+    path: adminRouteAbsolute.orders,
+    component: OrdersPage,
+  },
+  {
+    path: adminRouteAbsolute.orderDetail,
+    component: OrderDetailPage,
+  },
+  {
+    path: adminRouteAbsolute.users,
+    component: UsersPage,
+  },
+  {
+    path: adminRouteAbsolute.userDetail,
+    component: UsersDetailPage,
+  },
+  {
+    path: adminRouteAbsolute.settings,
+    component: SettingsPage,
+  },
+];
+
+// ============================================================
+// STAFF ROUTES
+// ============================================================
+const privateStaffRouteMenus: RouteConfig[] = [
+  {
+    path: staffRouteAbsolute.dashboard,
+    component: DashboardPage,
+    name: "sidebar.dashboard",
+    icon: icons.iconOverviewInactive,
+    iconActive: icons.iconOverviewActive,
+  },
+  {
+    path: staffRouteAbsolute.products,
+    component: ProductsPage,
+    name: "sidebar.products",
+    icon: icons.iconProductInactive,
+    iconActive: icons.iconProductActive,
+    children: [
+      {
+        path: staffRouteAbsolute.productList,
+        component: ProductsPage,
+        name: "sidebar.product_list",
+      },
+      {
+        path: staffRouteAbsolute.productSheet,
+        component: ProductSheetPage,
+        name: "sidebar.product_sheet",
+      },
+    ],
+  },
+  {
+    path: staffRouteAbsolute.orders,
+    component: OrdersPage,
+    name: "sidebar.orders",
+    icon: icons.iconOrderInactive,
+    iconActive: icons.iconOrderActive,
+    children: [
+      {
+        path: adminRouteAbsolute.orderDetail,
+        component: OrderDetailPage,
+        hidden: true,
+      },
+    ],
+  },
+];
+
+export const privateStaffRouteGroups = [
+  {
+    name: "staff_main",
+    menu: privateStaffRouteMenus,
+  },
+];
+
+export const privateStaffRoutes: RouteConfig[] = [
+  {
+    path: staffRouteAbsolute.dashboard,
+    component: DashboardPage,
+  },
+  {
+    path: staffRouteAbsolute.products,
+    component: ProductsPage,
+  },
+  {
+    path: staffRouteAbsolute.productList,
+    component: ProductsPage,
+  },
+  {
+    path: staffRouteAbsolute.productSheet,
+    component: ProductSheetPage,
+  },
+  {
+    path: staffRouteAbsolute.orders,
+    component: OrdersPage,
+  },
+  {
+    path: staffRouteAbsolute.orderDetail,
+    component: OrderDetailPage,
+  },
+  {
+    path: staffRouteAbsolute.settings,
+    component: SettingsPage,
+  },
+];
+
+// ============================================================
+// VIEWER ROUTES
+// ============================================================
+const privateViewerRouteMenus: RouteConfig[] = [
+  {
+    path: viewerRouteAbsolute.dashboard,
+    component: DashboardPage,
+    name: "sidebar.dashboard",
+    icon: icons.iconOverviewInactive,
+    iconActive: icons.iconOverviewActive,
+  },
+  {
+    path: viewerRouteAbsolute.products,
+    component: ProductsPage,
+    name: "sidebar.products",
+    icon: icons.iconProductInactive,
+    iconActive: icons.iconProductActive,
+    children: [
+      {
+        path: viewerRouteAbsolute.productList,
+        component: ProductsPage,
+        name: "sidebar.product_list",
+      },
+      {
+        path: viewerRouteAbsolute.productSheet,
+        component: ProductSheetPage,
+        name: "sidebar.product_sheet",
+      },
+    ],
+  },
+];
+
+export const privateViewerRouteGroups = [
+  {
+    name: "viewer_main",
+    menu: privateViewerRouteMenus,
+  },
+];
+
+export const privateViewerRoutes: RouteConfig[] = [
+  {
+    path: viewerRouteAbsolute.dashboard,
+    component: DashboardPage,
+  },
+  {
+    path: viewerRouteAbsolute.products,
+    component: ProductsPage,
+  },
+  {
+    path: viewerRouteAbsolute.productList,
+    component: ProductsPage,
+  },
+  {
+    path: viewerRouteAbsolute.productSheet,
+    component: ProductSheetPage,
+  },
+  {
+    path: viewerRouteAbsolute.settings,
+    component: SettingsPage,
+  },
+];

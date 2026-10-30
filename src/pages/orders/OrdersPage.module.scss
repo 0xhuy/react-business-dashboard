@@ -1,0 +1,135 @@
+.wrapper {
+  @apply flex h-full flex-col gap-5 pb-10 overflow-hidden;
+}
+
+.toolbarCard {
+  @apply rounded-3xl bg-white px-7 py-6;
+
+  border: 1px solid rgba(148, 163, 184, 0.18);
+}
+
+.toolbarHeader {
+  @apply flex items-center justify-between gap-4;
+}
+
+.pageTitle {
+  @apply text-lg font-semibold tracking-tight text-slate-900;
+}
+
+.toolbarActions {
+  @apply flex flex-1 items-center justify-end gap-3;
+}
+
+.searchInput {
+  @apply flex-1;
+
+  min-width: 320px;
+  max-width: 560px;
+}
+
+.addButton {
+  @apply h-10 text-sm font-medium;
+}
+
+.filterContainer {
+  @apply flex w-full min-w-0 flex-col gap-4 overflow-hidden;
+}
+
+.filterGroup {
+  @apply grid min-h-10 w-full min-w-0 items-start gap-4;
+
+  grid-template-columns: 140px minmax(0, 1fr);
+}
+
+.contentFilterWrap {
+  @apply flex h-10 min-w-0 items-center;
+}
+
+.dateRangeFilterWrap {
+  @apply flex min-w-0 flex-col gap-3;
+}
+
+.dateField {
+  @apply grid min-w-0 items-center gap-3;
+
+  grid-template-columns: 48px minmax(0, 1fr);
+
+  span {
+    @apply text-sm font-medium text-slate-500;
+  }
+
+  > div {
+    @apply min-w-0;
+  }
+}
+
+.dateError {
+  @apply text-xs font-medium text-red-500;
+}
+
+.table {
+  @apply flex-1 overflow-hidden z-0;
+}
+
+.tableActions {
+  @apply flex items-center justify-center;
+}
+
+.status {
+  @apply inline-flex items-center justify-center rounded-full px-3 py-1 text-xs font-medium;
+}
+
+.statusPending {
+  @apply bg-amber-100 text-amber-700;
+}
+
+.statusReceived {
+  @apply bg-emerald-100 text-emerald-700;
+}
+
+.statusCancelled {
+  @apply bg-rose-100 text-rose-700;
+}
+
+@media (max-width: 1024px) {
+  .toolbarHeader {
+    @apply flex-col items-start;
+  }
+
+  .toolbarActions {
+    @apply w-full flex-wrap justify-start;
+  }
+
+  .searchInput {
+    @apply flex-none;
+
+    width: min(100%, 420px);
+    min-width: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .wrapper {
+    @apply gap-3 pb-4;
+  }
+
+  .toolbarCard {
+    @apply rounded-2xl px-4 py-4;
+  }
+
+  .toolbarHeader {
+    @apply items-start;
+  }
+
+  .toolbarActions {
+    @apply max-w-none;
+  }
+
+  .searchInput {
+    @apply max-w-full;
+  }
+
+  .filterGroup {
+    grid-template-columns: 1fr;
+  }
+}

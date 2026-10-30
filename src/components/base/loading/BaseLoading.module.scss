@@ -1,0 +1,52 @@
+.loading {
+  @apply flex items-center justify-center text-slate-400;
+}
+
+.inline {
+  @apply inline-flex gap-2;
+}
+
+.section {
+  @apply h-full min-h-52 w-full flex-col gap-3 bg-transparent;
+}
+
+.page {
+  @apply min-h-screen w-full flex-col gap-3 bg-slate-50;
+}
+
+.spinner {
+  @apply inline-flex shrink-0 rounded-full;
+
+  border: 2px solid rgb(99 102 241 / 20%);
+  border-top-color: rgb(79 70 229);
+
+  animation: loading-spin 0.7s linear infinite;
+}
+
+.sm {
+  @apply h-4 w-4;
+}
+
+.md {
+  @apply h-7 w-7;
+}
+
+.lg {
+  @apply h-10 w-10;
+}
+
+.label {
+  @apply text-center text-sm font-normal tracking-tight;
+}
+
+@keyframes loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 1.5s;
+  }
+}

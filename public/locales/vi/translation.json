@@ -448,6 +448,8 @@
     "order_status_updated_description": "Trạng thái đơn nhập hàng đã thay đổi.",
     "low_stock_detected_title": "Sắp hết hàng: {{productName}}",
     "low_stock_detected_description": "Chỉ còn {{stock}} sản phẩm trong kho.",
+    "out_of_stock_detected_title": "Hết hàng: {{productName}}",
+    "out_of_stock_detected_description": "Sản phẩm đã hết hàng trong kho.",
     "minutes_ago": "{{count}} phút trước",
     "hours_ago": "{{count}} giờ trước",
     "days_ago": "{{count}} ngày trước"

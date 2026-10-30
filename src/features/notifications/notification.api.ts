@@ -1,5 +1,6 @@
 // ===== Configs =====
 import { supabase } from "@/services/supabase";
+import { normalizeStockNotification } from "./notification.helpers";
 import {
   NOTIFICATION_LIST_LIMIT,
 } from "@/utils/constants";
@@ -47,7 +48,9 @@ const getNotifications = async (userId: string): Promise<NotificationItem[]> => 
 
   if (error) throw error;
 
-  return ((data ?? []) as NotificationRecord[]).map(mapNotification);
+  return ((data ?? []) as NotificationRecord[]).map((record) =>
+    normalizeStockNotification(mapNotification(record)),
+  );
 };
 
 const markNotificationAsRead = async (

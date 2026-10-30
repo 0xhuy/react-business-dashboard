@@ -1,10 +1,28 @@
-import type { NotificationDateGroup } from "./notification.types";
+import type { NotificationDateGroup, NotificationItem } from "./notification.types";
 import { NOTIFICATION_DATE_GROUP } from "@/utils/constants";
 
 const MILLISECONDS_PER_SECOND = 1000;
 const MILLISECONDS_PER_DAY = 86_400_000;
 const SECONDS_PER_MINUTE = 60;
 const MINUTES_PER_HOUR = 60;
+
+export const normalizeStockNotification = (
+  notification: NotificationItem,
+): NotificationItem => {
+  const stock = notification.contentValues.stock;
+  const isOutOfStock =
+    notification.type === "stock" &&
+    notification.titleKey === "notification.low_stock_detected_title" &&
+    (stock === 0 || stock === "0");
+
+  if (!isOutOfStock) return notification;
+
+  return {
+    ...notification,
+    titleKey: "notification.out_of_stock_detected_title",
+    descriptionKey: "notification.out_of_stock_detected_description",
+  };
+};
 
 const getCalendarDayIndex = (timestamp: number): number => {
   const date = new Date(timestamp);

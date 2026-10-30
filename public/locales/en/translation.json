@@ -449,6 +449,8 @@
     "order_status_updated_description": "The purchase order status has changed.",
     "low_stock_detected_title": "Low stock: {{productName}}",
     "low_stock_detected_description": "Only {{stock}} items remain in stock.",
+    "out_of_stock_detected_title": "Out of stock: {{productName}}",
+    "out_of_stock_detected_description": "This product is out of stock.",
     "minutes_ago": "{{count}} minutes ago",
     "hours_ago": "{{count}} hours ago",
     "days_ago": "{{count}} day ago"
